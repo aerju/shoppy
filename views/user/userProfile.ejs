@@ -1,0 +1,203 @@
+<%- include('../partials/UserHeader') %>
+    <section id="contact-us" class="contact-us section">
+        <div class="container">
+            <div class="contact-head">
+                <div class="row">
+
+
+                    <div class="col-lg-3 col-md-4 col-12">
+                        <div class="shop-sidebar">
+
+
+
+                            <div class="single-widget recent-post">
+                                <h3 class="title">User Profile</h3>
+
+                                <div class="single-post first">
+                                    <div class="image">
+                                        <img src="https://via.placeholder.com/75x75" alt="#">
+                                    </div>
+                                    <div class="content">
+                                        <p>Hello,</p>
+
+                                        <h5><a href="#">Arjun</a></h5>
+                                        <ul class="reviews">
+                                            <li class="yellow"></li>
+                                            <li class="yellow"></li>
+                                            <li class="yellow"></li>
+                                            <li></li>
+                                            <li></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="single-post first">
+                                    <a href="/view-orders">
+                                        <h6>My orders</h6>
+                                    </a>
+
+
+                                </div>
+                                <div class="single-post first">
+                                    <a href="/manage-address">
+                                        <h6>Address</h6>
+                                    </a>
+
+                                </div>
+                                <div class="single-post first">
+                                    <a href="/wishlist">
+                                        <h6>My wishlist</h6>
+                                    </a>
+
+                                </div>
+                                <div class="single-post first">
+                                    <a href="/wallet">
+                                        <h6>My Wallet</h6>
+                                    </a>
+
+                                </div>
+                                <div class="single-post first">
+                                    <a href="/logout" style="color:rgb(235, 56, 56)">
+                                        <h6>Log out</h6>
+                                    </a>
+                                </div>
+                                <div class="single-post first">
+                                    <a href="" style="color:rgb(77, 56, 235)">Delete Account</a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-8 col-12">
+                        <div class="form-main">
+                            <div class="title">
+                                <h4>Personal Information</h4>
+                                <!-- <h3>Write us a message</h3> -->
+                            </div>
+                            <form class="form" method="post" action="/update-profile/<%=userData._id%>">
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <label>Your Name<span>*</span></label>
+                                            <input name="name" type="text" placeholder="" value="<%=userData.name%>"
+                                                disabled id="input1">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <button class="btn" id="editbutton" type="button" style="color:blue;background-color: white;" onclick="editEnable()">edit </button>
+                                            <button class="btn" type="submit" id="savebutton" style="color:blue;display: none;background-color: white;"  >Save</button>
+
+
+                                            <!-- <label>Your Subjects<span>*</span></label>
+                                            <input name="subject" type="text" placeholder=""> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <label>Your Email<span>*</span></label>
+                                            <input name="email" type="email" placeholder="" value="<%=userData.email%>"
+                                                disabled id="input2">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <!-- <a href="" onclick="editEnable()" style="color:blue">edit</a> -->
+
+                                            <!-- <label>Your Phone<span>*</span></label>
+                                            <input name="company_name" type="text" placeholder=""> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <label>Your phone<span>*</span></label>
+                                            <input name="phone" type="text" placeholder=""
+                                                value="<%=userData.phone .slice(3)%>" disabled id="input3">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <!-- <a href="" style="color:blue" onclick="editEnable()">edit</a> -->
+
+                                            <!-- <label>Your Phone<span>*</span></label>
+                                            <input name="company_name" type="text" placeholder=""> -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+    <script>
+
+        function editEnable() {
+            const input1 = document.getElementById('input1');
+            const input2 = document.getElementById('input2');
+            const input3 = document.getElementById('input3');
+            const input4 = document.getElementById('savebutton');
+            const input5 = document.getElementById('editbutton');
+
+
+            
+            input1.disabled = false;
+            input2.disabled = false;
+            input3.disabled = false;
+            input5.style.display = 'none'
+
+            input4.style.display = 'block'
+
+
+        }
+
+    </script>
+
+
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        function DeleteAccount() {
+            swal({
+                title: "Are you sure?",
+                text: "Once Deleted, Cant recover",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+
+                        $.ajax({
+                            url: '/deleteAccount',
+                            method: 'delete',
+                            success: (response) => {
+                                swal("Account deleted successfully", {
+                                    icon: "success",
+                                });
+                                location.href = '/'
+                            }
+                        })
+
+                    } else {
+                        swal("Not Deleted");
+                    }
+                });
+        }
+    </script>
+
+    <%- include('../partials/UserFooter') %>

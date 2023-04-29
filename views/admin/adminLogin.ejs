@@ -1,0 +1,73 @@
+
+	<title>Gadgets Admin</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="adminAssets/css/style.css"> 
+
+
+<body >
+
+
+
+
+
+
+
+	<section class="vh-100" style="background-color: #d4d5d7;">
+        <div class="container py-5 h-100 " >
+            <div class="row d-flex justify-content-center align-items-center h-100 ">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong bg-secondary" style="border-radius: 1rem; ">
+                        <div class="card-body p-5 text-center">
+    
+                            <h3 class="mb-5">Admin Login</h3>
+                            <% if (loggedError) { %>
+                                <div id="errormessage" style="color: red;"><%=loggedError%></div>
+                                  <% }  %>
+                            <form action="/admin/login" class="signin-form" method="post" >
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Username" required name="email" value="arjun@gmail.com">
+                                </div>
+                                <div class="form-group">
+                                    <input id="password-field" type="password" class="form-control" placeholder="Password"
+                                        required name="password" value="123">
+                                    <span toggle="#password-field"
+                                        class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
+                                </div>
+                                <div class="form-group d-md-flex">
+                                    <div class="w-50">
+                                        <label class="checkbox-wrap checkbox-primary">Remember Me
+                                            <input type="checkbox" checked>
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <div class="w-50 text-md-right">
+                                        <a href="#" style="color: #fff">Forgot Password</a>
+                                    </div>
+                                </div>
+                            </form>
+    
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+	<script src="adminAssets/js/jquery.min.js"></script>
+	<script src="adminAssets/js/popper.js"></script>
+	<script src="adminAssets/js/bootstrap.min.js"></script>
+	<script src="adminAssets/js/main.js"></script>
+
+</body>
+
+</html>

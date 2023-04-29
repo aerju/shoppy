@@ -1,0 +1,31 @@
+<%- include('../partials/UserHeader') %>
+
+    <section class="product-area shop-sidebar shop section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-8 col-12">
+                    <div class="container mt-4">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">My Wallet</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Balance</h6>
+                            
+                            
+                            <% if (wallet) { %>
+                                <h3 class="card-text">₹<%=wallet.total%></h3>
+                              <% } else { %>
+                                <h3 class="card-text">₹0</h3>
+
+                              <% } %>
+                            <a href="/" style="color:green;">shop Now</a>
+                          </div>
+                        </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <%- include('../partials/UserFooter') %>

@@ -1,0 +1,106 @@
+<!-- Favicon -->
+<link rel="shortcut icon" type="image/x-icon" href="../adminHomeAsset/imgs/theme/favicon.svg">
+<!-- Template CSS -->
+<link href="../adminHomeAsset/css/main.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+
+
+<%- include('../partials/adminSideBar') %>
+    <main class="main-wrap">
+        <section class="content-main">
+            <div class="mt-5" style="margin-top: 60px;">
+                <div class="container">
+
+                    <a href="/admin/add-coupones" class="btn btn-primary mt-4 mb-2 float-end">Add coupons</a>
+
+                </div>
+
+
+                <div class="mt-5" style="margin-top: 60px;">
+
+                    <table class="table mt-4 display" id="productsTable">
+                        <thead>
+                            <tr>
+                                <!-- <th scope="col">Product Image</th> -->
+                                <th scope="col">Coupone Code</th>
+                                <th>Coupone Max Price</th>
+                                <th>Coupone Expiry date</th>
+
+                                <th>option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (var i=0; i < coupones.length; i++) { %>
+                                <tr>
+
+                                    <td>
+                                        <%= coupones[i].coupone_code%>
+                                    </td>
+                                    <td>
+                                        <%= coupones[i].coupone_maxPrice%>
+                                    </td>
+                                    <td>
+                                        <%= coupones[i].coupone_date%>
+                                    </td>
+
+                                    <td>
+                                        
+                                        <a href="/admin/delete-coupons/<%=coupones[i]._id%>" class="btn btn-primary"
+                                            onclick="return confirm('are you sure')">delete</a>
+                                    </td>
+                                    
+                                   
+
+
+
+
+                                </tr>
+                                <% } %>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+        </section> <!-- content-main end// -->
+
+    </main>
+
+    <!-- <script>
+
+
+        $(function () {
+            $('#usersTable').DataTable();
+        });
+
+    </script> -->
+
+    <script src="../adminHomeAsset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="../adminHomeAsset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="../adminHomeAsset/js/vendors/select2.min.js"></script>
+    <script src="../adminHomeAsset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="../adminHomeAsset/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="../adminHomeAsset/js/main.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        
+        <script>
+
+            $(function () {
+                $('#productsTable').DataTable();
+            });
+    
+        </script>
+    </body>
+
+
+    <!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-users-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:12 GMT -->
+
+    </html>

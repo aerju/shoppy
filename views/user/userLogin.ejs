@@ -1,0 +1,69 @@
+
+<head>
+    <title>Gadgets</title>
+    <link rel="stylesheet" href="../userAssets/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../userAssets/css/style.css">
+    
+</head>
+    <!-- Font Icon -->
+     
+
+<body>
+    <div class="main">
+        <!-- Sign up form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="https://img.freepik.com/free-icon/user_318-563642.jpg" alt="sing up image" class="img-fluid"></figure>
+                        <a href="/signup" class="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Login</h2>
+
+
+                        <% if (loggedError) { %>
+                        <div id="errormessage" style="color: red;"><%=loggedError%></div>
+                          <% }  %>
+
+
+
+                       
+                        
+                        <form action="/login" method="POST" class="register-form" id="login-form">
+                            <div class="form-group">
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="email" id="your_name" placeholder="Your Name"  value='arjun@gmail.com' required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="your_pass" placeholder="Password" value="Ab@123" required/>
+                            </div>
+                            <div class="form-group">
+                                
+                                <a href="/forgot-password" > <span class="social-label display-flex-center"> Forgot password?</span> </a>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" id="signin" class="form-submit" value="Log in"/>
+                            </div>
+                        </form>
+                        <!-- <div class="social-login"> -->
+                            
+                            
+                                <a href="/login-otp" ><span class="social-label display-flex-center">Or login with OTP</span></a>
+                                <!-- <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li> -->
+                            
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+            <!-- JS -->
+    <script src="../userAssets/vendor/jquery/jquery.min.js"></script>
+    <script src="../userAssets/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->

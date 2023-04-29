@@ -1,0 +1,236 @@
+<%- include('../partials/UserHeader') %>
+    <div class="container mt-5">
+        <main class="main-wrap">
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Order details</h2>
+                        <p>Details for Order ID:<%=orderDetails._id%>
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-50 mt-20 order-info-wrap">
+                            <div class="col-md-3">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-person"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h6 class="mb-1">Customer</h6>
+                                        <p class="mb-1">
+                                            <%=orderDetails.userDetails[0].name%>
+                                                <br>
+                                                <%=orderDetails.userDetails[0].phone%>
+                                        </p>
+
+                                    </div>
+                                </article>
+                            </div> <!-- col// -->
+                            <div class="col-md-3">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-local_shipping"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h6 class="mb-1">Order info</h6>
+                                        <p class="mb-1">
+                                            Shipping: Fargo express <br> Pay method: <%=orderDetails.paymentMethod%>
+                                                <br> Status: <%=orderDetails.orderStatus%>
+                                        </p>
+
+
+
+                                    </div>
+                                </article>
+                            </div> <!-- col// -->
+                            <div class="col-md-4">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-place"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h6 class="mb-1">Deliver to</h6>
+                                        <p class="mb-1">
+                                            Pay method: <%=orderDetails.paymentMethod%>
+                                                <br> Status: <%=orderDetails.orderStatus%> <br> Total Amount: <%=orderDetails.total %>
+                                        </p>
+                                    </div>
+                                </article>
+                            </div> <!-- col// -->
+
+
+
+                            <div class="col-md-2">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-place"></i>
+                                    </span>
+                                    <% if (orderDetails.orderStatus!=='Delivered' && orderDetails.orderStatus!=='Cancel'
+                                        && orderDetails.orderStatus!=='cancelrequest' && orderDetails.orderStatus!=='returnrequest' && orderDetails.orderStatus!=='return') { %>
+
+                                        <div class="text">
+
+                                            <p class="mt-4" style="color: blue;">
+                                                <a href="" onclick="cancelRequest('<%=orderDetails._id%>')">Cancel Order</button>
+
+                                            </p>
+                                        </div>
+                                        <% } %>
+
+                                        <% if (orderDetails.orderStatus=='cancelrequest' ) { %>
+                                            <div class="text">
+
+                                                <p class="mt-4" style="color: blue;">
+                                                    Cancel request sended
+                                                    
+                                                </p>
+                                            </div>
+                                            <% } %>
+                                            <% if (orderDetails.orderStatus=='Delivered' ) { %>
+                                                <div class="text">
+    
+                                                    <p class="mt-4" style="color: blue;">
+                                                        <a href="" onclick="returnRequest('<%=orderDetails._id%>')">Return Product</button>
+
+                                                        
+                                                    </p>
+                                                </div>
+                                                <% } %>
+                                                <% if (orderDetails.orderStatus=='returnrequest' ) { %>
+                                                    <div class="text">
+        
+                                                        <p class="mt-4" style="color: blue;">
+                                                            Return request sended
+                                                            
+                                                        </p>
+                                                    </div>
+                                                    <% } %>
+                                </article>
+                            </div> <!-- col// -->
+                        </div> <!-- row // -->
+                    </div>
+                </div>
+                <br>
+
+                <div class="card">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">Product</th>
+                                            <th width="20%">Unit Price</th>
+                                            <th width="20%">Quantity</th>
+                                            <th width="20%">Total</th>
+                                            <th width="20%">payment info</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <% for (let i=0; i < orderDetails.productDetails.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <a class="itemside" href="#">
+                                                        <div >
+                                                            <img src="<%=orderDetails.productDetails[i].image[0] %>"
+                                                                width="40" height="40" class="img-xs" alt="Item">
+                                                        </div>
+                                                        <div class="info">
+                                                            <%=orderDetails.productDetails[i].pro_name %>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <%=orderDetails.productDetails[i].pro_price %>
+                                                </td>
+                                                <td>
+                                                    <%=orderDetails.products.products[i].quantity %>
+                                                </td>
+                                                <td>
+                                                    <%=orderDetails.products.products[i].quantity * orderDetails.productDetails[i].pro_price %>
+                                                </td>
+                                                <!-- <td > <%=orderDetails.products.products[i].qunatity %> </td> -->
+                                                <td>
+                                                    <%=orderDetails.paymentMethod%>
+                                                </td>
+
+                                            </tr>
+                                            <% } %>
+
+                                    </tbody>
+                                </table>
+
+
+                            </div> <!-- table-responsive// -->
+
+
+                        </div> <!-- col// -->
+                    </div>
+
+
+
+                </div>
+                <br>
+            </section>
+
+
+
+        </main>
+    </div>
+    <span id="popup"
+        style="display:none; position:fixed; top:90%;border-radius: 10px; left:50%;box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); transform:translate(-50%, -50%); padding:10px; border:1px solid #ccc; background-color:#1ddf1d74; z-index:9999;">
+        Order Status changed
+
+    </span>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        function cancelRequest(orderId) {
+            console.log(orderId);
+            $.ajax({
+                url: "/cancel-request",
+                method: "POST",
+                data: {orderId},
+                success: (response) => {
+                    // alert(response)
+                    const popup = document.getElementById('popup');
+                    popup.style.display = 'block';
+                    setTimeout(() => {
+                        popup.style.display = 'none';
+                    }, 1000);
+
+                }
+            })
+
+
+        }
+        function returnRequest(orderId) {
+            console.log(orderId);
+            $.ajax({
+                url: "/return-request",
+                method: "POST",
+                data: {orderId},
+                success: (response) => {
+                    // alert(response)
+                    const popup = document.getElementById('popup');
+                    popup.style.display = 'block';
+                    setTimeout(() => {
+                        popup.style.display = 'none';
+                    }, 1000);
+
+                }
+            })
+
+
+        }
+    </script>
+
+
+    <%- include('../partials/UserFooter') %>
