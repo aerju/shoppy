@@ -13,7 +13,30 @@
                         report</a>
                 </div>
             </div>
+
+            <form action="/admin/home" method="get">
+                <div class="row mb-3">
+                    <div class="form-outline col-2  mb-3">
+                        <label for="year-filte">Filter by year:</label>
+                        <!-- <select id="year-filte" name="year" required>
+                            <option value="">All years</option>
+                            <% for (let year=2023; year>= 2000; year--) { %>
+                                <option value="<%= year %>" id="yr">
+                                    <%= year %>
+                                </option>
+                                <% } %>
+                        </select> -->
+                        <input type="number" value="" id="yearid">
+                    </div>
+                    <!-- <button type="button" onclick="getSelectedYear()">Get selected year</button> -->
+                    <div class="form-outline col-1 ">
+                        <button type="submit" >Search</button>
+                    </div>
+                </div>
+            </form>
+
             <div class="row">
+
                 <div class="col-lg-3">
                     <div class="card card-body mb-4">
                         <article class="icontext">
@@ -84,15 +107,20 @@
                                 <div id="dateshow">2019</div>
 
                                 <div class="form-outline col-lg-3  mb-0 mt-3">
-                                    <!-- <label class="form-label" for="form3Example1c">Expriy Date</label> -->
+
                                     <input type="date" id="yeardate" class="form-control" name="year_date" required />
                                 </div>
                                 <div class="form-outline col-2 ml-0 mt-3">
-                                    <!-- <label class="form-label" for="form3Example1c">Expriy Date</label> -->
+
 
                                     <button class="btn" type="button" onclick="getFilteredData()">Search</button>
 
                                 </div>
+
+
+
+
+
 
                             </div>
                             <canvas id="myChart" height="120px"></canvas>
@@ -136,19 +164,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script>
+
+        // let selectedYear = document.getElementById('yr').textContent
+        let selectedYear = document.getElementById('yearid').vallue
+
         $.ajax({
             url: "/admin/graph-statics",
             method: "GET",
             dataType: "json",
+            // data: { year: selectedYear },
             success: function (response) {
 
                 // console.log('this is respons2', response);
-               
-
-                
 
                 let products = response.totalProducts
                 document.getElementById('products').innerHTML = products
+                let orders = response.totalOrders.count
+                document.getElementById('order').innerHTML = orders
+                let revenue = response.totalRevenue.count
+                document.getElementById('revenue').innerHTML = revenue
 
 
 
@@ -278,7 +312,7 @@
                 success: function (response) {
 
                     // console.log(response, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkk');
-                    
+
 
                     const ctx = document.getElementById('myChart');
 
@@ -321,7 +355,7 @@
                             }
                         }
                     });
-                    document.getElementById('dateshow').innerHTML=date
+                    document.getElementById('dateshow').innerHTML = date
                     ctx.style.display = 'none'
                     ctx2.style.display = 'block'
 

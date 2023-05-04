@@ -643,7 +643,7 @@ Version:1.0
 	position: relative;
 }
 .header.shop .search-bar {
-	width: 535px;
+	width: 385px;
 	height: 50px;
 	display: inline-block;
 	background: #fff;
@@ -1070,6 +1070,21 @@ Version:1.0
 .header .search-top{
 	display:none;
 }
+
+.header .cart-items{
+	display:none;
+}
+
+.header .wish-items{
+	display:none;
+}
+
+.header .user-items{
+	display:none;
+}
+
+
+
 .header .search-top a{
 	font-size:17px;
 }

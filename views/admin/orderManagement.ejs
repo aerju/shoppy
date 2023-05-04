@@ -71,32 +71,37 @@
                                                 <%=orders[i].orderStatus%>
                                             </a>
 
-                                            <div class="dropdown-menu">
+                                            
 
                                                 <% if (orders[i].orderStatus=='pending') { %>
+                                                    <div class="dropdown-menu">
                                                     <a   class="dropdown-item "  href="" onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="placed">placed</a>
-                                                        
+                                                </div>    
                                                       <% }  %>
     
                                                     <% if (orders[i].orderStatus=='placed') { %>
+                                                        <div class="dropdown-menu">
                                                     <a   class="dropdown-item "  href="" onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="shipped">shipped</a>
 
-                                                    
+                                                </div>
                                                         <% }  %>
     
                                                         <% if (orders[i].orderStatus=='shipped') { %>
+                                                            <div class="dropdown-menu">
                                                     <a class="dropdown-item " href=""  onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="Delivered">Delivered</a>
-                                                                    
+                                                </div>
                                                                <% }  %>
 
                                                     <% if (orders[i].orderStatus=='cancelrequest') { %>
+                                                        <div class="dropdown-menu">
                                                     <a class="dropdown-item text-danger " href=""  onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="Cancel">Cancel</a>
-                                                            
+                                                </div>    
                                                         <% }  %>
 
                                                         <% if (orders[i].orderStatus=='returnrequest') { %>
+                                                            <div class="dropdown-menu">
                                                             <a class="dropdown-item " href=""  onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="return">return</a>
-                                                                            
+                                                        </div>           
                                                                        <% }  %>
                                             </div>
                                         </div>
@@ -132,6 +137,7 @@
         function changeStatus(orderId,details) {
 
             var status = details.getAttribute('data-value');
+            
             console.log(status);
             $.ajax({
                 url: "/admin/change-order-status",

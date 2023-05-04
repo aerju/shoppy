@@ -1,313 +1,405 @@
 <%- include('../partials/UserHeader') %>
 
-
-
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="bread-inner">
-                        <ul class="bread-list">
-                            <li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="blog-single.html">Checkout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+<div class="breadcrumbs">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="bread-inner">
+          <ul class="bread-list">
+            <li>
+              <a href="/">Home<i class="ti-arrow-right"></i></a>
+            </li>
+            <li>
+              <a href="/view-cart">Cart<i class="ti-arrow-right"></i></a>
+            </li>
+            <li class="active"><a href="check-out">Checkout</a></li>
+          </ul>
         </div>
+      </div>
     </div>
-    <!-- End Breadcrumbs -->
+  </div>
+</div>
+<!-- End Breadcrumbs -->
 
-    <!-- Start Checkout -->
-    <section class="shop checkout section">
-        <form id="check-out-form" action="" method="post">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-12">
-                        <div class="checkout-form">
-                            <h2>Make Your Checkout Here</h2>
-                            <a href="/manage-address" class="float-right border " style="color: blue;">Manage
-                                Address</a>
+<!-- Start Checkout -->
+<section class="shop checkout section">
+  <form id="check-out-form" action="" method="post">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-12">
+          <div class="checkout-form">
+            <h2>Make Your Checkout Here</h2>
+            <a
+              href="/manage-address"
+              class="float-right border"
+              style="color: blue"
+              >Manage Address</a
+            >
 
-                            <br>
-                            <br>
-                            <% for(var i=0; i< addresdetails.address.length; i++) { %>
-                                <div class="card mb-3">
-
-
-                                    <div class="div1 pl-4 pt-4">
-                                        <div class="form-check">
-
-                                            <input class="form-check-input" type="radio" name="addressDetails"
-                                                id="addressDetail" value="<%=addresdetails.address[i]._id%>" checked>
-
-                                            <label class="form-check-label" for="addressDetail">
-                                                <p class="font-weight-bold">
-                                                    <%=addresdetails.address[i].name%> - mob:
-                                                        <%=addresdetails.address[i].phone%>
-                                                </p>
-
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <label class="form-check-label" for="addressDetail">
-                                                <%=addresdetails.address[i].area%>-
-                                                    <%=addresdetails.address[i].locality%>-
-                                                        <%=addresdetails.address[i].district%>
-                                            </label>
-                                            <br> <label class="form-check-label" for="addressDetail">
-                                                <%=addresdetails.address[i].pincode%>
-                                            </label>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <% } %>
+            <br />
+            <br />
 
 
-
-
-                        </div>
-
+            <% if (addresdetails.address.length) { %>
+              <% for(var i=0; i< addresdetails.address.length; i++) { %>
+                <div class="card mb-3">
+                  <div class="div1 pl-4 pt-4">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="addressDetails"
+                        id="addressDetail"
+                        value="<%=addresdetails.address[i]._id%>"
+                        checked
+                      />
+    
+                      <label class="form-check-label" for="addressDetail">
+                        <p class="font-weight-bold">
+                          <%=addresdetails.address[i].name%> - mob:
+                          <%=addresdetails.address[i].phone%>
+                        </p>
+                      </label>
                     </div>
-
-                    <div class="col-lg-4 col-12">
-                        <div class="order-details">
-                            <!-- Order Widget -->
-                            <div class="single-widget">
-                                <h2>CART TOTALS</h2>
-                                <div class="content">
-                                    <ul>
-                                        <li>Cart Subtotal<span id="total">
-                                                <%=total%>
-                                            </span></li>
-                                        <!-- <li>(+) Shipping<span>$10.00</span></li> -->
-                                        <li>Total<span id="pay">
-                                                <%=total%>
-                                            </span></li>
-                                        <li class="last"></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!--/ End Order Widget -->
-                            <!-- Order Widget -->
-                            <div class="single-widget">
-                                <h2>Payments</h2>
-                                <div class="content">
-                                    <div class="ml-lg-4 mt-2">
-                                        <label class="checkbox-inline" for="1"><input name="payment-method" id="1"
-                                                type="radio" value="razorpay" required> Razorpay</label><br>
-                                        <label class="checkbox-inline" for="2"><input name="payment-method" id="2"
-                                                type="radio" value="COD" required> Cash On Delivery</label>
-                                        <!-- <label class="checkbox-inline" for="3"><input name="payment-method" id="3"
-                                                type="checkbox" value="paypal"> PayPal</label> -->
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/ End Order Widget -->
-                            <!-- Payment Method Widget -->
-                            <div class="single-widget payement">
-                                <div class="content">
-                                    <img src="../../userHomeAsset/images/payment-method.png" alt="#">
-                                </div>
-                            </div>
-                            <!--/ End Payment Method Widget -->
-                            <!-- Button Widget -->
-                            <div class="single-widget get-button">
-                                <div class="content">
-                                    <!-- <div class="button"> -->
-                                    <!-- <a href="#" class="btn">proceed to checkout</a> -->
-                                    <button type="submit" class="btn btn-primary">proceed to checkout</button>
-
-                                    <!-- <input type="submit" class="btn btn-primary" > -->
-                                    <!-- </div>  -->
-                                </div>
-                            </div>
-                            <!--/ End Button Widget -->
-                        </div>
+                    <div class="form-check">
+                      <label class="form-check-label" for="addressDetail">
+                        <%=addresdetails.address[i].area%>-
+                        <%=addresdetails.address[i].locality%>-
+                        <%=addresdetails.address[i].district%>
+                      </label>
+                      <br />
+                      <label class="form-check-label" for="addressDetail">
+                        <%=addresdetails.address[i].pincode%>
+                      </label>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </form>
+    
+                <% } %>
+          <% } else { %>
+            <a
+            href="/manage-address"
+            class="btn border"
+            style="color: black;background-color: white;"
+            >Add New Address</a
+          >
 
-
-
-
-
-
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-12 ">
-
-                    <div>
-                        <form method="post" id="apply-coupone-form">
-                            <div >
-                                <input name="Coupon" class=" border " id="cp_code" placeholder="Enter Your Coupon"
-                                    class="border" required>
-
-                                <button type="submit" class="btn right">Apply</button>
-                            </div>
-
-                        </form>
-
-                    </div>
-                </div>
-            </div>
+              
+          <% } %>
+                     
+          </div>
         </div>
-        <span id="popup"
-            style="display:none; position:fixed; top:90%;border-radius: 10px; left:50%;box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); transform:translate(-50%, -50%); padding:10px; border:1px solid #ccc; background-color:#3b28c874; z-index:9999;">
-            Coupone Applied!
 
-        </span>
-        <span id="popup2"
-            style="display:none; position:fixed; top:90%;border-radius: 10px; left:50%;box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); transform:translate(-50%, -50%); padding:10px; border:1px solid #ccc; background-color:#ff272e74; z-index:9999;">
-            Coupone already used!
+        <div class="col-lg-4 col-12">
+          <div class="order-details">
+            <!-- Order Widget -->
+            <div class="single-widget">
+              <h2>CART TOTALS</h2>
+              <div class="content">
+                <ul>
+                  <li>
+                    Cart Subtotal<span id="total"> <%=total.total%> </span>
+                  </li>
+                  <!-- <li>(+) Shipping<span>$10.00</span></li> -->
+                  <li>Total<span id="pay"> <%=total.total%> </span></li>
+                  <li class="last"></li>
+                </ul>
+              </div>
+            </div>
+            <!--/ End Order Widget -->
+            <!-- Order Widget -->
+            <div class="single-widget">
+              <h2>Payments</h2>
+              <div class="content">
+                <div class="ml-lg-4 mt-2">
+                  <label class="checkbox-inline" for="1"
+                    ><input
+                      name="payment-method"
+                      id="1"
+                      type="radio"
+                      value="razorpay"
+                      required
+                    />
+                    Razorpay</label
+                  ><br /><label class="checkbox-inline" for="3"
+                    ><input
+                      name="payment-method"
+                      id="3"
+                      type="radio"
+                      value="wallet"
+                      required
+                      onclick="wallet()"
+                    />
+                    Wallet</label
+                  >
+                  <div id="wallet" style="display: none">
+                    <div class="card-body col-6 border">
+                      <h6 class="card-subtitle mb-2 text-muted">Balance</h6>
 
-        </span>
+                      <% if (wallet) { %> <% if (wallet.walletAmount > total.total) { %>
 
-    </section>
+                      <h3 class="card-text">₹<%=wallet.walletAmount%></h3>
+                      <% } else { %>
+                      <h3 class="card-text">₹<%=wallet.walletAmount%></h3>
+                      <p class="text-danger">less balence</p>
+                      <% } %> <% } else { %>
+                      <h3 class="card-text">₹0</h3>
+
+                      <% } %>
+                    </div>
+                  </div>
+
+                  <br />
+                  <label class="checkbox-inline" for="2"
+                    ><input
+                      name="payment-method"
+                      id="2"
+                      type="radio"
+                      value="COD"
+                      required
+                    />
+                    Cash On Delivery</label
+                  >
+
+                  <!-- <label class="checkbox-inline" for="3"><input name="payment-method" id="3"
+                                                type="checkbox" value="paypal"> PayPal</label> -->
+                </div>
+              </div>
+            </div>
+            <!--/ End Order Widget -->
+            <!-- Payment Method Widget -->
+            <div class="single-widget payement">
+              <div class="content">
+                <img
+                  src="../../userHomeAsset/images/payment-method.png"
+                  alt="#"
+                />
+              </div>
+            </div>
+            <!--/ End Payment Method Widget -->
+            <!-- Button Widget -->
+            <div class="single-widget get-button">
+              <div class="content">
+                <!-- <div class="button"> -->
+                <!-- <a href="#" class="btn">proceed to checkout</a> -->
 
 
+                <% if (addresdetails.address.length) { %>
+                  <button type="submit" class="btn btn-primary " >
+                    proceed to checkout
+                  </button>
+              <% } else { %>
+                <button type="submit" class="btn btn-primary "  disabled>
+                  proceed to checkout
+                </button>
+              <% } %>
+                
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
-        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                <!-- <input type="submit" class="btn btn-primary" > -->
+                <!-- </div>  -->
+              </div>
+            </div>
+            <!--/ End Button Widget -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-12">
+        <div>
+          <form method="post" id="apply-coupone-form">
+            <div>
+              <input
+                name="Coupon"
+                class="border"
+                id="cp_code"
+                placeholder="Enter Your Coupon"
+                class="border"
+                required
+              />
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+              <button type="submit" class="btn right">Apply</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span
+    id="popup"
+    style="
+      display: none;
+      position: fixed;
+      top: 90%;
+      border-radius: 10px;
+      left: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%);
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #3b28c874;
+      z-index: 9999;
+    "
+  >
+    Coupone Applied!
+  </span>
+  <span
+    id="popup2"
+    style="
+      display: none;
+      position: fixed;
+      top: 90%;
+      border-radius: 10px;
+      left: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%);
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #ff272e74;
+      z-index: 9999;
+    "
+  >
+    Coupone already used!
+  </span>
+</section>
 
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+  integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
 
-    <script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-        $('#check-out-form').submit((e) => {
-            let totalAmount = document.getElementById('pay').textContent
+<script>
+  function wallet() {
+    document.getElementById("wallet").style.display = "block";
+    
+    if (parseInt("<%=total.total%>")  > parseInt("<%=wallet%>") ) {
+      console.log('uuuuu');
+      let input = document.getElementById("3")
+      input.checked = false;
+    }
+  }
+</script>
 
-            $("<input>").attr({
-                type: "hidden",
-                name: "totalAmount",
-                value: parseInt(totalAmount)
-            }).appendTo('#check-out-form');
+<script>
+  $("#check-out-form").submit((e) => {
+    let totalAmount = document.getElementById("pay").textContent;
 
-            e.preventDefault()
-            $.ajax({
-                url: "/check-out",
-                method: "POST",
-                data: $('#check-out-form').serialize(),
-                success: (response) => {
-                    // alert(response)
-                    if (response.codSuccess) {
-                        location.href = '/order-success'
-                    } else {
-                        console.log(response);
-                        razorpayPayment(response)
+    $("<input>")
+      .attr({
+        type: "hidden",
+        name: "totalAmount",
+        value: parseInt(totalAmount),
+      })
+      .appendTo("#check-out-form");
 
-                    }
-                }
-            })
-        })
-
-        function razorpayPayment(order) {
-
-            var options = {
-                "key": "rzp_test_YVhsYarKYMGA2X", // Enter the Key ID generated from the Dashboard
-                "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                "currency": "INR",
-                "name": "Acme Corp", //your business name
-                "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
-                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "handler": function (response) {
-                    verifyPayment(response, order)
-                },
-
-                "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
-                "prefill": {
-                    "name": "Gaurav Kumar", //your customer's name
-                    "email": "gaurav.kumar@example.com",
-                    "contact": "9000090000"
-                },
-                "notes": {
-                    "address": "Razorpay Corporate Office"
-                },
-                "theme": {
-                    "color": "#3399cc"
-                }
-            };
-
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
+    e.preventDefault();
+    $.ajax({
+      url: "/check-out",
+      method: "POST",
+      data: $("#check-out-form").serialize(),
+      success: (response) => {
+        // alert(response)
+        if (response.codSuccess) {
+          location.href = "/order-success";
+        } else {
+          console.log(response);
+          razorpayPayment(response);
         }
+      },
+    });
+  });
 
-        function verifyPayment(payment, order) {
-            console.log(payment, order);
-            $.ajax({
-                url: "/verify-payment",
-                method: "POST",
-                data: {
-                    payment,
-                    order
-                },
-                success: (response) => {
+  function razorpayPayment(order) {
+    var options = {
+      key: "rzp_test_YVhsYarKYMGA2X", // Enter the Key ID generated from the Dashboard
+      amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "Acme Corp", //your business name
+      description: "Test Transaction",
+      image: "https://example.com/your_logo",
+      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: function (response) {
+        verifyPayment(response, order);
+      },
 
-                    if (response.status) {
-                        location.href = '/order-success'
+      callback_url: "https://eneqd3r9zrjok.x.pipedream.net/",
+      prefill: {
+        name: "Gaurav Kumar", //your customer's name
+        email: "gaurav.kumar@example.com",
+        contact: "9000090000",
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
 
-                    } else {
-                        // alert('payment failed')
-                    }
-                }
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+  }
 
-            })
+  function verifyPayment(payment, order) {
+    console.log(payment, order);
+    $.ajax({
+      url: "/verify-payment",
+      method: "POST",
+      data: {
+        payment,
+        order,
+      },
+      success: (response) => {
+        if (response.status) {
+          location.href = "/order-success";
+        } else {
+          // alert('payment failed')
         }
+      },
+    });
+  }
 
-        $('#apply-coupone-form').submit((e) => {
+  $("#apply-coupone-form").submit((e) => {
+    e.preventDefault();
+    let code = document.getElementById("cp_code").value;
+    var totalAmount = document.getElementById("pay").textContent;
 
-            e.preventDefault()
-            let code = document.getElementById('cp_code').value
-            var totalAmount = document.getElementById('pay').textContent
+    console.log(totalAmount);
+    $.ajax({
+      url: "/apply-coupone",
+      data: {
+        couponeCode: code,
+        total: parseInt(totalAmount),
+      },
 
+      method: "POST",
+      success: (response) => {
+        if (response.status) {
+          const popup = document.getElementById("popup");
+          popup.style.display = "block";
+          setTimeout(() => {
+            popup.style.display = "none";
+          }, 1000);
 
-            console.log(totalAmount);
-            $.ajax({
-                url: '/apply-coupone',
-                data: {
+          document.getElementById("total").innerHTML = response.coupone.total;
+          document.getElementById("pay").innerHTML = response.coupone.total;
+        } else {
+          const popup = document.getElementById("popup2");
+          popup.style.display = "block";
+          setTimeout(() => {
+            popup.style.display = "none";
+          }, 1000);
+        }
+      },
+    });
+  });
+</script>
 
-                    couponeCode: code,
-                    total: parseInt(totalAmount)
-
-                },
-
-                method: 'POST',
-                success: (response) => {
-                    if (response.status) {
-                        const popup = document.getElementById('popup');
-                        popup.style.display = 'block';
-                        setTimeout(() => {
-                            popup.style.display = 'none';
-                        }, 1000);
-
-                        document.getElementById('total').innerHTML = response.coupone.total
-                        document.getElementById('pay').innerHTML = response.coupone.total
-
-                    } else {
-                        const popup = document.getElementById('popup2');
-                        popup.style.display = 'block';
-                        setTimeout(() => {
-                            popup.style.display = 'none';
-                        }, 1000);
-
-
-                    }
-
-
-
-                }
-            })
-        })
-
-    </script>
-
-    <%- include('../partials/UserFooter') %>
+<%- include('../partials/UserFooter') %>

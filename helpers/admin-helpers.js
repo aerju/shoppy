@@ -3,7 +3,7 @@ const db = require('../config/connection')
 var collection = require('../config/collection');
 const { Collection, ObjectID } = require('mongodb');
 var objectId = require('mongodb').ObjectID
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { response } = require('express');
 
 
@@ -323,13 +323,12 @@ module.exports = {
     },
     getBannerInfo: () => {
         return new Promise(async (resolve, reject) => {
-            banner = await db.get().collection(collection.BANNERS).find().toArray()
-            resolve(banner)
-
+          let banner= await db.get().collection(collection.BANNERS).find().toArray()
+          resolve(banner)
         })
     }, removeBanner: (bannerId) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.getBannerInfo).deleteOne({ _id: objectId(bannerId) }).then((response) => {
+            db.get().collection(collection.BANNERS).deleteOne({ _id: objectId(bannerId) }).then((response) => {
                 resolve(response)
             })
 
@@ -504,11 +503,10 @@ module.exports = {
 
         })
 
-    }, getSalesReport: () => {
+    }, getSalesReport: (query) => {
         return new Promise(async (resolve, reject) => {
-            let salesReport = await db.get().collection(collection.ORDER_INFORMATION).find({ orderStatus: 'Delivered' }).toArray()
-            // console.log(salesReport,'lllllllllllllll');
-
+            let salesReport = await db.get().collection(collection.ORDER_INFORMATION).find(query).toArray()
+           
             resolve(salesReport)
         })
     }, getOrdrStatistics: () => {
@@ -527,14 +525,14 @@ module.exports = {
 
 
             ]).toArray()
-            console.log(ordrStatistics, 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+            // console.log(ordrStatistics, 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
             resolve(ordrStatistics)
 
         })
 
 
     }
-    , getSaleStatistics: (yearData) => {
+    , getSaleStatistics: () => {
 
         return new Promise(async (resolve, reject) => {
             let saleStatistics = await db.get().collection(collection.ORDER_INFORMATION).aggregate([
@@ -559,7 +557,7 @@ module.exports = {
                 }, { $sort: { date: 1 } },
 
             ]).toArray()
-            console.log(saleStatistics, 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+            // console.log(saleStatistics, 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
             resolve(saleStatistics)
 
         })
@@ -590,7 +588,7 @@ module.exports = {
 
                 }
             ]).toArray()
-            console.log(categoryStatistics, 'cateiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+            // console.log(categoryStatistics, 'cateiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
             resolve(categoryStatistics)
 
         })
@@ -608,18 +606,14 @@ module.exports = {
 
                 }
             ]).toArray()
-            console.log(totalRevenue[0], ',,,,,,,,,,,,,,revenue');
+            // console.log(totalRevenue[0], ',,,,,,,,,,,,,,revenue');
             resolve(totalRevenue[0])
 
         })
     },getTotalOrders: () => {
         return new Promise(async (resolve, reject) => {
             let totalOrders = await db.get().collection(collection.ORDER_INFORMATION).aggregate([
-                {
-                    $match: { orderStatus:'shipped' 
-                        
-                    }
-                },
+               
                 {
                     $group: {
                       _id: null,
@@ -630,7 +624,7 @@ module.exports = {
                   }
         
             ]).toArray()
-            console.log(totalOrders[0], ',,,,,,,,,,,,,,revenue');
+            console.log(totalOrders[0], ',,,,,,,,,,,,,,toatl orders');
             resolve(totalOrders[0])
 
 
@@ -639,7 +633,7 @@ module.exports = {
     },getTotalproducts: () => {
         return new Promise(async (resolve, reject) => {
             let totalProducts = await db.get().collection(collection.PRODUCT_INFORMATION).find().count()
-            console.log(totalProducts, ',,,,,,,,,,,,,,revenue');
+            // console.log(totalProducts, ',,,,,,,,,,,,,,revenue');
             resolve(totalProducts)
 
 
@@ -673,7 +667,7 @@ module.exports = {
                 }, { $sort: { date: 1 } },
 
             ]).toArray()
-            console.log(saleStatisticsDate, 'filter::::::iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+            // console.log(saleStatisticsDate, 'filter::::::iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
             resolve(saleStatisticsDate)
 
         })

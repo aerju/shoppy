@@ -8,8 +8,5 @@ module.exports={
     ORDER_INFORMATION:"order",
     WISHLIST_MANAGEMENT:'wishlist',
     COUPONE_MANAGEMENT:'coupones'
-
-
-
-
+    
 }

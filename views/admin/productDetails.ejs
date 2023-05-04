@@ -19,7 +19,7 @@
 
                 <div class="mt-5" style="margin-top: 60px;">
 
-                    <table class="table mt-4 display" id="productsTable">
+                    <table class="table mt-4 display  nowrap " id="productsTable">
                         <thead>
                             <tr>
                                 <th scope="col">Product Image</th>
@@ -61,8 +61,7 @@
                                         <td>
                                             <%= products[i].pro_price %>
                                         </td>
-    
-    
+       
                                         <td>
                                             <% if (products[i].pro_count==0) { %>
                                                 <span class="badge badge-pill badge-soft-danger">Stock Out</span>
@@ -113,11 +112,21 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+
+
         <script>
 
-            $(function () {
-                $('#productsTable').DataTable();
-            });
+        
+
+$(document).ready(function() {
+    $('#productsTable').DataTable();
+} );
     
         </script>
     </body>

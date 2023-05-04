@@ -20,6 +20,27 @@
 
                     </form>
                 </div> -->
+                
+
+                    <form action="/admin/sales-report" method="get">
+                        <div class="row border ">
+                    <div class="form-outline col-lg-3  mb-0 mt-3 mb-3">
+                        <!-- <label class="form-label" for="form3Example1c">Start Date</label> -->
+                        <input type="date" id="startdate" class="form-control" name="start" required />
+                    </div>
+                    <div class="form-outline col-lg-3  mb-0 mt-3">
+                        <!-- <label class="form-label" for="form3Example1c">End Date</label> -->
+                        <input type="date" id="enddate" class="form-control" name="end" required />
+                    </div>
+                    <div class="form-outline col-2 ml-0 mt-3">
+
+                        <button class="btn" type="submit" >Search</button>
+
+                    </div>
+                </div>
+                </form>
+
+                
 
                 <div class="mt-5" style="margin-top: 60px;">
 
@@ -96,10 +117,21 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
     <script>
 
         $(function () {
-            $('#productsTable').DataTable();
+            $('#productsTable').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
         });
 
     </script>

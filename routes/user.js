@@ -22,16 +22,6 @@ router.post('/forgot-password',  middleware.sessionHandle, userController.forgor
 router.get('/forgot-password',  middleware.sessionHandle, userController.forgortPassword);
 router.post('/update-password',  middleware.sessionHandle, userController.updatePassword);
 
-
-
-
-
-
-
-
-
-
-
 router.get('/signup',  middleware.sessionHandle, userController.userSignUp);
 
 router.post('/signup', userController.userSignUpPost)
@@ -75,14 +65,17 @@ router.post('/edit-address',middleware.checkUserLoggedIn,userController.editAddr
 router.post('/update-address',middleware.checkUserLoggedIn,userController.updateAddress)
 
 
-
-
 router.get('/search',userController.search)
+
 router.post('/cancel-request',userController.cancelRequest)
 router.post('/return-request',userController.returnRequest)
 
 router.get('/wallet',middleware.checkUserLoggedIn,userController.wallet)
 router.post('/update-profile/:id',middleware.checkUserLoggedIn,userController.updateProfile)
+router.post('/download-invoice/:id',middleware.checkUserLoggedIn,userController.downloadInvoice)
+router.get('/contact',userController.contact)
+
+
 
 
 

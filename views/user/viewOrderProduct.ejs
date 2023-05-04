@@ -1,15 +1,26 @@
 <%- include('../partials/UserHeader') %>
     <div class="container mt-5">
         <main class="main-wrap">
-            <section class="content-main">
+            <section class="content-main" id="container_content">
                 <div class="content-header">
                     <div>
                         <h2 class="content-title card-title">Order details</h2>
                         <p>Details for Order ID:<%=orderDetails._id%>
                         </p>
                     </div>
+                    <% if (orderDetails.orderStatus=='Delivered' ) { %>
+                        <div class="text">
+
+                          
+                                <!-- <a href="/download-invoice/<%=orderDetails._id%>">Download Invoice</a> -->
+                                <button class="btn" style="background-color: white;color: black;" id="download">Download Invoice</button>
+                                
+                            
+                        </div>
+                        <br>
+                        <% } %>
                 </div>
-                <div class="card">
+                <div class="card" >
                     <div class="card-body">
                         <div class="row mb-50 mt-20 order-info-wrap">
                             <div class="col-md-3">
@@ -36,7 +47,7 @@
                                     <div class="text">
                                         <h6 class="mb-1">Order info</h6>
                                         <p class="mb-1">
-                                            Shipping: Fargo express <br> Pay method: <%=orderDetails.paymentMethod%>
+                                            Pay method: <%=orderDetails.paymentMethod%>
                                                 <br> Status: <%=orderDetails.orderStatus%>
                                         </p>
 
@@ -73,7 +84,7 @@
                                         <div class="text">
 
                                             <p class="mt-4" style="color: blue;">
-                                                <a href="" onclick="cancelRequest('<%=orderDetails._id%>')">Cancel Order</button>
+                                                <a href="" onclick="cancelRequest('<%=orderDetails._id%>','<%=orderDetails.paymentMethod%>','<%=orderDetails.total%>','<%=orderDetails.userId%>')">Cancel Order</button>
 
                                             </p>
                                         </div>
@@ -192,12 +203,12 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        function cancelRequest(orderId) {
-            console.log(orderId);
+        function cancelRequest(orderId,paymentMethod,total,userId) {
+            console.log(orderId,paymentMethod,total,userId);
             $.ajax({
                 url: "/cancel-request",
                 method: "POST",
-                data: {orderId},
+                data: {orderId,paymentMethod,total,userId},
                 success: (response) => {
                     // alert(response)
                     const popup = document.getElementById('popup');
@@ -231,6 +242,19 @@
 
         }
     </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+    window.onload = function () {
+        document.getElementById('download').addEventListener("click", () => {
+            let invoice = this.document.getElementById('container_content')
+            console.log(invoice);
+            console.log(window);
+            html2pdf().from(invoice).save()
+        })
+    }
+</script>
 
 
     <%- include('../partials/UserFooter') %>

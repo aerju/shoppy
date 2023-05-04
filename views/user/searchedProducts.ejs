@@ -1,27 +1,67 @@
 <%- include('../partials/UserHeader') %>
 
 <style>
-    /* CSS for the input slider */
-    .range-slider {
-        width: 200px;
-        margin-top: 20px;
-    }
-    .range-slider input {
-        width: 100%;
-    }
+  /* CSS for the input slider */
+  .range-slider {
+    width: 200px;
+    margin-top: 20px;
+  }
+  .range-slider input {
+    width: 100%;
+  }
+</style>
+<style>
+  .price-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .price-range {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .price-values {
+    margin-bottom: 10px;
+  }
+
+  .min-price,
+  .max-price {
+    width: 100%;
+  }
+
+  .apply-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    background-color: #2874f0;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .apply-btn:hover {
+    background-color: #1c5fa8;
+  }
 </style>
 
-    <section class="product-area shop-sidebar shop section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-12">
-                    <div class="shop-sidebar">
-                        <!-- Single Widget -->
-                        <div class="single-widget category">
-                            <h3 class="title">Sort by</h3>
-                            <ul class="categor-list">
-
-                                <!-- <% for (var i=0; i < category.length; i++) { %>
+<section class="product-area shop-sidebar shop section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-4 col-12">
+        <div class="shop-sidebar">
+          <!-- Single Widget -->
+          <div class="single-widget category">
+            <h3 class="title">Sort by</h3>
+            <ul class="categor-list">
+              <!-- <% for (var i=0; i < category.length; i++) { %>
                                     <% if (category[i].productStatus) { %>
                                         <li><a href="/category/<%=category[i]._id%>">
                                                 <%=category[i].category%>
@@ -29,72 +69,108 @@
                                         <% } %>
 
                                             <% } %> -->
-                                        <a href="/search?sort=<%=searchValue%>">Price(low-high)</a>
+              <a
+                href="/search?search=<%=searchValue%>&sort=pro_price:inc&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+                >Price(low-high)</a
+              >
+              <br />
+              <a href="/search?search=<%=searchValue%>&sort=pro_price:desc&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>&"
+                >Price(high-low)</a
+              >
+              <br />
+              <!-- <a href="/search?search=<%=searchValue%>&sort=pro_name:inc&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+                >Product Name</a
+              >
+              <br /> -->
+            </ul>
+          </div>
+          <!--/ End Single Widget -->
+          <!-- Shop By Price -->
+          <div class="single-widget range">
+            <h3 class="title">Shop by Price</h3>
+            
 
-                            </ul>
-                        </div>
-                        <!--/ End Single Widget -->
-                        <!-- Shop By Price -->
-                        <div class="single-widget range">
-                            <h3 class="title">Shop by Price</h3>
-                            <!-- <div class="price-filter">
-                                <div class="price-filter-inner">
-                                    <div id="slider-range"></div>
-                                    <div class="price_slider_amount">
-                                        <div class="label-input">
-                                            <span>Range:</span><input type="text" id="amount" name="price"
-                                                placeholder="Add Your Price" />
+            <div class="price-filter">
+              <div class="price-range">
+                <span class="price-label">Price:</span>
+                <% if (minPrice && maxPrice) { %>
+                  <span class="price-values"> ₹<%=minPrice%>- ₹<%=maxPrice%></span>
+                <% } else { %>
+                  <span class="price-values"> ₹50000- ₹55000</span>
+                <% } %>
+                
+                <input
+                  type="range"
+                  class="min-price"
+                  min="0"
+                  max="99999"
+                  step="1000"
+                  value="<%=minPrice%>"
+                  
+                />
+                <input
+                  type="range"
+                  class="max-price"
+                  min="10000"
+                  max="100000"
+                  step="1000"
+                  value="<%=maxPrice%>"
+                />
+              </div>
+              <button
+                class="apply-btn"
+                style="background-color: #fff; color: black"
+              >
+                Apply
+              </button>
+            </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- <div class="range-slider">
-                                <input type="range" id="rangeInput" min="5000" max="100000" step="1" value="0" />
-                                <span>Min Price: <span id="minValue">5000</span></span>
-                                <span>Max Price: <span id="maxValue">100000</span></span>
-                            </div> -->
+            <!-- <ul class="check-box-list">
+             
 
-                            <ul class="check-box-list">
-                                <!-- <li>
-                                    <label class="checkbox-inline" for="1"><input name="news" id="1" type="checkbox">$20
-                                        - $50<span class="count">(3)</span></label>
-                                </li> -->
+              <li class="p-b-6">
+                <a
+                  href="/search?search=<%=searchValue%>&minPrice=0&maxPrice=20000"
+                  class="filter-link stext-106 trans-04"
+                >
+                  ₹0.00 - ₹20000.00
+                </a>
+              </li>
+              <li class="p-b-6">
+                <a
+                  href="/search?search=<%=searchValue%>&filter=20000-40000"
+                  class="filter-link stext-106 trans-04"
+                >
+                  ₹20000.00 - ₹40000.00
+                </a>
+              </li>
+              <li class="p-b-6">
+                <a
+                  href="/search?search=<%=searchValue%>&filter=40000-80000"
+                  class="filter-link stext-106 trans-04"
+                >
+                  ₹40000.00 - ₹80000.00
+                </a>
+              </li>
+              <li class="p-b-6">
+                <a
+                  href="/search?search=<%=searchValue%>&filter=80000"
+                  class="filter-link stext-106 trans-04"
+                >
+                  ₹80000.00-Above
+                </a>
+              </li>
+            </ul> -->
+          </div>
+        </div>
+      </div>
 
-                                <li class="p-b-6">
-                                    <a href="/search?search=<%=searchValue%>&filter=0-20000" class="filter-link stext-106 trans-04">
-                                        ₹0.00 - ₹20000.00
-                                    </a>
-                                </li>
-                                <li class="p-b-6">
-                                    <a href="/search?search=<%=searchValue%>&filter=20000-40000" class="filter-link stext-106 trans-04">
-                                        ₹20000.00 - ₹40000.00
-                                    </a>
-                                </li>
-                                <li class="p-b-6">
-                                    <a href="/search?search=<%=searchValue%>&filter=40000-80000" class="filter-link stext-106 trans-04">
-                                        ₹40000.00 - ₹80000.00
-                                    </a>
-                                </li>
-                                <li class="p-b-6">
-                                    <a href="/search?search=<%=searchValue%>&filter=80000"
-                                        class="filter-link stext-106 trans-04">
-                                        ₹80000.00-Above
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="col-lg-9 col-md-8 col-12">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Shop Top -->
-                            <!-- <div class="shop-top"> -->
-                                <!-- <div class="shop-shorter">
+      <div class="col-lg-9 col-md-8 col-12">
+        <div class="row">
+          <div class="col-12">
+            <!-- Shop Top -->
+            <!-- <div class="shop-top"> -->
+            <!-- <div class="shop-shorter">
                                     <div class="single-shorter">
                                         <label>Show :</label>
                                         <select>
@@ -111,174 +187,206 @@
                                         <a href="/search?sort=<%=searchValue%>">Price</a>
                                     </div>
                                 </div> -->
-                                <!-- <ul class="view-mode">
+            <!-- <ul class="view-mode">
                                     <li class="active"><a href="shop-grid.html"><i class="fa fa-th-large"></i></a></li>
                                     
                                 </ul> -->
-                            <!-- </div> -->
-                            <!--/ End Shop Top -->
-                        </div>
-                    </div>
-
-                    <% if (products.length!=0) { %>
-
-                        <div class="row">
-
-                            <% for (var i=0; i < products.length; i++) { %>
-
-                                <% if (products[i].stockStatus) { %>
-
-                                <div class="col-lg-4 col-md-6 col-12">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="/view-product/<%=products[i]._id%>">
-                                                <img class="default-img" src="<%=products[i].image[0]%>" alt="#"
-                                                    style="width: 550px;height: 750;">
-                                            </a>
-                                            <div class="button-head">
-                                                <div class="product-action">
-
-                                                    <a onclick="addToWishList( '<%=products[i]._id%>' )"><i
-                                                            class=" ti-heart "></i><span>Add to
-                                                            Wishlist</span></a>
-                                                    <p title="Compare"></p>
-
-
-                                                </div>
-                                                <div class="product-action-2">
-
-                                                    <a onclick="addTOCart( '<%=products[i]._id%>' )">Add to
-                                                        cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <h3><a href="product-details.html">
-                                                    <%=products[i].pro_name%>
-                                                </a></h3>
-                                            <div class="product-price" style="color: green;">
-                                                <span>₹<%=products[i].pro_price%></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <% }  %>
-                                <% } %>
-                        </div>
-                        <br>
-
-                        <% if (totalPages >= 1) { %>
-                            <div class="d-flex  justify-content-center ">
-                                <% if (page > 1) { %>
-                                    <a class="btn border" style="background-color: white;color: black;" href="/search?search=<%=searchValue%>&sort=<%=searchValue%>&page=<%= page - 1 %>">Previous</a>
-                                <% } %>
-                                <% for (var i = 1; i <= (totalPages/10)+1; i++) { %>
-                                    <a class="btn border" style="background-color: white;color: black;" href="/search?search=<%=searchValue%>&sort=<%=searchValue%>&page=<%=i%>"> <p><%=i%></p></a>
-
-                                  <% } %>
-                                <% if (page < totalPages) { %>
-                                    <a class="btn border" style="background-color: white;color: black;"  href="/search?search=<%=searchValue%>&sort=<%=searchValue%>&page=<%= page + 1 %>">Next</a>
-                                <% } %>
-                            </div>
-                        <% } %>
-
-
-                        <% } else { %>
-
-
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-8 mt-5">
-                                        <div class="card">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">No search result found</h5>
-                                                <!-- <p class="card-text">You have no items in your cart.</p> -->
-                                                <br>
-                                                <a href="/" style="color: green;"> Start Shopping</a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <% } %>
-                </div>
-            </div>
+            <!-- </div> -->
+            <!--/ End Shop Top -->
+          </div>
         </div>
-    </section>
 
+        <% if (products.length!=0) { %>
 
-    <script>
-        // JavaScript to dynamically change the values
-        const rangeInput = document.getElementById('rangeInput');
-        const minValue = document.getElementById('minValue');
-        const maxValue = document.getElementById('maxValue');
+        <div class="row">
+          <% for (var i=0; i < products.length; i++) { %> <% if
+          (products[i].stockStatus) { %>
 
-        rangeInput.addEventListener('input', () => {
-            // Update the displayed min and max values
-            minValue.textContent = rangeInput.value;
-            maxValue.textContent = 100 - rangeInput.value;
-        });
-    </script>
+          <div class="col-lg-4 col-md-6 col-12">
+            <div class="single-product">
+              <div class="product-img">
+                <a href="/view-product/<%=products[i]._id%>">
+                  <img
+                    class="default-img"
+                    src="<%=products[i].image[0]%>"
+                    alt="#"
+                    style="width: 550px; height: 750"
+                  />
+                </a>
+                <div class="button-head">
+                  <div class="product-action">
+                    <a onclick="addToWishList( '<%=products[i]._id%>' )"
+                      ><i class="ti-heart"></i><span>Add to Wishlist</span></a
+                    >
+                    <p title="Compare"></p>
+                  </div>
+                  <div class="product-action-2">
+                    <a onclick="addTOCart( '<%=products[i]._id%>' )"
+                      >Add to cart</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="product-content">
+                <h3>
+                  <a href="product-details.html"> <%=products[i].pro_name%> </a>
+                </h3>
+                <div class="product-price" style="color: green">
+                  <span>₹<%=products[i].pro_price%></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %> <% } %>
+        </div>
+        <br />
 
-   
+        <% if (totalPages >= 1) { %>
+        <div class="d-flex justify-content-center">
+          <% if (page > 1) { %>
+          <a
+            class="btn border"
+            style="background-color: white; color: black"
+            href="/search?search=<%=searchValue%>&page=<%= page - 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+            >Previous</a
+          >
+          <% } %> <% for (var i = 1; i <= (totalPages/10)+1; i++) { %>
+          <a
+            class="btn border"
+            style="background-color: white; color: black"
+            href="/search?search=<%=searchValue%>&page=<%=i%>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+          >
+            <p><%=i%></p></a
+          >
 
-    <script>
+          <% } %> <% if (page < totalPages) { %>
+          <a
+            class="btn border"
+            style="background-color: white; color: black"
+            href="/search?search=<%=searchValue%>&page=<%= page + 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+            >Next</a
+          >
+          <% } %>
+        </div>
+        <% } %> <% } else { %>
 
-        document.getElementById("mySelect").addEventListener("change", function () {
-            var selectedValue = this.value;
-            if (selectedValue !== "") {
-                window.location.href = selectedValue;
-            }
-        });
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-8 mt-5">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">No search result found</h5>
+                  <!-- <p class="card-text">You have no items in your cart.</p> -->
+                  <br />
+                  <a href="/" style="color: green"> Start Shopping</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
 
+<script>
+  const minPrice = 0;
+  const maxPrice = 100000;
+  const minPriceInput = document.querySelector(".min-price");
+  const maxPriceInput = document.querySelector(".max-price");
+  const priceValues = document.querySelector(".price-values");
+  const applyBtn = document.querySelector(".apply-btn");
 
-        function addTOCart(proId) {
-            $.ajax({
-                url: '/add-to-cart/' + proId,
-                method: 'get',
-                success: (response) => {
-                    if (response.status) {
-                        const popup = document.getElementById('popup');
-                        popup.style.display = 'block';
-                        setTimeout(() => {
-                            popup.style.display = 'none';
-                        }, 1000);
-                        let count = $('#cart-count').html()
-                        count = parseInt(count) + 1
-                        $('#cart-count').html(count)
-                    }
-                    // alert(response)
-                }
+  // Update the price values display when the range inputs change
+  function updatePriceValues() {
+    const minPriceVal = parseInt(minPriceInput.value);
+    const maxPriceVal = parseInt(maxPriceInput.value);
+    priceValues.textContent = `₹${minPriceVal} - ₹${maxPriceVal}`;
+  }
 
-            })
+  minPriceInput.addEventListener("input", updatePriceValues);
+  maxPriceInput.addEventListener("input", updatePriceValues);
+
+  // Submit the price filter when the apply button is clicked
+  applyBtn.addEventListener("click", () => {
+    const minPriceVal = parseInt(minPriceInput.value);
+    const maxPriceVal = parseInt(maxPriceInput.value);
+    console.log(minPriceVal);
+    window.location.href = `/search?search=<%=searchValue%>&minPrice=${minPriceVal}&maxPrice=${maxPriceVal}`;
+    //   "/search?search=<%=searchValue%>&minPrice=0&maxPrice=20000"
+  });
+</script>
+
+<script>
+  //   const rangeInput = document.getElementById("rangeInput");
+  //   const minValue = document.getElementById("minValue");
+  //   const maxValue = document.getElementById("maxValue");
+
+  //   rangeInput.addEventListener("input", () => {
+
+  //     minValue.textContent = rangeInput.value;
+  //     maxValue.textContent = 100 - rangeInput.value;
+  //   });
+  const priceRange = document.querySelector("#price-range");
+  const minPriceLabel = document.querySelector(".min-price");
+  const maxPriceLabel = document.querySelector(".max-price");
+
+  priceRange.addEventListener("change", (event) => {
+    const value = parseFloat(event.target.value);
+    minPriceLabel.textContent = value.toFixed(2);
+    maxPriceLabel.textContent = event.target.max;
+  });
+</script>
+
+<script>
+  document.getElementById("mySelect").addEventListener("change", function () {
+    var selectedValue = this.value;
+    if (selectedValue !== "") {
+      window.location.href = selectedValue;
+    }
+  });
+
+  function addTOCart(proId) {
+    $.ajax({
+      url: "/add-to-cart/" + proId,
+      method: "get",
+      success: (response) => {
+        if (response.status) {
+          const popup = document.getElementById("popup");
+          popup.style.display = "block";
+          setTimeout(() => {
+            popup.style.display = "none";
+          }, 1000);
+          let count = $("#cart-count").html();
+          count = parseInt(count) + 1;
+          $("#cart-count").html(count);
         }
+        // alert(response)
+      },
+    });
+  }
 
-        function addToWishList(proId) {
-            $.ajax({
-                url: "/add-to-wishlist/" + proId,
-                method: 'get',
-                success: (response) => {
-                    if (response.status) {
-                        const popup = document.getElementById('popup');
-                        popup.style.display = 'block';
-                        setTimeout(() => {
-                            popup.style.display = 'none';
-                        }, 2000);
-                        let count = $('#cart-count').html()
-                        count = parseInt(count) + 1
-                        $('#cart-count').html(count)
-                    }
-                    // alert(response)
-                }
-
-            })
-
+  function addToWishList(proId) {
+    $.ajax({
+      url: "/add-to-wishlist/" + proId,
+      method: "get",
+      success: (response) => {
+        if (response.status) {
+          const popup = document.getElementById("popup");
+          popup.style.display = "block";
+          setTimeout(() => {
+            popup.style.display = "none";
+          }, 2000);
+          let count = $("#cart-count").html();
+          count = parseInt(count) + 1;
+          $("#cart-count").html(count);
         }
-    </script>
+        // alert(response)
+      },
+    });
+  }
+</script>
 
-
-
-
-    <%- include('../partials/userFooter') %>
+<%- include('../partials/userFooter') %>

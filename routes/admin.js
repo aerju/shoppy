@@ -62,6 +62,7 @@ router.get('/coupones-management',adminController.viewCoupones )
 router.get('/add-coupones',adminController.addCoupones )
 router.post('/add-coupones',adminController.addCouponesPost )
 
+
 router.get('/delete-coupons/:id',adminController.deleteCoupons )
 
 router.get('/order-management',adminController.orgerManagement )

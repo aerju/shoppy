@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Invoice</title>
+  <style>
+    /* Add your styles here */
+  </style>
+</head>
+<body>
+  <h1>Invoice</h1>
+  <table>
+    <tr>
+      <td><strong>Invoice Number:</strong></td>
+      <td><%= invoiceData._id %></td>
+    </tr>
+    <tr>
+      <td><strong>Customer Name:</strong></td>
+      <td><%= invoiceData.deliveryDetails.name %></td>
+    </tr>
+    <tr>
+      <td><strong>Invoice Date:</strong></td>
+      <td><%= invoiceData.date %></td>
+    </tr>
+    <tr>
+      <td><strong>Amount Due:</strong></td>
+      <td><%= invoiceData.total %></td>
+    </tr>
+  </table>
+</body>
+</html>
