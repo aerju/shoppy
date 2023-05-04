@@ -5,7 +5,7 @@ const productHelper = require("../helpers/product-helpers");
 
 const cloudinary = require("../utils/cloudinary");
 const upload = require("../utils/multer");
-const sharp = require("sharp");
+
 const userHelpers = require("../helpers/user-helpers");
 
 let message;
