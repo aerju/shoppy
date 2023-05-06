@@ -22,8 +22,12 @@ module.exports = {
   },
   adminHome: async (req, res) => {
   console.log(req.body,'///////////////////////');
+  
 
-    res.render("admin/AdminHomePage");
+    // res.render("admin/AdminHomePage");
+    adminHelper.viewAllCategories().then((category) => {
+      res.render("admin/AdminHomePage", { category });
+    });
   },
   adminLoginPost: (req, res) => {
     adminHelper.adminDoLogin(req.body).then((response) => {
@@ -424,6 +428,16 @@ module.exports = {
     let saleStatisticsDate = await adminHelper.getSaleStatisticsDate(year);
 
     res.json({ saleStatisticsDate });
+  },
+  
+  graphStaticsCategory: async (req, res) => {
+    let category = req.query.FilterCategory;
+
+    // console.log(year, ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
+
+    let OrderStatisticsCategory = await adminHelper.getSaleStatisticsCategory(category);
+
+    res.json({ OrderStatisticsCategory });
   },
 
   adminLogOut: (req, res) => {

@@ -1,0 +1,66 @@
+<%- include('../partials/UserHeader') %>
+
+<section id="contact-us" class="contact-us section">
+    <div class="container">
+        <div class="contact-head">
+            <div class="row  d-flex justify-content-center">
+                <div class="col-lg-6 col-12 ">
+                    <div class="form-main">
+
+                        <div class="title">
+                            <h4>LOGIN</h4>                          
+                        </div>
+
+                      
+                        <form class="form" method="post" action="/login">
+                            <div class="row">
+       
+                                <div class="col-lg-12 col-12">
+                                    <div class="form-group">
+                                        <label>Your Email<span>*</span></label>
+                                        <input type="text" name="email" id="your_name" placeholder="Your Name"  value='arjun@gmail.com' required/>
+                                    </div>
+                                </div>
+                          
+                                <div class="col-lg-12 col-12">
+                                    <div class="form-group">
+                                        <label>Password<span>*</span></label>
+                                        <input type="password" name="password" id="your_pass" placeholder="Password" value="Ab@123" required/>
+                                        <p></p>
+                                        <a href="/forgot-password" class="text-danger">forgot password?</a>
+                                    </div>
+                                    
+
+                                </div>
+                                <div class="col-lg-12 col-12">
+                                    <div class="form-group">
+                                        <input type="submit" value="Login" class="btn">
+                                    </div>
+                                </div>
+
+                              
+
+                                <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <input  type="button" value="Login with opt" class="btn" onclick="window.location='/login-otp'">
+                                        <!-- <a href="" class="btn">Login with opt</a> -->
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <input type="button" value="create an account" class="btn" onclick="window.location='/signup'">
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<%- include('../partials/UserFooter') %>

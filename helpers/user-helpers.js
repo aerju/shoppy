@@ -234,6 +234,7 @@ module.exports = {
         .collection(collection.USER_INFORMATION)
         .findOne({ _id: objectId(userId) });
       // add = addAddresdetails.addAddres
+      console.log(addAddresdetails,'+++');
       resolve(addAddresdetails);
     });
   },

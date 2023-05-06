@@ -265,7 +265,13 @@ module.exports = {
     // const items = product.map(product => product.item);
 
     return new Promise((resolve, reject) => {
-      let status = order["payment-method"] === "COD" || "wallet" ? "placed" : "paymentFailed";
+      // let status = order["payment-method"] === "COD"  ? "placed" : "paymentFailed";
+      let status
+      if(order["payment-method"] === "COD" || ["payment-method"] === "wallet"){
+        status="placed"
+      }else{
+        status="paymentFailed"
+      }
       let orderObj = {
         deliveryDetails: {
           name: address.name,

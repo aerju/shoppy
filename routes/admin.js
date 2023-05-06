@@ -71,6 +71,8 @@ router.post('/change-order-status/',adminController.changeStatus )
 router.get('/sales-report/',adminController.salesReport )
 router.get('/graph-statics',adminController.graphStatics )
 router.get('/graph-statics-date',adminController.graphStaticsDate )
+router.get('/graph-statics-category',adminController.graphStaticsCategory )
+
 
 
 

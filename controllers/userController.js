@@ -66,7 +66,7 @@ module.exports = {
   },
   userLogin: (req, res, next) => {
     let user = null;
-    res.render("user/userLogin", {
+    res.render("user/loginPage", {
       user,
       userHead: false,
       loggedError: req.session.loggedError,
@@ -99,7 +99,8 @@ module.exports = {
   },
 
   userLOginWithOtp: (req, res) => {
-    res.render("user/loginOtp", { message });
+    let user = null;
+    res.render("user/loginPageWithOtp", { message, user, userHead:false });
     message = "";
   },
   userLOginWithOtpPost: (req, res) => {
@@ -209,8 +210,6 @@ module.exports = {
         product,
         cartcount,
       });
-
-
     } else {
       res.render("user/singleProductView", {
         userHead: false,
@@ -692,7 +691,7 @@ module.exports = {
         totalPages,
         sort,
         minPrice,
-        maxPrice
+        maxPrice,
       });
     } else {
       res.render("user/searchedProducts", {
@@ -708,7 +707,7 @@ module.exports = {
         totalPages,
         sort,
         minPrice,
-        maxPrice
+        maxPrice,
       });
     }
   },

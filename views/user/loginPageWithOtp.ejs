@@ -1,0 +1,181 @@
+<%- include('../partials/UserHeader') %>
+
+<section id="contact-us" class="contact-us section">
+  <div class="container">
+    <div class="contact-head">
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-6 col-12">
+          <div class="form-main">
+            <div class="title">
+              <h4>LOGIN WITH OPT</h4>
+            </div>
+
+            <div class="row form" id="sender">
+              <div class="col-lg-12 col-12">
+                <div class="form-group">
+                  <label>Phone Number<span>*</span></label>
+                  <input
+                    type="text"
+                    id="number"
+                    placeholder="phone"
+                    name="number"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12 col-12">
+                <div class="form-group">
+                  <div id="recaptcha-container"></div>
+                </div>
+              </div>
+
+              <div class="col-lg-12 col-12">
+                <div class="form-group">
+                  <input
+                    type="button"
+                    value="Get otp"
+                    class="btn"
+                    id="send"
+                    class="btn"
+                    onclick="phoneAuth()"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row form" id="verifier" style="display: none">
+              <div class="col-lg-12 col-12">
+                <div class="form-group">
+                  <label>Enter your Opt<span>*</span></label>
+                  <input
+                    type="text"
+                    id="verificationcode"
+                    placeholder="OTP Code"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-12 col-12">
+                <div class="form-group">
+                  <input
+                    type="button"
+                    value="submit"
+                    class="btn"
+                    id="verify"
+                    class="btn"
+                    onclick="codeverify()"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+  integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCX8gFtMpBRhrhrTrh2kCzBZg6NoEtYNhI",
+    authDomain: "ecommerce-fb5e3.firebaseapp.com",
+    projectId: "ecommerce-fb5e3",
+    storageBucket: "ecommerce-fb5e3.appspot.com",
+    messagingSenderId: "531062840651",
+    appId: "1:531062840651:web:a3a4d3c971f404035f9cce",
+    measurementId: "G-4KZ468MMMP",
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  render();
+  function render() {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "recaptcha-container"
+    );
+    recaptchaVerifier.render();
+  }
+
+  async function phoneAuth() {
+    var number = document.getElementById("number").value;
+
+    $.ajax({
+      url: "/login-otp",
+      data: {
+        number,
+      },
+      method: "POST",
+      success: (response) => {
+        if (response.validate) {
+          firebase
+            .auth()
+            .signInWithPhoneNumber(number, window.recaptchaVerifier)
+            .then(function (confirmationResult) {
+              window.confirmationResult = confirmationResult;
+              coderesult = confirmationResult;
+              document.getElementById("sender").style.display = "none";
+              document.getElementById("verifier").style.display = "block";
+            })
+            .catch(function (error) {
+              alert(error.message);
+            });
+        } else {
+          Swal.fire({
+            title: "number is not exist",
+            showClass: {
+              popup: "animate_animated animate_fadeInDown",
+            },
+            hideClass: {
+              popup: "animate_animated animate_fadeOutUp",
+            },
+          });
+        }
+      },
+    });
+  }
+
+  function codeverify() {
+    var number = document.getElementById("number").value;
+
+    var code = document.getElementById("verificationcode").value;
+    coderesult
+      .confirm(code)
+      .then(function (response) {
+        $.ajax({
+          url: "/verify-otp",
+          data: {
+            number,
+          },
+          method: "POST",
+          success: (response) => {
+            if (response) {
+              location.assign("/");
+            }
+          },
+        });
+      })
+      .catch(function () {
+        Swal.fire({
+          title: "invalid opt",
+          showClass: {
+            popup: "animate_animated animate_fadeInDown",
+          },
+          hideClass: {
+            popup: "animate_animated animate_fadeOutUp",
+          },
+        });
+      });
+  }
+</script>
+
+<%- include('../partials/UserFooter') %>

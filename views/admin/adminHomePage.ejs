@@ -14,11 +14,11 @@
                 </div>
             </div>
 
-            <form action="/admin/home" method="get">
+            <!-- <form action="/admin/home" method="get">
                 <div class="row mb-3">
                     <div class="form-outline col-2  mb-3">
-                        <label for="year-filte">Filter by year:</label>
-                        <!-- <select id="year-filte" name="year" required>
+                        <label for="year-filte">Filter by year:</label> -->
+            <!-- <select id="year-filte" name="year" required>
                             <option value="">All years</option>
                             <% for (let year=2023; year>= 2000; year--) { %>
                                 <option value="<%= year %>" id="yr">
@@ -26,14 +26,14 @@
                                 </option>
                                 <% } %>
                         </select> -->
-                        <input type="number" value="" id="yearid">
+            <!-- <input type="number" value="" id="yearid">
                     </div>
-                    <!-- <button type="button" onclick="getSelectedYear()">Get selected year</button> -->
+                    
                     <div class="form-outline col-1 ">
                         <button type="submit" >Search</button>
                     </div>
                 </div>
-            </form>
+            </form> -->
 
             <div class="row">
 
@@ -119,9 +119,6 @@
 
 
 
-
-
-
                             </div>
                             <canvas id="myChart" height="120px"></canvas>
                             <canvas id="myChart2" height="120px" style="display: none;"></canvas>
@@ -133,7 +130,20 @@
                     <div class="card mb-4 ">
                         <article class="card-body">
                             <h5 class="card-title">Order statistics</h5>
+
+                            <div>
+                                <select id="filtercat" name="category" required>
+                                    <% for (let i=0; i< category.length; i++) { %>
+                                        <option value="<%=category[i].category%>">
+                                            <%=category[i].category%>
+                                        </option>
+                                        <% } %>
+                                </select>
+                                <button class="btn" type="button" onclick="getCategoryOrders()">Search</button>
+                            </div>
                             <canvas id="myChartPi" height="100px"></canvas>
+                            <canvas id="myChartPi2" height="100px" style="display: none;"></canvas>
+
                         </article>
                     </div>
 
@@ -165,14 +175,13 @@
 
     <script>
 
-        // let selectedYear = document.getElementById('yr').textContent
-        let selectedYear = document.getElementById('yearid').vallue
+
 
         $.ajax({
             url: "/admin/graph-statics",
             method: "GET",
             dataType: "json",
-            // data: { year: selectedYear },
+
             success: function (response) {
 
                 // console.log('this is respons2', response);
@@ -183,7 +192,6 @@
                 document.getElementById('order').innerHTML = orders
                 let revenue = response.totalRevenue.count
                 document.getElementById('revenue').innerHTML = revenue
-
 
 
                 // console.log(total, 'this is totalRevenue');
@@ -311,14 +319,13 @@
                 data: { year: date },
                 success: function (response) {
 
-                    // console.log(response, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+
 
 
                     const ctx = document.getElementById('myChart');
 
 
-                    // chart.destroy();
-                    // chart = new Chart(ctx, configuration);
+
                     const ctx2 = document.getElementById('myChart2');
 
 
@@ -359,6 +366,62 @@
                     ctx.style.display = 'none'
                     ctx2.style.display = 'block'
 
+
+
+                }
+            })
+
+        }
+
+        function getCategoryOrders() {
+            let cat = document.getElementById('filtercat').value
+            console.log(cat,'category');
+            $.ajax({
+                url: "/admin/graph-statics-category",
+                method: "GET",
+                data: { FilterCategory: cat },
+                success: function (response) {
+
+                    const ctx2 = document.getElementById('myChartPi');
+
+                    const ctx4 = document.getElementById('myChartPi2');
+
+
+
+
+
+                    let status = response.OrderStatisticsCategory
+
+                    let statusCount = [];
+                    let orderStatus = []
+
+                    status.forEach((item) => {
+                        orderStatus.push(item._id)
+                        statusCount.push(item.count)
+                    })
+
+
+
+                    new Chart(ctx4, {
+                        type: 'doughnut',
+                        data: {
+                            labels: orderStatus,
+                            datasets: [{
+                                label: 'Orders',
+                                data: statusCount,
+                                // backgroundColor: [
+                                //     'rgb(255, 205, 86)',
+                                //     'rgb(54, 162, 235)',
+                                //     'rgb(173,255,47)',
+                                //     'rgb(255, 99, 132)',
+
+                                // ],
+                                hoverOffset: 4
+                            }]
+                        }
+                    })
+                    ctx2.style.display = 'none'
+                    ctx4.style.display = 'block'
 
 
                 }
