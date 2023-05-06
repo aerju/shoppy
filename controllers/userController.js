@@ -11,17 +11,12 @@ const admin = require("firebase-admin");
 const serviceAccount = require("../firebase-admin.json");
 const speakeasy = require("speakeasy");
 
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount)
-// });
-
-// admin.initializeApp(serviceAccount);
 
 let cartcount = 0;
 
 let message;
 
-let userExistMsg;
+let userExistMsg,loginMsg;
 
 module.exports = {
   userHome: async (req, res, next) => {
@@ -64,15 +59,16 @@ module.exports = {
       });
     });
   },
-  userLogin: (req, res, next) => {
+  userLogin: async (req, res, next) => {
     let user = null;
+    let category= await adminHelper.viewAllCategories()
     res.render("user/loginPage", {
       user,
       userHead: false,
-      loggedError: req.session.loggedError,
+      loginMsg,category
     });
 
-    req.session.loggedError = false;
+    loginMsg=''
   },
   userLoginPost: (req, res) => {
     // console.log(req.body);
@@ -84,8 +80,7 @@ module.exports = {
 
         res.redirect("/");
       } else {
-        req.session.loggedError = "Invalid user name or password";
-        console.log(req.session.loggedError);
+        loginMsg = response.loggedError
         res.redirect("/login");
       }
     });
@@ -98,9 +93,10 @@ module.exports = {
     });
   },
 
-  userLOginWithOtp: (req, res) => {
+  userLOginWithOtp: async (req, res) => {
     let user = null;
-    res.render("user/loginPageWithOtp", { message, user, userHead:false });
+    let category= await adminHelper.viewAllCategories()
+    res.render("user/loginPageWithOtp", { message, user, userHead:false ,category});
     message = "";
   },
   userLOginWithOtpPost: (req, res) => {
@@ -132,14 +128,16 @@ module.exports = {
     });
   },
 
-  forgortPassword: (req, res) => {
-    res.render("user/forgotPassword", { message });
+  forgortPassword: async (req, res) => {
+    let user=null
+    let category= await adminHelper.viewAllCategories()
+    res.render("user/forgotPasswordPage", { message,user,userHead:false ,category});
     message = "";
   },
 
   forgortPasswordPOst: (req, res) => {
     let number = req.body.number;
-
+console.log(number,'llll');
     let status = req.body.otpVerify;
 
     userHelper.doOtplogin(number).then((response) => {
@@ -170,8 +168,10 @@ module.exports = {
     });
   },
 
-  userSignUp: (req, res, next) => {
-    res.render("user/userSignup", { userExistMsg });
+  userSignUp: async (req, res, next) => {
+   let user=null
+   let category= await adminHelper.viewAllCategories()
+    res.render("user/signupPage", { userExistMsg ,user,userHead:false,category});
     userExistMsg = "";
   },
   userSignUpPost: (req, res) => {
@@ -179,7 +179,7 @@ module.exports = {
 
     userHelper.doSignup(req.body).then((response) => {
       if (response.userExitsStatus) {
-        userExistMsg = "User Already exists";
+        userExistMsg = "User already exists";
         res.redirect("/signup");
       } else {
         req.session.userLoggedIn = true;
@@ -307,11 +307,11 @@ module.exports = {
     cartcount = await productHelper.getCartCount(user._id);
     let total = await productHelper.getTotalAmount(user._id);
     let addresdetails = await userHelper.getAddressInfo(user._id);
+
+    console.log(addresdetails,'fffffffffffffffff');
     let cartItems = await productHelper.getCartProducts(user._id);
     // let wallet = await userHelper.getWalletInfo(user._id);
     let wallet = await userHelper.getWalletInfo(user._id);
-
-    console.log(cartItems, "///////////////////////");
 
     res.render("user/checkout", {
       user,

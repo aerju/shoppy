@@ -20,8 +20,10 @@ module.exports = {
     let response = {};
     return new Promise(async (res, rej) => {
       userData.phone = "+91" + userData.phone;
+      userData.address=[]
+      userData.walletAmount=0
 
-      let userExist = db
+      let userExist = await db
         .get()
         .collection(collection.USER_INFORMATION)
         .aggregate([
@@ -59,22 +61,29 @@ module.exports = {
         .get()
         .collection(collection.USER_INFORMATION)
         .findOne({ email: userData.email });
-      if (user.userstatus) {
-        bcrypt.compare(userData.password, user.password).then((status) => {
-          if (status) {
-            console.log("success");
-            response.user = user;
-            response.status = true;
-            res(response);
-          } else {
-            console.log("erorr login");
-            res({ status: false });
-          }
-        });
-      } else {
+      if(user){
+        if (user.userstatus) {
+          bcrypt.compare(userData.password, user.password).then((status) => {
+            if (status) {
+              console.log("success");
+              response.user = user;
+              response.status = true;
+              res(response);
+            } else {
+              console.log("erorr login");
+              res({ status: false ,loggedError:'Invalid password'});
+            }
+          });
+        } else {
+          console.log("blocked user");
+          res({ status: false ,loggedError:"This user is blocked"});
+        }
+        
+      }else{
         console.log("no user available");
-        res({ status: false });
+          res({ status: false ,loggedError:'Invalid  user name'});
       }
+      
     });
   },
   updateProfileInfo: (userDetails, userId) => {

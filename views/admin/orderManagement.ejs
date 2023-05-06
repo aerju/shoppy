@@ -10,141 +10,159 @@
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
     integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 
 
 <%- include('../partials/adminSideBar') %>
 
 
 
-<main class="main-wrap">
-    <section class="content-main">
-        <div class="mt-5" style="margin-top: 60px;">
-            <div class="container">
-
-                <a href="/admin/add-coupones" class="btn btn-primary mt-4 mb-2 float-end">Add coupons</a>
-
-            </div>
-
-
+    <main class="main-wrap">
+        <section class="content-main">
             <div class="mt-5" style="margin-top: 60px;">
+                <div class="container">
 
-                <table class="table mt-4 display" id="productsTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">Order ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Payment Method</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col"> Status </th>
-                                    <th scope="col">option</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <a href="/admin/add-coupones" class="btn btn-primary mt-4 mb-2 float-end">Add coupons</a>
 
-                        <% for(var i=0; i< orders.length; i++) { %>
-                            <a href="/admin">
-                                <tr>
-                                    <td>
-                                        <%=orders[i]._id%>
-                                    </td>
-                                    <td><b>
-                                            <%=orders[i].deliveryDetails.address%>
-                                        </b></td>
+                </div>
 
-                                    <td>
-                                        <%=orders[i].total%>
-                                    </td>
-                                    <td><b>
-                                            <%=orders[i].paymentMethod%>
-                                        </b></td>
-                                    <!-- <td></td> -->
-                                    <td>
-                                        <%=orders[i].date%>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
 
-                                            <a class="badge rounded-pill alert-warning"
-                                                data-bs-toggle="dropdown">
-                                                <%=orders[i].orderStatus%>
-                                            </a>
+                <div class="mt-5" style="margin-top: 60px;">
 
-                                            
+                    <table class="table mt-4 display" id="productsTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sl No</th>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Payment Method</th>
+                                <th scope="col">Date</th>
+                                <th scope="col"> Status </th>
+                                <th scope="col">option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%let count=1%>
+                                <% for(var i=0; i< orders.length; i++) { %>
 
-                                                <% if (orders[i].orderStatus=='pending') { %>
+                                    <tr>
+                                        <td>
+                                            <%=count%>
+                                        </td>
+                                        <td>
+                                            <%=orders[i]._id%>
+                                        </td>
+                                        <td><b>
+                                                <%=orders[i].deliveryDetails.address%>
+                                            </b></td>
+
+                                        <td>
+                                            <%=orders[i].total%>
+                                        </td>
+                                        <td><b>
+                                                <%=orders[i].paymentMethod%>
+                                            </b></td>
+                                        <!-- <td></td> -->
+                                        <td>
+                                            <%=orders[i].date%>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+
+                                                <a class="badge rounded-pill alert-warning" data-bs-toggle="dropdown">
+                                                    <%=orders[i].orderStatus%>
+                                                </a>
+
+
+
+                                                <% if (orders[i].orderStatus=='pending' ) { %>
                                                     <div class="dropdown-menu">
-                                                    <a   class="dropdown-item "  href="" onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="placed">placed</a>
-                                                </div>    
-                                                      <% }  %>
-    
-                                                    <% if (orders[i].orderStatus=='placed') { %>
-                                                        <div class="dropdown-menu">
-                                                    <a   class="dropdown-item "  href="" onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="shipped">shipped</a>
+                                                        <a class="dropdown-item " href=""
+                                                            onclick="changeStatus('<%=orders[i]._id%>',this)"
+                                                            data-value="placed">placed</a>
+                                                    </div>
+                                                    <% } %>
 
-                                                </div>
-                                                        <% }  %>
-    
-                                                        <% if (orders[i].orderStatus=='shipped') { %>
+                                                        <% if (orders[i].orderStatus=='placed' ) { %>
                                                             <div class="dropdown-menu">
-                                                    <a class="dropdown-item " href=""  onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="Delivered">Delivered</a>
-                                                </div>
-                                                               <% }  %>
+                                                                <a class="dropdown-item " href=""
+                                                                    onclick="changeStatus('<%=orders[i]._id%>',this)"
+                                                                    data-value="shipped">shipped</a>
 
-                                                    <% if (orders[i].orderStatus=='cancelrequest') { %>
-                                                        <div class="dropdown-menu">
-                                                    <a class="dropdown-item text-danger " href=""  onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="Cancel">Cancel</a>
-                                                </div>    
-                                                        <% }  %>
+                                                            </div>
+                                                            <% } %>
 
-                                                        <% if (orders[i].orderStatus=='returnrequest') { %>
-                                                            <div class="dropdown-menu">
-                                                            <a class="dropdown-item " href=""  onclick="changeStatus('<%=orders[i]._id%>',this)" data-value="return">return</a>
-                                                        </div>           
-                                                                       <% }  %>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a href="/admin/single-order/<%=orders[i]._id%>"
-                                            class="btn btn-md rounded font-sm">view</a>
+                                                                <% if (orders[i].orderStatus=='shipped' ) { %>
+                                                                    <div class="dropdown-menu">
+                                                                        <a class="dropdown-item " href=""
+                                                                            onclick="changeStatus('<%=orders[i]._id%>',this)"
+                                                                            data-value="Delivered">Delivered</a>
+                                                                    </div>
+                                                                    <% } %>
 
-                                    </td>
-                                </tr>
-                            </a>
+                                                                        <% if (orders[i].orderStatus=='cancelrequest' )
+                                                                            { %>
+                                                                            <div class="dropdown-menu">
+                                                                                <a class="dropdown-item text-danger "
+                                                                                    href=""
+                                                                                    onclick="changeStatus('<%=orders[i]._id%>',this)"
+                                                                                    data-value="Cancel">Cancel</a>
+                                                                            </div>
+                                                                            <% } %>
 
-                            <% } %>
+                                                                                <% if
+                                                                                    (orders[i].orderStatus=='returnrequest'
+                                                                                    ) { %>
+                                                                                    <div class="dropdown-menu">
+                                                                                        <a class="dropdown-item "
+                                                                                            href=""
+                                                                                            onclick="changeStatus('<%=orders[i]._id%>',this)"
+                                                                                            data-value="return">return</a>
+                                                                                    </div>
+                                                                                    <% } %>
+                                                                             </div>
+                </div>
+                </td>
+                <td>
+                    <a href="/admin/single-order/<%=orders[i]._id%>" class="btn btn-md rounded font-sm">view</a>
+
+                </td>
+                </tr>
+<%count++%>
+
+                <% } %>
                     </tbody>
-                </table>
+                    </table>
+                    
             </div>
 
 
-    </section> 
-    <span id="popup"
-    style="display:none; position:fixed; top:90%;border-radius: 10px; left:50%;box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); transform:translate(-50%, -50%); padding:10px; border:1px solid #ccc; background-color:#1ddf1d74; z-index:9999;">
-    Order Status changed
+        </section>
+        <span id="popup"
+            style="display:none; position:fixed; top:90%;border-radius: 10px; left:50%;box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); transform:translate(-50%, -50%); padding:10px; border:1px solid #ccc; background-color:#1ddf1d74; z-index:9999;">
+            Order Status changed
 
-</span>
+        </span>
 
-</main>
-
-
+    </main>
 
 
 
-        <script>
-        function changeStatus(orderId,details) {
+
+
+    <script>
+        function changeStatus(orderId, details) {
 
             var status = details.getAttribute('data-value');
-            
+
             console.log(status);
             $.ajax({
                 url: "/admin/change-order-status",
                 method: "POST",
                 data: { status, orderId },
                 success: (response) => {
-                    
+
 
                     // const popup = document.getElementById('popup');
                     // popup.style.display = 'block';
@@ -172,13 +190,13 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-        <script>
+    <script>
 
-            $(function () {
-                $('#productsTable').DataTable();
-            });
-    
-        </script>
+        $(function () {
+            $('#productsTable').DataTable();
+        });
+
+    </script>
     </body>
 
 

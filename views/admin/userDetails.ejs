@@ -2,6 +2,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../adminHomeAsset/imgs/theme/favicon.svg">
 
 <link href="../adminHomeAsset/css/main.css" rel="stylesheet" type="text/css" />
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 
 
@@ -10,37 +11,27 @@
     <main class="main-wrap">
         <section class="content-main">
             <div class="mt-5" style="margin-top: 60px;">
-                <!-- <div class="container">
-
-                    <a href="/admin/add-product" class="btn btn-primary mt-4 mb-2 float-end">Add Product</a>
-
-                </div> -->
-
 
                 <div class="mt-5" style="margin-top: 60px;">
 
                     <table class="table mt-4 display" id="usersTable">
                         <thead>
                             <tr>
-                                <!-- <th scope="col">Product Image</th> -->
-                                <th scope="col">User Name</th>
-                               
+                                <th scope="col">Sl No</th>
 
+
+                                <th scope="col">User Name</th>
                                 <th scope="col">User Email</th>
                                 <th scope="col">User Phone</th>
-
-                                <!-- <th scope="col">User price</th> -->
-
                                 <th>option</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <%let count=1%>
                             <% for (var i=0; i < users.length; i++) { %>
                                 <tr>
-                                    <!-- <td>
-                                        <img src="<%= users[i].image%>" alt="My Image" style="width: 50px;height: 50px;">
-                                        
-                                    </td> -->
+                                    
+                                    <td><%=count%></td>
                                     <td>
                                         <%= users[i].name%>
                                     </td>
@@ -53,16 +44,7 @@
                                         <%= users[i].phone %>
                                     </td>
 
-                                    <!-- <td>
-                                        <%= users[i].pro_price %>
-                                    </td> -->
-
-                                    
-                                        <!-- <a href="/admin/edit-product/<%=users[i]._id%>" class="btn btn-primary">edit</a> -->
-                                       
-
-                                        <!-- <a href="/admin/delete-product/<%=users[i]._id%>" class="btn btn-danger"
-                                            onclick="return confirm('are you sure')">delete</a> -->
+                                
                                             <td>
                                                 <% if (users[i].userstatus) { %>
                                                 <a href="/admin/block/<%=users[i]._id%>" class="btn btn-danger">   Block</a>
@@ -76,6 +58,7 @@
                                     
 
                                 </tr>
+                                <%count++%>
                                 <% } %>
 
 

@@ -1,0 +1,181 @@
+<%- include('../partials/UserHeader') %>
+
+<section id="contact-us" class="contact-us section">
+    <div class="container">
+        <div class="contact-head">
+            <div class="row  d-flex justify-content-center">
+                <div class="col-lg-6 col-12 ">
+                    <div class="form-main">
+
+                        <div class="title">
+                            <h4>SIGNUP</h4>                          
+                        </div>
+
+                        <% if (userExistMsg) { %>
+                                    
+                            
+                            <div class="alert alert-danger text-center" role="alert">
+                                <%=userExistMsg%>
+                              </div>
+                              <% }  %>
+
+                      
+                        <form class="form" method="post" action="/signup" id="register-form">
+                            <div class="row">
+                                <div class="col-lg-12 col-12">
+                                    <div class="form-group">
+                                        <label>Name<span>*</span></label>
+                                        <input  type="text" name="name" id="name" placeholder="Your Name" onkeyup="validateName()" />
+                                    </div>
+                                    <span id="name-error" class="validation" style="color: red;"></span>
+                                </div>
+                                <div class="col-lg-12 col-12">
+                                    <div class="form-group">
+                                        <label>Email<span>*</span></label>
+                                        <input type="email" name="email" id="email" placeholder="Your Email" onkeyup="validateEmail()" />
+                                    </div>
+                                    <span id="email-error" class="validation" style="color: red;"></span>                                   
+                                </div>
+
+                                <div class="col-lg-12 col-12">
+                                    <div class="form-group">
+                                        <label>Password<span>*</span></label>
+                                         <input type="password" name="password" id="password" placeholder="Password" onkeyup="validatePassword()" />
+                                    </div>
+                                    <span id="password-error" class="validation" style="color: red;"></span>
+                                </div>
+
+                                <div class="col-lg-12 col-12">
+                                    <div class="form-group">
+                                        <label>Confirm Password<span>*</span></label>
+                                         <input type="password"  id="confirmpassword" placeholder="Password" onkeyup="validateConfirmPassword()" />
+                                    </div>
+                                    <span id="confirm-password-error" class="validation" style="color: red;"></span>
+                                </div>
+
+                                <div class="col-lg-12 col-12">
+                                    <div class="form-group">
+                                        <label>Phone Number<span>*</span></label>
+                                        <input type="number" name="phone" id="phone" placeholder="Phone number"  />
+                                    </div>
+                                    <span id="phone-error" class="validation" style="color: red;"></span>
+                                </div>
+                          
+                                
+                                <div class="col-lg-12 col-12">
+                                    
+                                    <div class="form-group">
+                                        <input type="submit" value="signup" id="signup" class="btn" onclick=" return validateForm()">
+                                    </div>
+                                    <span id="submit-error" class="validation" style="color: red;"></span>
+                                </div>
+
+                                <div class="col-lg-12 col-12">
+                                    
+                                    <div class="form-group">
+                                        <a href="/login">*already have an account?</a>
+                                    </div>
+                                   
+                                </div>
+                               
+                               
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+
+    var nameError = document.getElementById('name-error');
+    var emailError = document.getElementById('email-error');
+    var passwordError = document.getElementById('password-error');
+    var confirmPasswordError = document.getElementById('confirm-password-error');
+
+    // var passwordError = document.getElementById('phone-error');
+    var submitError = document.getElementById('submit-error');
+
+    function validateName() {
+        var name = document.getElementById('name').value;
+        if (name.length == 0) {
+            nameError.innerHTML = 'Name is required';
+            return false;
+        }
+        if (!name.match(/^[A-Za-z]/)) {
+            nameError.innerHTML = 'Invalid name';
+            return false;
+        }
+        nameError.innerHTML = '';
+        return true;
+    }
+
+    function validateEmail() {
+        var email = document.getElementById('email').value;
+        if (email.length == 0) {
+            emailError.innerHTML = 'Email is required';
+            return false;
+        }
+        if (!email.match(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/)) {
+            emailError.innerHTML = 'Email invalid';
+            return false;
+        }
+        emailError.innerHTML = '';
+        return true;
+    }
+
+    function validatePassword() {
+        var password = document.getElementById('password').value;
+        var passChecker = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+        if (password.match(passChecker)) {
+            passwordError.innerHTML = '';
+            return true;
+        } else {
+            passwordError.innerHTML = 'Enter a strong password';
+            return false;
+        }
+    }
+
+    function validateConfirmPassword(){
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmpassword').value;
+        if(password===confirmPassword){
+            confirmPasswordError.innerHTML=''
+            return true
+        }else{
+            confirmPasswordError.innerHTML="Password is not matching"
+            return false
+        }
+
+
+        
+    }
+
+    // function validatePhoneNumber() {
+    //     var phone = document.getElementById('phone').value;
+    //     var submitError = document.getElementById('submit-error');
+
+    //     var re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+    //     return re.test(phone);
+    // }
+
+    function validateForm() {
+        if (!validateName() || !validateEmail() || !validatePassword()) {
+            submitError.style.display = 'flex';
+            submitError.style.justifyContent = 'center';
+            submitError.innerHTML = 'All fields are required';
+            setTimeout(() => {
+                submitError.style.display = 'none';
+            }, 3000);
+            return false;
+        }
+    }
+
+
+</script>
+
+<%- include('../partials/UserFooter') %>

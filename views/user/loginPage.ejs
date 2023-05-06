@@ -10,7 +10,12 @@
                         <div class="title">
                             <h4>LOGIN</h4>                          
                         </div>
-
+                        <% if (loginMsg) { %>
+                                                                
+                            <div class="alert alert-danger text-center" role="alert">
+                                <%=loginMsg%>
+                              </div>
+                              <% }  %>
                       
                         <form class="form" method="post" action="/login">
                             <div class="row">
@@ -27,7 +32,7 @@
                                         <label>Password<span>*</span></label>
                                         <input type="password" name="password" id="your_pass" placeholder="Password" value="Ab@123" required/>
                                         <p></p>
-                                        <a href="/forgot-password" class="text-danger">forgot password?</a>
+                                        <a href="/forgot-password" class="text-primary">forgot password?</a>
                                     </div>
                                     
 
@@ -43,7 +48,7 @@
                                 <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
-                                        <input  type="button" value="Login with opt" class="btn" onclick="window.location='/login-otp'">
+                                        <input  type="button" value="Login with oTP" class="btn" onclick="window.location='/login-otp'">
                                         <!-- <a href="" class="btn">Login with opt</a> -->
                                     </div>
                                 </div>

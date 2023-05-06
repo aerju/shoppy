@@ -22,24 +22,26 @@
                     <table class="table mt-4 display  nowrap " id="productsTable">
                         <thead>
                             <tr>
+                                <th scope="col">Sl No:</th>
                                 <th scope="col">Product Image</th>
                                 <th scope="col">Product Name</th>
-
-
                                 <th scope="col">Product Description</th>
                                 <th scope="col">Product Category</th>
-
                                 <th scope="col">Product price</th>
                                 <th scope="col">Product Count</th>
-
-
                                 <th>option</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <% let count =1%>
+                            
                             <% for (var i=0; i < products.length; i++) { %>
                                 <% if (products[i].stockStatus) { %>
+                                    
                                     <tr>
+                                        <td>
+                                            <%=count%>
+                                        </td>
                                         <td>
                                             <img src="<%= products[i].image[0]%>" alt="My Image"
                                                 style="width: 50px;height: 50px;">
@@ -82,6 +84,7 @@
                                         </td>
     
                                     </tr>
+                                    <% count++  %>
                                     
                                   <% } %>
 
