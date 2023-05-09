@@ -25,7 +25,7 @@ module.exports = {
 
     const dashActive = 'active'  
     adminHelper.viewAllCategories().then((category) => {
-      res.render("admin/AdminHomePage", { category ,dashActive});
+      res.render("admin/categoryManage", { category ,dashActive});
     });
   },
 
