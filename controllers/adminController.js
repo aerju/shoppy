@@ -20,15 +20,16 @@ module.exports = {
       req.session.loggedError = false;
     }
   },
+
   adminHome: async (req, res) => {
-  console.log(req.body,'///////////////////////');
-  
-    const dashActive = 'active'
-    // res.render("admin/AdminHomePage");
+
+    const dashActive = 'active'  
     adminHelper.viewAllCategories().then((category) => {
       res.render("admin/AdminHomePage", { category ,dashActive});
     });
   },
+
+
   adminLoginPost: (req, res) => {
     adminHelper.adminDoLogin(req.body).then((response) => {
       if (response.status) {
@@ -42,6 +43,7 @@ module.exports = {
       }
     });
   },
+
   adminViewAllCategories: (req, res) => {
     const categoryActive = 'active'
     adminHelper.viewAllCategories().then((category) => {
