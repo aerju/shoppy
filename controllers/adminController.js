@@ -166,13 +166,15 @@ module.exports = {
       res.redirect("/admin/add-product");
     }
   },
+
   adminEditProduct: async (req, res) => {
     const productActive = 'active'
     let product = await adminHelper.getOneProduct(req.params.id);
     adminHelper.viewAllCategories().then((category) => {
-      res.render("admin/editOneProduct", { product, category ,productActive});
+      res.render("admin/editProduct", { product, category ,productActive});
     });
   },
+
   adminEditProductPost: async (req, res) => {
     try {
       const imgUrl = [];

@@ -551,121 +551,7 @@ module.exports = {
     });
   },
 
-  // search: async (req, res) => {
-
-  //     let user = req.session.user
-
-  //   const searchValue = req.query.search;
-  //     const filter = req.query.filter;
-  //     const sort = req.query.sort;
-
-  //     const page = parseInt(req.query.page || 1, 10);
-  //     const pageSize = parseInt(req.query.pageSize || 10, 10);
-
-  //     if (req.session.user) {
-  //         cartcount = await productHelper.getCartCount(user._id)
-  //         req.session.user.cartCount = cartcount
-
-  //     }
-  //     let banner = await adminHelper.getBannerInfo()
-
-  //     adminHelper.getProductInfo().then((products) => {
-  //         adminHelper.viewAllCategories().then((category) => {
-
-  //             if (req.session.userLoggedIn) {
-
-  //                 if (filter) {
-  //                     productHelper.filterdSearch({ search: searchValue }, filter, page, pageSize).then((products) => {
-  //                         const totalPages = Object.keys(products).length;
-
-  //                         res.render('user/searchedProducts', { userHead: true, user, products, category, cartcount, banner, searchValue, page, pageSize, totalPages });
-
-  //                     }).catch((err) => {
-  //                         res.json({
-  //                             status: 'error',
-  //                         });
-  //                     });
-
-  //                 } else {
-
-  //                     if (sort) {
-  //                         productHelper.sortedProduct(sort, page, pageSize).then((products) => {
-  //                             const totalPages = Object.keys(products).length;
-
-  //                             res.render('user/searchedProducts', { userHead: true, user, products, category, cartcount, banner, searchValue, page, pageSize, totalPages });
-
-  //                         }).catch((err) => {
-  //                             res.json({
-  //                                 status: 'error',
-  //                             });
-  //                         });
-
-  //                     } else {
-  //                         productHelper.search({ search: searchValue }, page, pageSize).then((products) => {
-  //                             const totalPages = Object.keys(products).length;
-
-  //                             res.render('user/searchedProducts', { userHead: true, user, products, category, cartcount, banner, searchValue, page, pageSize, totalPages });
-
-  //                         }).catch((err) => {
-  //                             res.json({
-  //                                 status: 'error',
-  //                             });
-  //                         });
-
-  //                     }
-
-  //                 }
-
-  //             }
-
-  //             else {
-  //                 if (filter) {
-  //                     console.log(searchValue, 'filter function callled..............');
-  //                     productHelper.filterdSearch({ search: searchValue }, filter, page, pageSize).then((products) => {
-  //                         const totalPages = Object.keys(products).length;
-
-  //                         res.render('user/searchedProducts', { userHead: false, user, products, category, cartcount, banner, searchValue, page, pageSize, totalPages });
-
-  //                     }).catch((err) => {
-  //                         res.json({
-  //                             status: 'error',
-  //                         });
-  //                     });
-
-  //                 } else {
-  //                     console.log('Not filter function callled..............');
-  //                     if (sort) {
-  //                         productHelper.sortedProduct(sort, page, pageSize).then((products) => {
-  //                             const totalPages = Object.keys(products).length;
-
-  //                             res.render('user/searchedProducts', { userHead: false, user, products, category, cartcount, banner, searchValue, page, pageSize, totalPages });
-
-  //                         }).catch((err) => {
-  //                             res.json({
-  //                                 status: 'error',
-  //                             });
-  //                         });
-
-  //                     } else {
-  //                         productHelper.search({ search: searchValue }, page, pageSize).then((products) => {
-  //                             const totalPages = Object.keys(products).length;
-
-  //                             res.render('user/searchedProducts', { userHead: false, user, products, category, cartcount, banner, searchValue, page, pageSize, totalPages });
-
-  //                         }).catch((err) => {
-  //                             res.json({
-  //                                 status: 'error',
-  //                             });
-  //                         });
-
-  //                     }
-
-  //                 }
-  //             }
-  //         })
-
-  //     })
-  // },
+ 
 
   search: async (req, res) => {
     const searchValue = req.query.search;
@@ -717,7 +603,7 @@ module.exports = {
     if (req.session.user) {
       cartcount = await productHelper.getCartCount(user._id);
 
-      res.render("user/searchedProducts", {
+      res.render("user/searchProducts", {
         userHead: true,
         user,
         products,
@@ -733,7 +619,7 @@ module.exports = {
         maxPrice,
       });
     } else {
-      res.render("user/searchedProducts", {
+      res.render("user/searchProducts", {
         userHead: false,
         user,
         products,
