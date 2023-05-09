@@ -4,71 +4,82 @@ const userHelper = require("../helpers/user-helpers");
 const adminHelper = require("../helpers/admin-helpers");
 const productHelper = require("../helpers/product-helpers");
 
-const { response } = require("../app");
+const { response, request } = require("../app");
 
 const admin = require("firebase-admin");
 
 const serviceAccount = require("../firebase-admin.json");
 const speakeasy = require("speakeasy");
 
-
 let cartcount = 0;
 
 let message;
 
-let userExistMsg,loginMsg;
+let userExistMsg, loginMsg;
 
 module.exports = {
   userHome: async (req, res, next) => {
     let user = req.session.user;
 
     let wishlistItems;
+    let products = await adminHelper.getProductInfo();
 
     if (req.session.user) {
       cartcount = await productHelper.getCartCount(user._id);
       req.session.user.cartCount = cartcount;
-      wishlistItems = await productHelper.getWishlistProducts(user._id);
 
-      //  wallet = await userHelper.getWalletInfo(user._id);
+      wishlistItems = await productHelper.getWishlistProducts(user._id);
+      wishlistItems.forEach((wish)=>{
+        products.forEach((pro)=>{       
+          if(wish.item.toString()==pro._id.toString()){
+            pro.isWish=true
+          }
+        })
+      })       
     }
+
+
     let banner = await adminHelper.getBannerInfo();
 
-    adminHelper.getProductInfo().then((products) => {
-      adminHelper.viewAllCategories().then((category) => {
-        // console.log(wishlistItems,'wishlist',products,'products');
+   
+    adminHelper.viewAllCategories().then((category) => {
+      // console.log(wishlistItems,'wishlist',products,'products');
 
-        if (req.session.userLoggedIn) {
-          res.render("user/userLandingPage", {
-            userHead: true,
-            user,
-            products,
-            category,
-            cartcount,
-            banner,
-          });
-        } else {
-          res.render("user/userLandingPage", {
-            userHead: false,
-            user,
-            products,
-            category,
-            cartcount,
-            banner,
-          });
-        }
-      });
+      if (req.session.userLoggedIn) {
+        res.render("user/userLandingPage", {
+          userHead: true,
+          user,
+          products,
+          category,
+          cartcount,
+          banner,
+          wishlistItems,
+        });
+      } else {
+        res.render("user/userLandingPage", {
+          userHead: false,
+          user,
+          products,
+          category,
+          cartcount,
+          banner,
+          wishlistItems,
+        });
+      }
     });
   },
+
   userLogin: async (req, res, next) => {
     let user = null;
-    let category= await adminHelper.viewAllCategories()
+    let category = await adminHelper.viewAllCategories();
     res.render("user/loginPage", {
       user,
       userHead: false,
-      loginMsg,category
+      loginMsg,
+      category,
     });
 
-    loginMsg=''
+    loginMsg = "";
   },
   userLoginPost: (req, res) => {
     // console.log(req.body);
@@ -80,7 +91,7 @@ module.exports = {
 
         res.redirect("/");
       } else {
-        loginMsg = response.loggedError
+        loginMsg = response.loggedError;
         res.redirect("/login");
       }
     });
@@ -95,8 +106,13 @@ module.exports = {
 
   userLOginWithOtp: async (req, res) => {
     let user = null;
-    let category= await adminHelper.viewAllCategories()
-    res.render("user/loginPageWithOtp", { message, user, userHead:false ,category});
+    let category = await adminHelper.viewAllCategories();
+    res.render("user/loginPageWithOtp", {
+      message,
+      user,
+      userHead: false,
+      category,
+    });
     message = "";
   },
   userLOginWithOtpPost: (req, res) => {
@@ -129,15 +145,20 @@ module.exports = {
   },
 
   forgortPassword: async (req, res) => {
-    let user=null
-    let category= await adminHelper.viewAllCategories()
-    res.render("user/forgotPasswordPage", { message,user,userHead:false ,category});
+    let user = null;
+    let category = await adminHelper.viewAllCategories();
+    res.render("user/forgotPasswordPage", {
+      message,
+      user,
+      userHead: false,
+      category,
+    });
     message = "";
   },
 
   forgortPasswordPOst: (req, res) => {
     let number = req.body.number;
-console.log(number,'llll');
+    console.log(number, "llll");
     let status = req.body.otpVerify;
 
     userHelper.doOtplogin(number).then((response) => {
@@ -169,9 +190,14 @@ console.log(number,'llll');
   },
 
   userSignUp: async (req, res, next) => {
-   let user=null
-   let category= await adminHelper.viewAllCategories()
-    res.render("user/signupPage", { userExistMsg ,user,userHead:false,category});
+    let user = null;
+    let category = await adminHelper.viewAllCategories();
+    res.render("user/signupPage", {
+      userExistMsg,
+      user,
+      userHead: false,
+      category,
+    });
     userExistMsg = "";
   },
   userSignUpPost: (req, res) => {
@@ -308,7 +334,7 @@ console.log(number,'llll');
     let total = await productHelper.getTotalAmount(user._id);
     let addresdetails = await userHelper.getAddressInfo(user._id);
 
-    console.log(addresdetails,'fffffffffffffffff');
+    console.log(addresdetails, "fffffffffffffffff");
     let cartItems = await productHelper.getCartProducts(user._id);
     // let wallet = await userHelper.getWalletInfo(user._id);
     let wallet = await userHelper.getWalletInfo(user._id);
@@ -322,11 +348,11 @@ console.log(number,'llll');
     });
   },
   userCheckOutPost: async (req, res) => {
+    console.log(req.body);
     let user = req.session.user;
 
     let products = await productHelper.getCartProductList(user._id);
 
-    // let totalPrice = await productHelper.getTotalAmount(user._id)
     let address = await userHelper.getOrderAddress(req.body, user._id);
     let totalPrice = parseInt(req.body.totalAmount);
 
@@ -348,8 +374,18 @@ console.log(number,'llll');
         }
       });
   },
-  orderSuccess: (req, res) => {
-    res.render("user/order-success");
+  orderSuccess: async (req, res) => {
+    let user = req.session.user;
+
+    let category = await adminHelper.viewAllCategories();
+    cartcount = await productHelper.getCartCount(user._id);
+
+    res.render("user/orderConfirmedPage", {
+      user,
+      category,
+      userHead: true,
+      cartcount,
+    });
   },
   viewOrders: async (req, res) => {
     let user = req.session.user;
@@ -446,9 +482,11 @@ console.log(number,'llll');
       });
   },
   removeWishlistProducts: (req, res) => {
-    console.log(req.body, "kkkkl");
+    let user = req.session.user;
+    // console.log(user._id);
+    // console.log(req.body);
 
-    productHelper.removeWishlistProduct(req.body).then((response) => {
+    productHelper.removeWishlistProduct(req.body,user._id).then((response) => {
       res.json(response);
     });
   },
@@ -483,7 +521,8 @@ console.log(number,'llll');
     if (coupone.couponeStatus) {
       res.json({ status: true, coupone });
     } else {
-      res.json({ status: false });
+      console.log(coupone);
+      res.json({ status: false, coupone });
     }
   },
   deleteAddress: (req, res) => {

@@ -435,14 +435,15 @@ module.exports = {
     });
   },
 
-  removeWishlistProduct: (wishlistDetails) => {
-    wishId = wishlistDetails.wishlist;
+  removeWishlistProduct: (wishlistDetails,userId) => {
+    
     proId = wishlistDetails.product;
+    console.log(userId);
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.WISHLIST_MANAGEMENT)
         .updateOne(
-          { _id: objectId(wishId) },
+          { user: objectId(userId) },
           {
             $pull: {
               products: {
@@ -452,6 +453,7 @@ module.exports = {
           }
         )
         .then((response) => {
+          console.log(response);
           resolve(response);
         });
     });

@@ -7,9 +7,9 @@
                     <div class="col-lg-6 col-12">
                         <div class="form-main">
                             <div class="title">
-                                <h4>LOGIN WITH OPT</h4>
+                                <h4>LOGIN WITH OTP</h4>
                             </div>
-                            
+
                             <div class="alert alert-danger text-center" role="alert" style="display: none;"
                                 id="invalid-phone">
                             </div>
@@ -42,14 +42,37 @@
                                         <label>Enter your Opt<span>*</span></label>
                                         <input type="text" id="verificationcode" placeholder="OTP Code" required />
                                     </div>
+                                    <!-- <div id="timer" >0:15</div> -->
                                 </div>
+
+                                <!-- <div class="col-lg-6 col-6">
+                                    <div class="form-group">
+                                        <div id="timer">0:15</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-6" id="resend" style="display: none;">
+                                    <div class="form-group">
+                                        <div id="recaptcha-container"></div>
+
+                                        <input type="button" value="Resend opt" class="btn"  class="btn"
+                                            onclick="phoneAuth()"  />
+                                    </div>
+                                </div> -->
 
                                 <div class="col-lg-12 col-12">
                                     <div class="form-group">
-                                        <input type="button" value="submit" class="btn" id="verify" class="btn"
-                                            onclick="codeverify()" />
+                                        <input type="button" value="submit" class="btn" id="verify"
+                                            onclick="codeverify()" style="display: block;" />
                                     </div>
                                 </div>
+
+                                <!-- <div class="col-lg-12 col-12">
+                                    <div class="form-group">
+                                        <input type="button" value="Resend Opt" class="btn" id="" class="btn"
+                                            onclick="codeverify()"  style="display: none;"/>
+                                    </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -87,7 +110,9 @@
         }
 
         async function phoneAuth() {
+
             var number = document.getElementById("number").value;
+            
 
             $.ajax({
                 url: "/login-otp",
@@ -105,22 +130,14 @@
                                 coderesult = confirmationResult;
                                 document.getElementById("sender").style.display = "none";
                                 document.getElementById("verifier").style.display = "block";
+                                // startTimer()
                             })
                             .catch(function (error) {
                                 alert(error.message);
                             });
                     } else {
-                        //   Swal.fire({
-                        //     title: "number is not exist",
-                        //     showClass: {
-                        //       popup: "animate_animated animate_fadeInDown",
-                        //     },
-                        //     hideClass: {
-                        //       popup: "animate_animated animate_fadeOutUp",
-                        //     },
-                        //   });
-
-                        let msgDiv = document.getElementById('invalid-phone')
+                      
+                       let msgDiv = document.getElementById('invalid-phone')
                         msgDiv.innerHTML = "number is not exist"
                         msgDiv.style.display = 'block'
                     }
@@ -128,6 +145,7 @@
             });
         }
 
+        
         function codeverify() {
             var number = document.getElementById("number").value;
 
@@ -154,6 +172,25 @@
                     msgDiv.style.display = 'block'
                 });
         }
+
+        // function startTimer() {
+        //     let timeLeft = 15;
+        //     const timer = document.getElementById("timer");
+        //     const interval = setInterval(() => {
+        //         timeLeft--;
+        //         const minutes = Math.floor(timeLeft / 15);
+        //         const seconds = timeLeft % 15;
+        //         timer.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        //         if (timeLeft === 0) {
+        //             clearInterval(interval);
+        //             timer.innerText = '';
+                    
+        //             document.getElementById("resend").style.display = "block";
+                    
+        //         }
+        //     }, 1000);
+           
+        // }
     </script>
 
     <%- include('../partials/UserFooter') %>

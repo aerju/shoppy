@@ -265,21 +265,24 @@ module.exports = {
           .collection(collection.COUPONE_MANAGEMENT)
           .find({ _id: objectId(couponeId) })
           .toArray();
-        let date = new Date("2023-04-04");
-        console.log(couponeDetails[0].coupone_date, date);
+        let CurrentDate = new Date();
+        let couponeDate = new Date(couponeDetails[0].coupone_date)
+
+
+        console.log(CurrentDate,couponeDate);
 
         if (couponeUsed) {
           console.log("Already used..................");
-          let cp = {
-            couponeStatus: false,
-          };
-          resolve(cp);
-        } else if (couponeDetails[0].coupone_date < date) {
+          // let cp = {
+          //   couponeStatus: false,
+          // };
+          resolve({couponeStatus:false,couponMsg:'Coupon already used'});
+        } else if (CurrentDate>couponeDate) {
           console.log("expired.................");
-          let cp = {
-            couponeStatus: false,
-          };
-          resolve(cp);
+          // let cp = {
+          //   couponeStatus: false,
+          // };
+          resolve({couponeStatus:false,couponMsg:'Coupon expired'});
         } else {
           db.get()
             .collection(collection.COUPONE_MANAGEMENT)
@@ -292,19 +295,19 @@ module.exports = {
               }
             );
           let total = coupone.total - checKCoupone.coupone_maxPrice;
-          let cp = {
-            total,
-            couponeStatus: true,
-          };
-          resolve(cp);
+          // let cp = {
+          //   total,
+          //   couponeStatus: true,
+          // };
+          resolve({couponeStatus:true,couponMsg:'Coupon Applied ',total});
         }
       } else {
         console.log("Invalid coupone..................");
-        let cp = {
-          couponeStatus: false,
-        };
+        // let cp = {
+        //   couponeStatus: false,
+        // };
 
-        resolve(cp);
+        resolve({couponeStatus:false,couponMsg:"Invalid Coupon"});
       }
     });
   },

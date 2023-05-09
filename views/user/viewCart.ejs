@@ -266,8 +266,12 @@
       quantity = parseInt(document.getElementById(proId).value);
       console.log(quantity);
       count = parseInt(count);
-      if (quantity >= stock) {
-        alert("stock out");
+      if (quantity >= stock && count=='+1') {
+        Swal.fire({
+        icon: "error",
+        title: "Out of stock",
+        text: "Product stock limit is over!",
+      });
       } else {
         $.ajax({
           url: "/chnage-product-quantity",
@@ -310,7 +314,6 @@
     }
 
     function removeProduct(cartId, proId) {
-
 
       Swal.fire({
         title: "Are you sure?",

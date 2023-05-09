@@ -23,10 +23,10 @@ module.exports = {
   adminHome: async (req, res) => {
   console.log(req.body,'///////////////////////');
   
-
+    const dashActive = 'active'
     // res.render("admin/AdminHomePage");
     adminHelper.viewAllCategories().then((category) => {
-      res.render("admin/AdminHomePage", { category });
+      res.render("admin/AdminHomePage", { category ,dashActive});
     });
   },
   adminLoginPost: (req, res) => {
@@ -43,13 +43,15 @@ module.exports = {
     });
   },
   adminViewAllCategories: (req, res) => {
+    const categoryActive = 'active'
     adminHelper.viewAllCategories().then((category) => {
-      res.render("admin/categoryManage", { category });
+      res.render("admin/categoryManage", { category ,categoryActive});
     });
   },
   adminAddCategory: (req, res) => {
+    const categoryActive = 'active'
     // adminHelper.addCategory().then((category)=>{
-    res.render("admin/addCategory", { category, message });
+    res.render("admin/addCategory", { category, message ,categoryActive});
     message = "";
 
     // })
@@ -68,8 +70,10 @@ module.exports = {
     });
   },
   adminEditCategory: (req, res) => {
+    const categoryActive = 'active'
+    
     adminHelper.editCategory(req.params.id).then((category) => {
-      res.render("admin/editCategory", { category, message });
+      res.render("admin/editCategory", { category, message ,categoryActive});
       message = "";
     });
   },
@@ -103,17 +107,20 @@ module.exports = {
   },
 
   adminViewProductDetails: (req, res) => {
+    const productActive = 'active'
     adminHelper.getProductInfo().then((products) => {
-      res.render("admin/productDetails", { products });
+      res.render("admin/productDetails", { products ,productActive});
     });
   },
 
   adminAddProduct: (req, res) => {
+    const productActive = 'active'
+
     adminHelper.viewAllCategories().then((category) => {
       console.log(category);
       res.render("admin/addProduct", {
         category,
-        submitStatus: req.session.submitStatus,
+        submitStatus: req.session.submitStatus,productActive
       });
       req.session.submitStatus = false;
     });
@@ -158,9 +165,10 @@ module.exports = {
     }
   },
   adminEditProduct: async (req, res) => {
+    const productActive = 'active'
     let product = await adminHelper.getOneProduct(req.params.id);
     adminHelper.viewAllCategories().then((category) => {
-      res.render("admin/editOneProduct", { product, category });
+      res.render("admin/editOneProduct", { product, category ,productActive});
     });
   },
   adminEditProductPost: async (req, res) => {
@@ -196,9 +204,10 @@ module.exports = {
   },
 
   adminViewUserDetails: (req, res) => {
+    const userActive = 'active'
     adminHelper.getUserInfo().then((users) => {
       console.log(users.userstatus);
-      res.render("admin/userDetails", { users });
+      res.render("admin/userDetails", { users,userActive });
     });
   },
   adminBlockUser: (req, res) => {
@@ -215,11 +224,13 @@ module.exports = {
   },
 
   viewBanners: async (req, res) => {
+    const bannerActive = 'active'
     let banner = await adminHelper.getBannerInfo();
-    res.render("admin/bannerManagement", { banner });
+    res.render("admin/bannerManagement", { banner ,bannerActive});
   },
   addBanners: (req, res) => {
-    res.render("admin/addBanners");
+    const bannerActive = 'active'
+    res.render("admin/addBanners",{bannerActive});
   },
 
   addBannersPost: async (req, res) => {
@@ -250,13 +261,10 @@ module.exports = {
   },
 
   orgerManagement: async (req, res) => {
-    console.log(req.query.pageSize, "llllllllllllllllllllllllll");
-
-    const page = parseInt(req.query.page || 1, 10);
-    const pageSize = parseInt(req.query.pageSize || 10, 10);
+    const orderActive = 'active'
+    
     let orders = await adminHelper.getoderInfo();
-    const totalProducts = await adminHelper.getTotalProducts();
-    const totalPages = Math.ceil(totalProducts / pageSize);
+   
     const months = [
       "JAN",
       "FEB",
@@ -280,9 +288,10 @@ module.exports = {
         orders[i].date.getFullYear();
     }
 
-    res.render("admin/orderManagement", { orders, totalPages });
+    res.render("admin/orderManagement", { orders,orderActive});
   },
   singleOrder: async (req, res) => {
+    const orderActive = 'active'
     let orderId = req.params.id;
     let orderDetails = await adminHelper.viewSingleOrder(orderId);
 
@@ -307,11 +316,9 @@ module.exports = {
       months[orderDetails.date.getMonth()] +
       "-" +
       orderDetails.date.getFullYear();
+      console.log(orderDetails);
 
-    // let orderAddress = await userHelpers.getOrderAddress(orderDetails,orderDetails.userId)
-
-    console.log(orderDetails, "pppppppppppppppppppppppppppoooooooooop");
-    res.render("admin/viewSingleOrder", { orderDetails });
+    res.render("admin/viewSingleOrder", { orderDetails,orderActive });
   },
   changeStatus: (req, res) => {
     console.log(req.body);
@@ -320,11 +327,13 @@ module.exports = {
     });
   },
   viewCoupones: async (req, res) => {
+    const couponActive = 'active'
     let coupones = await adminHelper.getCoponesInfo();
-    res.render("admin/couponeManagement", { coupones });
+    res.render("admin/couponeManagement", { coupones ,couponActive});
   },
   addCoupones: (req, res) => {
-    res.render("admin/addCoupones", { couponMessage });
+    const couponActive = 'active'
+    res.render("admin/addCoupones", { couponMessage ,couponActive});
     couponMessage = "";
   },
   addCouponesPost: (req, res) => {
@@ -347,7 +356,6 @@ module.exports = {
 
   salesReport: async (req, res) => {
   
-
     const { start,end } = req.query;
     const query = {};
 
@@ -396,7 +404,7 @@ module.exports = {
 
   graphStatics: async (req, res) => {
 
-   
+
     let OrderStatistics = await adminHelper.getOrdrStatistics();
     let saleStatistics = await adminHelper.getSaleStatistics();
     let categortStatics = await adminHelper.getcategortStatics();
@@ -406,8 +414,7 @@ module.exports = {
 
     // const totalorder = Object.keys(totalOrders).length;
 
-   
-
+  
     res.json({
       OrderStatistics,
       saleStatistics,

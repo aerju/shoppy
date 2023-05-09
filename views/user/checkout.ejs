@@ -39,15 +39,15 @@
                   <div class="card mb-3">
                     <div class="div1 pl-4 pt-4">
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="addressDetails" id="addressDetail"
+                        <input class="form-check-input ml-1 " type="radio" name="addressDetails" id="addressDetail"
                           value="<%=addresdetails.address[i]._id%>" checked />
 
-                        <label class="form-check-label" for="addressDetail">
-                          <p class="font-weight-bold">
-                            <%=addresdetails.address[i].name%> - mob:
-                              <%=addresdetails.address[i].phone%>
-                          </p>
-                        </label>
+                        <!-- <label class="form-check-label" for="addressDetail"> -->
+                        <p class="font-weight-bold ml-4">
+                          <%=addresdetails.address[i].name%> - mob:
+                            <%=addresdetails.address[i].phone%>
+                        </p>
+                        <!-- </label> -->
                       </div>
                       <div class="form-check">
                         <label class="form-check-label" for="addressDetail">
@@ -67,16 +67,32 @@
                     <% } else { %>
                       <a href="/manage-address" class="btn border" style="color: black;background-color: white;">Add New
                         Address</a>
-
-
                       <% } %>
-
             </div>
           </div>
 
           <div class="col-lg-4 col-12">
             <div class="order-details">
-              <!-- Order Widget -->
+
+              <div class="single-widget">
+                <h2>Add Coupon</h2>
+                <div class="content">
+                  <ul>
+                    <li>
+                      <div class="form d-flex justify-content-center">
+                        <div class="form-group col-8">
+                          <input type="text" name="coupone" id="cp_code" placeholder="Coupon code" />
+                        </div>
+                        <div class="form-group col-4 ">
+                          <button type="button" class="btn right" onclick="applyCoupone()">Apply</button>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="last"></li>
+                  </ul>
+                </div>
+              </div>
+
               <div class="single-widget">
                 <h2>CART TOTALS</h2>
                 <div class="content">
@@ -87,7 +103,10 @@
                       </span>
                     </li>
                     <!-- <li>(+) Shipping<span>$10.00</span></li> -->
-                    <li>Total<span id="pay">
+                    <li>Coupon discount<span id="coupon-discount">
+                      0
+                    </span></li>          
+                    <li>Grand Total<span id="pay">
                         <%=total.total%>
                       </span></li>
                     <li class="last"></li>
@@ -99,7 +118,7 @@
               <div class="single-widget">
                 <h2>Payments</h2>
                 <div class="content">
-                  <div class="ml-lg-4 mt-2">
+                  <div class="ml-4 mt-2">
                     <label class="checkbox-inline" for="1"><input name="payment-method" id="1" type="radio"
                         value="razorpay" required />
                       Razorpay</label><br /><label class="checkbox-inline" for="3"><input name="payment-method" id="3"
@@ -173,7 +192,7 @@
       </div>
     </form>
 
-    <div class="container">
+    <!-- <div class="container">
       <div class="row">
         <div class="col-lg-8 col-12">
           <div>
@@ -188,7 +207,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+
+
     <span id="popup" style="
       display: none;
       position: fixed;
@@ -202,7 +223,7 @@
       background-color: #3b28c874;
       z-index: 9999;
     ">
-      Coupone Applied!
+      
     </span>
     <span id="popup2" style="
       display: none;
@@ -217,7 +238,7 @@
       background-color: #ff272e74;
       z-index: 9999;
     ">
-      Coupone already used!
+      
     </span>
   </section>
 
@@ -234,7 +255,7 @@
       document.getElementById("wallet").style.display = "block";
       console.log("<%=wallet.walletAmount%>");
       if (parseInt("<%=total.total%>") > parseInt("<%=wallet.walletAmount%>") || "<%=wallet.walletAmount%>" == 0) {
-        
+
         let input = document.getElementById("3")
         input.checked = false;
       }
@@ -332,9 +353,9 @@
       });
     }
 
-    $("#apply-coupone-form").submit((e) => {
-      e.preventDefault();
-      let code = document.getElementById("cp_code").value;
+
+   function applyCoupone(){
+    let code = document.getElementById("cp_code").value;
       var totalAmount = document.getElementById("pay").textContent;
 
       console.log(totalAmount);
@@ -347,25 +368,31 @@
 
         method: "POST",
         success: (response) => {
-          if (response.status) {
+          console.log(response,'ppp');
+          if (response.coupone.couponeStatus) {
             const popup = document.getElementById("popup");
+            popup.innerHTML=response.coupone.couponMsg
             popup.style.display = "block";
             setTimeout(() => {
               popup.style.display = "none";
             }, 1000);
 
-            document.getElementById("total").innerHTML = response.coupone.total;
+            // document.getElementById("total").innerHTML = response.coupone.total;
+            document.getElementById("coupon-discount").innerHTML = totalAmount-response.coupone.total;
+
             document.getElementById("pay").innerHTML = response.coupone.total;
           } else {
-            const popup = document.getElementById("popup2");
-            popup.style.display = "block";
+            const popup2 = document.getElementById("popup2");
+            popup2.innerHTML=response.coupone.couponMsg
+            popup2.style.display = "block";
             setTimeout(() => {
-              popup.style.display = "none";
+              popup2.style.display = "none";
             }, 1000);
           }
         },
       });
-    });
+    }
+
   </script>
 
   <%- include('../partials/UserFooter') %>

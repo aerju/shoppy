@@ -41,13 +41,13 @@
         </div>
         <nav>
             <ul class="menu-aside" id="myList">
-                <li class="menu-item " onclick="activateLi(this)">
+                <li class="menu-item <%=locals.dashActive%>" >
                     <a class="menu-link " href="/admin/home"> <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
 
-                <li class="menu-item " onclick="activateLi(this)">
+                <li class="menu-item <%=locals.productActive%>" >
                     <a class="menu-link" href="/admin/product-details"> <i
                             class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products </span>
@@ -55,31 +55,31 @@
 
                 </li>
 
-                <li class="menu-item ">
+                <li class="menu-item <%=locals.userActive%>">
                     <a class="menu-link" href="/admin/user-details"> <i class="icon material-icons md-person"></i>
                         <span class="text">Users </span>
                     </a>
                 </li>
-                <li class="menu-item ">
+                <li class="menu-item <%=locals.categoryActive%> ">
                     <a class="menu-link" href="/admin/view-categories"> <i class="icon material-icons md-category"></i>
                         <span class="text">Categories </span>
                     </a>
                 </li>
-                <li class="menu-item ">
+                <li class="menu-item <%=locals.bannerActive%>">
                     <a class="menu-link" href="/admin/view-banners"> <i class="icon material-icons md-store"></i>
                         <span class="text">Banners </span>
                     </a>
                 </li>
 
 
-                <li class="menu-item ">
+                <li class="menu-item <%=locals.couponActive%>">
                     <a class="menu-link" href="/admin/coupones-management"> <i
                             class="icon material-icons md-shopping_bag"></i>
                         <span class="text">coupons </span>
                     </a>
                 </li>
 
-                <li class="menu-item ">
+                <li class="menu-item <%=locals.orderActive%>">
                     <a class="menu-link" href="/admin/order-management"> <i
                             class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Orders </span>

@@ -8,61 +8,68 @@
 
                     <% if (wishlistItems.length>0) { %>
                         <div class="row">
-                            <% for (let i = 0; i < wishlistItems.length; i++) { %>
+                            <% for (let i=0; i < wishlistItems.length; i++) { %>
                                 <div class="col-lg-3 col-md-6 col-12">
                                     <div class="single-product">
                                         <div class="product-img">
                                             <a href="product-details.html">
-                                                <img class="default-img" src="<%=wishlistItems[i].product.image[0]%>"alt="#">
+                                                <img class="default-img" src="<%=wishlistItems[i].product.image[0]%>"
+                                                    alt="#">
                                                 <!-- <img class="hover-img" src="<%=wishlistItems[i].product.image[0]%>"  alt="#"> -->
                                             </a>
                                             <div class="button-head">
                                                 <div class="product-action">
-                                                    <a title="Wishlist" onclick="removeProduct('<%=wishlistItems[i]._id%>','<%=wishlistItems[i].product._id%>')"><i class='fa fa-heart' style='color: red'></i><span>Remove from
+                                                    <a title="Wishlist"
+                                                        onclick="removeProduct('<%=wishlistItems[i].product._id%>')"><i
+                                                            class='fa fa-heart' style='color: red'></i><span>Remove from
                                                             Wishlist</span></a>
-                                                    <p title="Compre" ></p>
+                                                    <p title="Compre"></p>
                                                 </div>
-                                                
+
                                                 <div class="product-action-2">
                                                     <a title="Add to cart" href="#">Add to cart</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="product-content">
-                                            <h3><a href="product-details.html"><%=wishlistItems[i].product.pro_name%></a></h3>
+                                            <h3><a href="product-details.html">
+                                                    <%=wishlistItems[i].product.pro_name%>
+                                                </a></h3>
                                             <div class="product-price">
-                                                <span><%=wishlistItems[i].product.pro_price%></span>
+                                                <span>
+                                                    <%=wishlistItems[i].product.pro_price%>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-    
-                                
-                              <% } %>
-                 
+
+
+                                <% } %>
+
                         </div>
-                      <% } else { %>
+                        <% } else { %>
 
 
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-md-8 mt-5">
-                                    <div class="card">
-                                        <div class="card-body text-center">
-                                            <h5 class="card-title"> wishlist is empty</h5>
-                                            <!-- <p class="card-text">You have no items in your cart.</p> -->
-                                            <br>
-                                            <a href="/" style="color: green;"> Start Shopping</a>
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8 mt-5">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title"> wishlist is empty</h5>
+                                                <!-- <p class="card-text">You have no items in your cart.</p> -->
+                                                <br>
+                                                <a href="/" style="color: green;"> Start Shopping</a>
+                                            </div>
+
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                      <% } %>
 
-                    
+                            <% } %>
+
+
                 </div>
             </div>
         </div>
@@ -70,25 +77,23 @@
 
 
     <script>
-         function removeProduct(wishId, proId) {
+        function removeProduct(proId) {
+            console.log(proId);
 
-$.ajax({
-    url: '/remove-wishlist-product',
-    data: {
-        product: proId,
-        wishlist: wishId,
+            $.ajax({
+                url: '/remove-wishlist-product',
+                data: {
+                    product: proId,                 
+                },
+                method: 'POST',
+                success: (response) => {
 
-    },
-    method: 'POST',
-    success: (response) => {
-
-      
-        location.reload()
+                    location.reload()
 
 
-    }
-})
-}
+                }
+            })
+        }
     </script>
 
 

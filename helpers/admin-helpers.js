@@ -518,6 +518,7 @@ module.exports = {
       resolve(orderDetails[0]);
     });
   },
+  
   changeStatus: (orderStatus) => {
     return new Promise((resolve, reject) => {
       db.get()

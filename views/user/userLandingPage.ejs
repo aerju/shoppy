@@ -1,6 +1,6 @@
 <%- include('../partials/UserHeader') %>
 
-<!-- <section class="hero-slider">
+  <!-- <section class="hero-slider">
   <div
     class="single-slider"
     style="
@@ -34,66 +34,64 @@
   </div>
 </section> -->
 
-<section >
-  <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-      
-      <div class="carousel-item active">
-        <img src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg" class="d-block w-100" alt="Image 1">
+  <section>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+
+        <div class="carousel-item active">
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg"
+            class="d-block w-100" alt="Image 1">
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg"
+            class="d-block w-100" alt="Image 2">
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg"
+            class="d-block w-100" alt="Image 3">
+        </div>
       </div>
-      <div class="carousel-item">
-        <img src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg" class="d-block w-100" alt="Image 2">
-      </div>
-      <div class="carousel-item">
-        <img src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg" class="d-block w-100" alt="Image 3">
-      </div>
+      <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
-    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
-</section>
+  </section>
 
 
 
-<!-- Start Product Area -->
-<div class="product-area section" style="margin-top: -50px;">
-  <div class="container">  
-    <div class="row">
-      <div class="col-12">
-        <div class="product-info">
-          <div class="tab-content" id="myTabContent">
-            <!-- Start Single Tab -->
-            <div class="tab-pane fade show active" id="man" role="tabpanel">
-              <div class="tab-single">
-                <div class="row">
-                  <% for (var i=0; i < products.length; i++) { %> <% if
-                  (products[i].stockStatus) { %> <% if
-                  (products[i].pro_count===0) { %>
-                  <div class="col-xl-3 col-lg-4 col-md-4 col-6 ">
-                    <div
-                      class="single-product"
-                      style="pointer-events: none; opacity: 0.6"
-                    >
-                      <div class="product-img">
-                        <a href="/view-product/<%=products[i]._id%>">
-                          <img
-                            class="default-img"
-                            src="<%=products[i].image[0]%>"
-                            alt="#"
-                            style="width: 550px; height: 750"
-                          /><span
-                            style="
+  <!-- Start Product Area -->
+  <div class="product-area section" style="margin-top: -50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="product-info">
+            <div class="tab-content" id="myTabContent">
+              <!-- Start Single Tab -->
+              <div class="tab-pane fade show active" id="man" role="tabpanel">
+                <div class="tab-single">
+                  <div class="row">
+                    <% for (var i=0; i < products.length; i++) { %>
+                      <% if (products[i].stockStatus) { %>
+                        <% if (products[i].pro_count===0) { %>
+                          <div class="col-xl-3 col-lg-4 col-md-4 col-6 ">
+                            <div class="single-product" style="pointer-events: none; opacity: 0.6">
+                              <div class="product-img">
+                                <a href="/view-product/<%=products[i]._id%>">
+                                  <img class="default-img" src="<%=products[i].image[0]%>" alt="#"
+                                    style="width: 550px; height: 750" /><span style="
                               position: absolute;
                               top: 50%;
                               left: 50%;
@@ -101,103 +99,93 @@
                               color: red;
                               font-size: large;
                               font-weight: bold;
-                            "
-                            >Out Of Stock</span
-                          >
-                        </a>
+                            ">Out Of Stock</span>
+                                </a>
 
-                        <div class="button-head">
-                          <div class="product-action">
-                            <% if (user) { %>
+                                <div class="button-head">
+                                  <div class="product-action">
+                                    <% if (user) { %>
 
-                            <a onclick="addToWishList( '<%=products[i]._id%>' )"
-                              ><i class="fa fa-heart" style="color: red"></i
-                              ><span>Add to Wishlist</span></a
-                            >
+                                      <a onclick="addToWishList( '<%=products[i]._id%>' )"><i class="fa fa-heart"
+                                          style="color: red"></i><span>Add to Wishlist</span></a>
 
-                            <% } else { %>
-                            <a onclick="addToWishList( '<%=products[i]._id%>' )"
-                              ><i class="ti-heart"></i
-                              ><span>Add to Wishlist</span></a
-                            >
-                            <% } %>
-                            <p title="Compare"></p>
+                                      <% } else { %>
+                                        <a onclick="addToWishList( '<%=products[i]._id%>' )"><i
+                                            class="ti-heart"></i><span>Add to Wishlist</span></a>
+                                        <% } %>
+                                          <p title="Compare"></p>
+                                  </div>
+
+                                  <div class="product-action-2">
+
+                                    <a onclick="addTOCart( '<%=products[i]._id%>' )">Add to cart</a>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3>
+                                  <a href="product-details.html">
+                                    <%=products[i].pro_name%>
+                                  </a>
+                                </h3>
+                                <div class="product-price" style="color: green">
+                                  <span>₹<%=products[i].pro_price%></span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
 
-                          <div class="product-action-2">
-    
-                            <a onclick="addTOCart( '<%=products[i]._id%>' )"
-                              >Add to cart</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div class="product-content">
-                        <h3>
-                          <a href="product-details.html">
-                            <%=products[i].pro_name%>
-                          </a>
-                        </h3>
-                        <div class="product-price" style="color: green">
-                          <span>₹<%=products[i].pro_price%></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                          <% } else { %>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-6">
+                              <div class="single-product">
+                                <div class="product-img">
+                                  <a href="/view-product/<%=products[i]._id%>">
+                                    <img class="default-img" src="<%=products[i].image[0]%>" alt="#"
+                                      style="width: 550px; height: 750" />
+                                  </a>
+                                  <div class="button-head">
+                                    <div class="product-action">
 
-                  <% } else { %>
-                  <div class="col-xl-3 col-lg-4 col-md-4 col-6">
-                    <div class="single-product">
-                      <div class="product-img">
-                        <a href="/view-product/<%=products[i]._id%>">
-                          <img
-                            class="default-img"
-                            src="<%=products[i].image[0]%>"
-                            alt="#"
-                            style="width: 550px; height: 750"
-                          />
-                        </a>
-                        <div class="button-head">
-                          <div class="product-action">
-                            <% if (user) { %>
-                            <a onclick="addToWishList( '<%=products[i]._id%>' )"
-                              ><i class="ti-heart"></i
-                              ><span>Add to Wishlist</span></a
-                            >
+                                      <% if (products[i].isWish) { %>
+                                        <a onclick="removeFromWishList('<%=products[i]._id%>')"><i class="fa fa-heart"
+                                            style="color: red" id="remove-wish"></i><span>Remove from
+                                            Wishlist</span></a>
 
-                            <% } else { %>
-                            <a onclick="addToWishList( '<%=products[i]._id%>' )"
-                              ><i class="ti-heart"></i
-                              ><span>Add to Wishlist</span></a
-                            >
-                            <% } %>
-                            <p title="Compare"></p>
-                          </div>
+                                        <% } else { %>
 
-                          <div class="product-action-2">
-                            <!-- <a title="Add to cart"
+                                          <a onclick="addToWishList( '<%=products[i]._id%>' )"><i id="add-wish2"
+                                              class="ti-heart"></i><span>Add to Wishlist</span></a>
+
+                                          <% } %>
+
+                                            <p title="Compare"></p>
+                                    </div>
+
+                                    <div class="product-action-2">
+                                      <!-- <a title="Add to cart"
 																			href="/add-to-cart/<%=products[i]._id%>">Add to
 																			cart</a> -->
-                            <a onclick="addTOCart( '<%=products[i]._id%>' )"
-                              >Add to cart</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div class="product-content">
-                        <h3>
-                          <a href="/view-product/<%=products[i]._id%>">
-                            <%=products[i].pro_name%>
-                          </a>
-                        </h3>
-                        <div class="product-price" style="color: green">
-                          <span>₹<%=products[i].pro_price%></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                                      <a onclick="addTOCart( '<%=products[i]._id%>' )">Add to cart</a>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="product-content">
+                                  <h3>
+                                    <a href="/view-product/<%=products[i]._id%>">
+                                      <%=products[i].pro_name%>
+                                    </a>
+                                  </h3>
+                                  <div class="product-price" style="color: green">
+                                    <span>₹<%=products[i].pro_price%></span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
 
-                  <% } %> <% } %> <% } %>
+                            <% } %>
+                              <% } %>
+                                <% } %>
+                  </div>
                 </div>
               </div>
             </div>
@@ -206,12 +194,11 @@
       </div>
     </div>
   </div>
-</div>
 
-<!-- End Product Area -->
+  <!-- End Product Area -->
 
-<!-- Start Midium Banner  -->
-<!-- <section class="midium-banner">
+  <!-- Start Midium Banner  -->
+  <!-- <section class="midium-banner">
   <div class="container">
     <div class="row">
       
@@ -232,10 +219,10 @@
     </div>
   </div>
 </section> -->
-<!-- End Midium Banner -->
+  <!-- End Midium Banner -->
 
-<!-- Start Most Popular -->
-<!-- <div class="product-area most-popular section">
+  <!-- Start Most Popular -->
+  <!-- <div class="product-area most-popular section">
   <div class="container">
     <div class="row">
       <div class="col-12">
@@ -288,115 +275,129 @@
   </div>
 </div> -->
 
-<!-- Start Cowndown Area -->
-<% for(var i=0; i< 1; i++) { %>
-<section class="cown-down">
-  <div class="section-inner">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-8 col-12 padding-right">
-          <div class="image">
-            <img src="<%= banner[i].image%>" alt="#" />
-          </div>
-        </div>
-        <div class="col-lg-4 col-12 padding-left">
-          <div class="content">
-            <div class="heading-block">
-              <!-- <p class="small-title"><%= banner[i].banner_title%></p> -->
-              <h3 class="title"><%= banner[i].banner_title%></h3>
-              <p class="text">
-                <%= banner[i].banner_name%>.
-              </p>
-              <!-- <h1 class="price">$1200 <s>$1890</s></h1>
+  <!-- Start Cowndown Area -->
+  <% for(var i=0; i< 1; i++) { %>
+    <section class="cown-down">
+      <div class="section-inner">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-8 col-12 padding-right">
+              <div class="image">
+                <img src="<%= banner[i].image%>" alt="#" />
+              </div>
+            </div>
+            <div class="col-lg-4 col-12 padding-left">
+              <div class="content">
+                <div class="heading-block">
+                  <!-- <p class="small-title"><%= banner[i].banner_title%></p> -->
+                  <h3 class="title">
+                    <%= banner[i].banner_title%>
+                  </h3>
+                  <p class="text">
+                    <%= banner[i].banner_name%>.
+                  </p>
+                  <!-- <h1 class="price">$1200 <s>$1890</s></h1>
               <div class="coming-time">
                 <div class="clearfix" data-countdown="2021/02/30"></div>
               </div> -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  </section>
-  <% } %>
-  <span
-    id="popup"
-    style="
+    </section>
+    <% } %>
+      <span id="popup" style="
       display: none;
       position: fixed;
       top: 90%;
-      border-radius: 10px;
+      /* border-radius: 10px; */
       left: 50%;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       transform: translate(-50%, -50%);
       padding: 10px;
       border: 1px solid #ccc;
-      background-color: #3b28c874;
+      /* background-color: #3b28c874; */
+      background-color: white;
+
       z-index: 9999;
-    "
-  >
-    Product added to cart!
-  </span>
-  <span
-    id="popup2"
-    style="
+    ">
+        Product added to cart!
+      </span>
+      <span id="popup2" style="
       display: none;
       position: fixed;
       top: 90%;
-      border-radius: 10px;
+      /* border-radius: 10px; */
       left: 50%;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       transform: translate(-50%, -50%);
       padding: 10px;
       border: 1px solid #ccc;
-      background-color: #3b28c874;
+      background-color: white;
       z-index: 9999;
-    "
-  >
-    Product added wishlist!
-  </span>
+    ">
+        Product added to wishlist!
+      </span>
 
 
-<!-- /End Cowndown Area -->
-<br /><br />
+      <!-- /End Cowndown Area -->
+      <br /><br />
 
-<script>
-  function addTOCart(proId) {
-    $.ajax({
-      url: "/add-to-cart/" + proId,
-      method: "get",
-      success: (response) => {
-        if (response.status) {
-          const popup = document.getElementById("popup");
-          popup.style.display = "block";
-          setTimeout(() => {
-            popup.style.display = "none";
-          }, 1000);
-          let count = $("#cart-count").html();
-          count = parseInt(count) + 1;
-          $("#cart-count").html(count);
+      <script>
+        function addTOCart(proId) {
+          $.ajax({
+            url: "/add-to-cart/" + proId,
+            method: "get",
+            success: (response) => {
+              if (response.status) {
+                const popup = document.getElementById("popup");
+                popup.style.display = "block";
+                setTimeout(() => {
+                  popup.style.display = "none";
+                }, 1000);
+                let count = $("#cart-count").html();
+                count = parseInt(count) + 1;
+                $("#cart-count").html(count);
+              }
+              // alert(response)
+            },
+          });
         }
-        // alert(response)
-      },
-    });
-  }
 
-  function addToWishList(proId) {
-    $.ajax({
-      url: "/add-to-wishlist/" + proId,
-      method: "get",
-      success: (response) => {
-        if (response.status) {
-          const popup = document.getElementById("popup2");
-          popup.style.display = "block";
-          setTimeout(() => {
-            popup.style.display = "none";
-          }, 2000);
+        function addToWishList(proId) {
+         
+          $.ajax({
+            url: "/add-to-wishlist/" + proId,
+            method: "get",
+            success: (response) => {
+              if (response.status) {
+                const popup = document.getElementById("popup2");
+                popup.style.display = "block";
+                setTimeout(() => {
+                  popup.style.display = "none";
+                }, 2000);
+              }
+              // alert(response)
+            },
+          });
         }
-        // alert(response)
-      },
-    });
-  }
-</script>
 
-<%- include('../partials/UserFooter') %>
+
+        function removeFromWishList(proId) {
+          $.ajax({
+            url: '/remove-wishlist-product',
+            data: {
+              product: proId,
+            
+            },
+            method: 'POST',
+            success: (response) => {
+              location.reload()
+            }
+          })
+        }
+      </script>
+
+      <%- include('../partials/UserFooter') %>

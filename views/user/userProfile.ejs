@@ -78,53 +78,37 @@
                             </div>
                             <form class="form" method="post" action="/update-profile/<%=userData._id%>">
                                 <div class="row">
-                                    <div class="col-lg-6 col-12">
+                                    <div class="col-lg-6 col-12 ">
+                                        <div class="form-group">
+                                            <button class="btn" id="editbutton" type="button" style="color:blue;background-color: white;" onclick="editEnable()">edit </button>
+                                            <button class="btn" type="submit" id="savebutton" style="color:blue;display: none;background-color: white;"  >Save</button>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 col-12">
                                         <div class="form-group">
                                             <label>Your Name<span>*</span></label>
                                             <input name="name" type="text" placeholder="" value="<%=userData.name%>"
                                                 disabled id="input1">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-                                            <button class="btn" id="editbutton" type="button" style="color:blue;background-color: white;" onclick="editEnable()">edit </button>
-                                            <button class="btn" type="submit" id="savebutton" style="color:blue;display: none;background-color: white;"  >Save</button>
-
-
-                                            <!-- <label>Your Subjects<span>*</span></label>
-                                            <input name="subject" type="text" placeholder=""> -->
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
+                                   
+                                    <div class="col-lg-8 col-12">
                                         <div class="form-group">
                                             <label>Your Email<span>*</span></label>
                                             <input name="email" type="email" placeholder="" value="<%=userData.email%>"
                                                 disabled id="input2">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-                                            <!-- <a href="" onclick="editEnable()" style="color:blue">edit</a> -->
-
-                                            <!-- <label>Your Phone<span>*</span></label>
-                                            <input name="company_name" type="text" placeholder=""> -->
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
+                                   
+                                    <div class="col-lg-8 col-12">
                                         <div class="form-group">
                                             <label>Your phone<span>*</span></label>
                                             <input name="phone" type="text" placeholder=""
                                                 value="<%=userData.phone .slice(3)%>" disabled id="input3">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-                                            <!-- <a href="" style="color:blue" onclick="editEnable()">edit</a> -->
-
-                                            <!-- <label>Your Phone<span>*</span></label>
-                                            <input name="company_name" type="text" placeholder=""> -->
-                                        </div>
-                                    </div>
+                                   
 
                                 </div>
                             </form>

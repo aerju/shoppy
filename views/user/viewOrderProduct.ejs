@@ -11,16 +11,17 @@
                     <% if (orderDetails.orderStatus=='Delivered' ) { %>
                         <div class="text">
 
-                          
-                                <!-- <a href="/download-invoice/<%=orderDetails._id%>">Download Invoice</a> -->
-                                <button class="btn" style="background-color: white;color: black;" id="download">Download Invoice</button>
-                                
-                            
+
+                            <!-- <a href="/download-invoice/<%=orderDetails._id%>">Download Invoice</a> -->
+                            <button class="btn" style="background-color: white;color: black;" id="download">Download
+                                Invoice</button>
+
+
                         </div>
                         <br>
                         <% } %>
                 </div>
-                <div class="card" >
+                <div class="card">
                     <div class="card-body">
                         <div class="row mb-50 mt-20 order-info-wrap">
                             <div class="col-md-3">
@@ -47,8 +48,9 @@
                                     <div class="text">
                                         <h6 class="mb-1">Order info</h6>
                                         <p class="mb-1">
-                                            Pay method: <%=orderDetails.paymentMethod%>
-                                                <br> Status: <%=orderDetails.orderStatus%>
+                                            Pay method: <%=orderDetails.paymentMethod%> <br>
+                                                Total Amount: <%=orderDetails.total %>
+                                                    <br> Status: <%=orderDetails.orderStatus%>
                                         </p>
 
 
@@ -64,8 +66,19 @@
                                     <div class="text">
                                         <h6 class="mb-1">Deliver to</h6>
                                         <p class="mb-1">
-                                            Pay method: <%=orderDetails.paymentMethod%>
-                                                <br> Status: <%=orderDetails.orderStatus%> <br> Total Amount: <%=orderDetails.total %>
+                                            <b>
+                                                <%=orderDetails.deliveryDetails.name%>
+                                            </b>-
+                                            <b>
+                                                <%=orderDetails.deliveryDetails.phone%>
+                                            </b>
+                                            <br>
+                                            <%=orderDetails.deliveryDetails.area%> -
+                                                <%=orderDetails.deliveryDetails.locality%> <br>
+                                                    <%=orderDetails.deliveryDetails.pincode%> -
+                                                        <%=orderDetails.deliveryDetails.district%> <br>
+
+
                                         </p>
                                     </div>
                                 </article>
@@ -79,45 +92,50 @@
                                         <i class="text-primary material-icons md-place"></i>
                                     </span>
                                     <% if (orderDetails.orderStatus!=='Delivered' && orderDetails.orderStatus!=='Cancel'
-                                        && orderDetails.orderStatus!=='cancelrequest' && orderDetails.orderStatus!=='returnrequest' && orderDetails.orderStatus!=='return') { %>
+                                        && orderDetails.orderStatus!=='paymentFailed' &&
+                                        orderDetails.orderStatus!=='cancelrequest' &&
+                                        orderDetails.orderStatus!=='returnrequest' &&
+                                        orderDetails.orderStatus!=='return' ) { %>
 
                                         <div class="text">
 
                                             <p class="mt-4" style="color: blue;">
-                                                <a href="" onclick="cancelRequest('<%=orderDetails._id%>','<%=orderDetails.paymentMethod%>','<%=orderDetails.total%>','<%=orderDetails.userId%>')">Cancel Order</button>
-
+                                                <a  onclick="cancelRequest('<%=orderDetails._id%>','<%=orderDetails.paymentMethod%>','<%=orderDetails.total%>','<%=orderDetails.userId%>')"> Cancel</a>
+                                                   
                                             </p>
                                         </div>
                                         <% } %>
 
-                                        <% if (orderDetails.orderStatus=='cancelrequest' ) { %>
-                                            <div class="text">
-
-                                                <p class="mt-4" style="color: blue;">
-                                                    Cancel request sended
-                                                    
-                                                </p>
-                                            </div>
-                                            <% } %>
-                                            <% if (orderDetails.orderStatus=='Delivered' ) { %>
+                                            <% if (orderDetails.orderStatus=='cancelrequest' ) { %>
                                                 <div class="text">
-    
-                                                    <p class="mt-4" style="color: blue;">
-                                                        <a href="" onclick="returnRequest('<%=orderDetails._id%>')">Return Product</button>
 
-                                                        
+                                                    <p class="mt-4" style="color: blue;">
+                                                        Cancel request sended
+
                                                     </p>
                                                 </div>
                                                 <% } %>
-                                                <% if (orderDetails.orderStatus=='returnrequest' ) { %>
-                                                    <div class="text">
-        
-                                                        <p class="mt-4" style="color: blue;">
-                                                            Return request sended
-                                                            
-                                                        </p>
-                                                    </div>
-                                                    <% } %>
+                                                    <% if (orderDetails.orderStatus=='Delivered' ) { %>
+                                                        <div class="text">
+
+                                                            <p class="mt-4" style="color: blue;">
+                                                                <a href=""
+                                                                    onclick="returnRequest('<%=orderDetails._id%>')">Return
+                                                                    Product</button>
+
+
+                                                            </p>
+                                                        </div>
+                                                        <% } %>
+                                                            <% if (orderDetails.orderStatus=='returnrequest' ) { %>
+                                                                <div class="text">
+
+                                                                    <p class="mt-4" style="color: blue;">
+                                                                        Return request sended
+
+                                                                    </p>
+                                                                </div>
+                                                                <% } %>
                                 </article>
                             </div> <!-- col// -->
                         </div> <!-- row // -->
@@ -146,7 +164,7 @@
                                             <tr>
                                                 <td>
                                                     <a class="itemside" href="#">
-                                                        <div >
+                                                        <div>
                                                             <img src="<%=orderDetails.productDetails[i].image[0] %>"
                                                                 width="40" height="40" class="img-xs" alt="Item">
                                                         </div>
@@ -162,7 +180,8 @@
                                                     <%=orderDetails.products.products[i].quantity %>
                                                 </td>
                                                 <td>
-                                                    <%=orderDetails.products.products[i].quantity * orderDetails.productDetails[i].pro_price %>
+                                                    <%=orderDetails.products.products[i].quantity *
+                                                        orderDetails.productDetails[i].pro_price %>
                                                 </td>
                                                 <!-- <td > <%=orderDetails.products.products[i].qunatity %> </td> -->
                                                 <td>
@@ -201,16 +220,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        function cancelRequest(orderId,paymentMethod,total,userId) {
-            console.log(orderId,paymentMethod,total,userId);
-            $.ajax({
+
+
+        async function cancelRequest(orderId, paymentMethod, total, userId) {
+            const { value: text } = await Swal.fire({
+                input: 'textarea',
+                inputLabel: 'Message',
+                inputPlaceholder: 'Type your cancel reason here...',
+                inputAttributes: {
+                    'aria-label': 'Type your cancel reason here'
+                },
+                showCancelButton: true
+            })
+
+            if (text) {
+                $.ajax({
                 url: "/cancel-request",
                 method: "POST",
-                data: {orderId,paymentMethod,total,userId},
+                data: { orderId, paymentMethod, total, userId },
                 success: (response) => {
-                    // alert(response)
                     const popup = document.getElementById('popup');
                     popup.style.display = 'block';
                     setTimeout(() => {
@@ -219,15 +249,34 @@
 
                 }
             })
+            location.reload()
+            }
+
+            // console.log(orderId, paymentMethod, total, userId);
+            // $.ajax({
+            //     url: "/cancel-request",
+            //     method: "POST",
+            //     data: { orderId, paymentMethod, total, userId },
+            //     success: (response) => {
+
+            //         const popup = document.getElementById('popup');
+            //         popup.style.display = 'block';
+            //         setTimeout(() => {
+            //             popup.style.display = 'none';
+            //         }, 1000);
+
+            //     }
+            // })
 
 
         }
+
         function returnRequest(orderId) {
             console.log(orderId);
             $.ajax({
                 url: "/return-request",
                 method: "POST",
-                data: {orderId},
+                data: { orderId },
                 success: (response) => {
                     // alert(response)
                     const popup = document.getElementById('popup');
@@ -243,18 +292,18 @@
         }
     </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<script>
-    window.onload = function () {
-        document.getElementById('download').addEventListener("click", () => {
-            let invoice = this.document.getElementById('container_content')
-            console.log(invoice);
-            console.log(window);
-            html2pdf().from(invoice).save()
-        })
-    }
-</script>
+    <script>
+        window.onload = function () {
+            document.getElementById('download').addEventListener("click", () => {
+                let invoice = this.document.getElementById('container_content')
+                console.log(invoice);
+                console.log(window);
+                html2pdf().from(invoice).save()
+            })
+        }
+    </script>
 
 
     <%- include('../partials/UserFooter') %>
