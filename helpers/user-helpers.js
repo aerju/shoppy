@@ -123,7 +123,7 @@ module.exports = {
       let getNumber = await db
         .get()
         .collection(collection.USER_INFORMATION)
-        .findOne({ phone: number });
+        .findOne({ phone: number , userstatus:true});
       if (getNumber) {
         response.status = true;
         resolve(getNumber);

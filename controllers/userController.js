@@ -21,7 +21,7 @@ module.exports = {
   userHome: async (req, res, next) => {
    
     const page = parseInt(req.query.page || 1);
-    const pageSize = parseInt(req.query.pageSize || 5);
+    const pageSize = parseInt(req.query.pageSize || 12);
     const skip = (page - 1) * pageSize;
     const limit = pageSize;
 
@@ -34,7 +34,7 @@ module.exports = {
     let total = Object.keys(products).length;
     
 
-    const totalPages = Math.ceil(total / pageSize)+2
+    const totalPages = Math.ceil(total / pageSize)+1
 
     if (req.session.user) {
       cartcount = await productHelper.getCartCount(user._id);
@@ -265,7 +265,7 @@ module.exports = {
     let user = req.session.user;
     let categoryDetails = await productHelper.getCategory(req.params.id);
     adminHelper.viewAllCategories().then((category) => {
-      adminHelper.getProductInfo().then(async (products) => {
+      adminHelper.getProductInfoAdmin().then(async (products) => {
         if (req.session.userLoggedIn) {
           // cartcount = await productHelper.getCartCount(user._id)
 
