@@ -104,16 +104,11 @@
 
               <% if (user) { %>
               <a href="/view-cart" class="single-icon"><i class="ti-bag"></i>
-
-                <% if (cartcount) { %>
+               
                 <span class="total-count" id="cart-count">
                   <%=cartcount%>
                 </span>
-                <% } else { %>
-                <span class="total-count" id="cart-count">
-                  0
-                </span>
-                <% } %>
+              
               </a>
               <% } else { %>
               <a href="/view-cart" class="single-icon"><i class="ti-bag"></i></a>
@@ -189,18 +184,18 @@
 
               <!-- Content to render if condition is true -->
               <div class="sinlge-bar shopping">
-                <a href="/view-cart" class="single-icon"><i class="ti-bag"></i>
-
-                  <% if (cartcount) { %>
-                  <span class="total-count" id="cart-count">
-                    <%=cartcount%>
-                  </span>
-                  <% } else { %>
-                  <span class="total-count" id="cart-count">
-                    0
-                  </span>
-                  <% } %>
-                </a>
+                
+                    <a href="/view-cart" class="single-icon"><i class="ti-bag"></i>
+                      <% if (cartcount) { %>
+                      <span class="total-count" id="cart-count">
+                        <%=cartcount%>
+                      </span>
+                      <% } else { %>
+                      <span class="total-count" id="cart-count">
+                        0
+                      </span>
+                      <% } %>
+                    </a>
               </div>
             </div>
           </div>

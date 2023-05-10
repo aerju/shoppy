@@ -27,7 +27,6 @@ module.exports = {
       const totalPages = Math.ceil(total / pageSize) + 1;
       if (req.session.user) {
         cartcount = await productHelper.getCartCount(user._id);
-        req.session.user.cartCount = cartcount;
         wishlistItems = await productHelper.getWishlistProducts(user._id);
         wishlistItems.forEach((wish) => {
           products.forEach((pro) => {
@@ -248,6 +247,7 @@ module.exports = {
 
   userViewSingleProduct: async (req, res) => {
     try {
+      let category = await adminHelper.viewAllCategories();
       let user = req.session.user;
       let product = await adminHelper.getOneProduct(req.params.id);
       if (req.session.userLoggedIn) {
@@ -257,6 +257,7 @@ module.exports = {
           user,
           product,
           cartcount,
+          category,
         });
       } else {
         res.render("user/singleProductView", {
@@ -264,6 +265,7 @@ module.exports = {
           user,
           product,
           cartcount,
+          category,
         });
       }
     } catch (error) {}
@@ -305,6 +307,7 @@ module.exports = {
 
   viewCart: async (req, res) => {
     try {
+      let category = await adminHelper.viewAllCategories();
       let user = req.session.user;
       cartcount = await productHelper.getCartCount(user._id);
       let cartItems = await productHelper.getCartProducts(user._id);
@@ -328,15 +331,28 @@ module.exports = {
         cartcount,
         totalValue,
         cartStockOut,
+        category,
       });
     } catch (error) {}
+  },
+
+  getCartCound:async (req,res)=>{
+    try {
+      let user=req.session.uder
+      cartcount = await productHelper.getCartCount(user._id);
+      res.json(cartcount)
+      
+    } catch (error) {
+      
+    }
+
   },
 
   addToCart: (req, res) => {
     try {
       productHelper.addTOCart(req.params.id, req.session.user._id).then(() => {
         res.json({
-          status: true,
+          status: true
         });
       });
     } catch (error) {}
@@ -361,6 +377,7 @@ module.exports = {
 
   userCheckOut: async (req, res) => {
     try {
+      let category = await adminHelper.viewAllCategories();
       let user = req.session.user;
       cartcount = await productHelper.getCartCount(user._id);
       let total = await productHelper.getTotalAmount(user._id);
@@ -373,6 +390,7 @@ module.exports = {
         total,
         addresdetails,
         wallet,
+        category,
       });
     } catch (error) {}
   },
@@ -418,6 +436,7 @@ module.exports = {
 
   viewOrders: async (req, res) => {
     try {
+      let category = await adminHelper.viewAllCategories();
       let user = req.session.user;
       cartcount = await productHelper.getCartCount(user._id);
       let orderDetails = await productHelper.getOrderDetails(user._id);
@@ -443,12 +462,18 @@ module.exports = {
           "-" +
           orderDetails[i].date.getFullYear();
       }
-      res.render("user/viewUserOrders", { user, cartcount, orderDetails });
+      res.render("user/viewUserOrders", {
+        user,
+        cartcount,
+        orderDetails,
+        category,
+      });
     } catch (error) {}
   },
 
   viewOrderProducts: async (req, res) => {
     try {
+      let category = await adminHelper.viewAllCategories();
       let user = req.session.user;
       cartcount = await productHelper.getCartCount(user._id);
       let orderDetails = await adminHelper.viewSingleOrder(req.params.id);
@@ -472,7 +497,12 @@ module.exports = {
         months[orderDetails.date.getMonth()] +
         "-" +
         orderDetails.date.getFullYear();
-      res.render("user/viewOrderProduct", { user, cartcount, orderDetails });
+      res.render("user/viewOrderProduct", {
+        user,
+        cartcount,
+        orderDetails,
+        category,
+      });
     } catch (error) {}
   },
   verifyPaymentPost: (req, res) => {
@@ -494,10 +524,11 @@ module.exports = {
   },
   viewWishlist: async (req, res) => {
     try {
+      let category = await adminHelper.viewAllCategories();
       let user = req.session.user;
       cartcount = await productHelper.getCartCount(user._id);
       let wishlistItems = await productHelper.getWishlistProducts(user._id);
-      res.render("user/wishList", { user, cartcount, wishlistItems });
+      res.render("user/wishList", { user, cartcount, wishlistItems, category });
     } catch (error) {}
   },
   addtowishlist: (req, res) => {
@@ -524,18 +555,25 @@ module.exports = {
 
   userViewProfile: async (req, res) => {
     try {
+      let category = await adminHelper.viewAllCategories();
       let user = req.session.user;
       let userData = await userHelper.getUserDta(user._id);
       cartcount = req.session.user.cartCount;
-      res.render("user/userProfile", { user, userData, cartcount });
+      res.render("user/userProfile", { user, userData, cartcount, category });
     } catch (error) {}
   },
   manageAddress: async (req, res) => {
     try {
+      let category = await adminHelper.viewAllCategories();
       let user = req.session.user;
       cartcount = await productHelper.getCartCount(user._id);
       let addresdetails = await userHelper.getAddressInfo(user._id);
-      res.render("user/manageAddress", { user, cartcount, addresdetails });
+      res.render("user/manageAddress", {
+        user,
+        cartcount,
+        addresdetails,
+        category,
+      });
     } catch (error) {}
   },
   addAddress: (req, res) => {
@@ -665,8 +703,7 @@ module.exports = {
 
   returnRequest: (req, res) => {
     try {
-      let orderid = req.body.orderId;
-      userHelper.returnOrderRequest(orderid).then(() => {
+      userHelper.returnOrderRequest(req.body).then(() => {
         res.json(true);
       });
     } catch (error) {}
@@ -676,15 +713,15 @@ module.exports = {
     try {
       let user = req.session.user;
       cartcount = await productHelper.getCartCount(user._id);
-
+      let category = await adminHelper.viewAllCategories();
       let wallet = await userHelper.getWalletInfo(user._id);
-
-      res.render("user/wallet", { user, cartcount, wallet });
+      res.render("user/wallet", { user, cartcount, wallet, category });
     } catch (error) {}
   },
 
   contact: async (req, res) => {
     try {
+      let category = await adminHelper.viewAllCategories();
       let userContactActive = "active";
       let user = req.session.user;
       if (req.session.user) {
@@ -694,12 +731,14 @@ module.exports = {
           user,
           cartcount,
           userContactActive,
+          category,
         });
       } else {
         res.render("user/contact", {
           userHead: false,
           user,
           userContactActive,
+          category,
         });
       }
     } catch (error) {}

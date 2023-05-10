@@ -1,5 +1,8 @@
 <%- include('../partials/UserHeader') %>
 
+
+
+
 	<!-- Start Product Area -->
 	<div class="product-area section">
 		<div class="container">
@@ -15,17 +18,15 @@
 									<div class="row">
 										<% for (var i=0; i < categoryDetails.length; i++) { %>
 											<% if (categoryDetails[i].stockStatus) { %>
-											
-
-
+					
 											<!-- <div class="col-xl-3 col-lg-4 col-md-4 col-12" style="border: 1px solid rgb(127, 124, 124); box-shadow: 0 2px 4px rgba(0,0,0,0.1);border-radius: 10px; padding: 10px;margin-right: 2em;"> -->
-											<div class="col-xl-3 col-lg-4 col-md-4 col-12">
+											<div class="col-xl-3 col-lg-4 col-md-4 col-6" style="margin-top: -80px;">
 												<div class="single-product">
 
 													<div class="product-img">
 														<a href="/view-product/<%=categoryDetails[i]._id%>">
 															<img class="default-img" src="<%=categoryDetails[i].image[0]%>"
-																alt="#" style="width: 550px;height: 750;">
+																alt="#" >
 														</a>
 
 														<div class="button-head">

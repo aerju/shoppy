@@ -388,7 +388,7 @@ module.exports = {
             },
           }
         );
-      if (orderDetails.paymentMethod == "razorpay") {
+      if (orderDetails.paymentMethod == "razorpay" || orderDetails.paymentMethod == "wallet") {
         db.get()
           .collection(collection.USER_INFORMATION)
           .updateOne(
@@ -400,18 +400,26 @@ module.exports = {
       }
     });
   },
-  returnOrderRequest: (orderId) => {
+  returnOrderRequest: (orderDetails) => {
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.ORDER_INFORMATION)
         .updateOne(
-          { _id: objectId(orderId) },
+          { _id: objectId(orderDetails.orderId) },
           {
             $set: {
               orderStatus: "returnrequest",
             },
           }
         );
+        db.get()
+          .collection(collection.USER_INFORMATION)
+          .updateOne(
+            { _id: objectId(orderDetails.userId) },
+            {
+              $inc: { walletAmount: orderDetails.total },
+            }
+          );
     });
   },
 

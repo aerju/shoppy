@@ -438,8 +438,8 @@
 
           // document.getElementById("total").innerHTML = response.coupone.total;
           document.getElementById("coupon-discount").innerHTML =
-            totalAmount - response.coupone.total;
-
+           parseInt(totalAmount) - response.coupone.total;
+           
           document.getElementById("pay").innerHTML = response.coupone.total;
         } else {
           const popup2 = document.getElementById("popup2");

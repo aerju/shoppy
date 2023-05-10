@@ -1,309 +1,309 @@
 <%- include('../partials/UserHeader') %>
-    <div class="container mt-5">
-        <main class="main-wrap">
-            <section class="content-main" id="container_content">
-                <div class="content-header">
-                    <div>
-                        <h2 class="content-title card-title">Order details</h2>
-                        <p>Details for Order ID:<%=orderDetails._id%>
-                        </p>
-                    </div>
-                    <% if (orderDetails.orderStatus=='Delivered' ) { %>
-                        <div class="text">
+<div class="container mt-5">
+  <main class="main-wrap">
+    <section class="content-main" id="container_content">
+      <div class="content-header">
+        <div>
+          <h2 class="content-title card-title">Order details</h2>
+          <p>Details for Order ID:<%=orderDetails._id%></p>
+        </div>
+        <% if (orderDetails.orderStatus=='Delivered' ) { %>
+        <div class="text">
+          <!-- <a href="/download-invoice/<%=orderDetails._id%>">Download Invoice</a> -->
+          <button
+            class="btn"
+            style="background-color: white; color: black"
+            id="download"
+          >
+            Download Invoice
+          </button>
+        </div>
+        <br />
+        <% } %>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-50 mt-20 order-info-wrap">
+            <div class="col-md-3">
+              <article class="icontext align-items-start">
+                <span class="icon icon-sm rounded-circle bg-primary-light">
+                  <i class="text-primary material-icons md-person"></i>
+                </span>
+                <div class="text">
+                  <h6 class="mb-1">Customer</h6>
+                  <p class="mb-1">
+                    <%=orderDetails.userDetails[0].name%>
+                    <br />
+                    <%=orderDetails.userDetails[0].phone%>
+                  </p>
+                </div>
+              </article>
+            </div>
+            <!-- col// -->
+            <div class="col-md-3">
+              <article class="icontext align-items-start">
+                <span class="icon icon-sm rounded-circle bg-primary-light">
+                  <i class="text-primary material-icons md-local_shipping"></i>
+                </span>
+                <div class="text">
+                  <h6 class="mb-1">Order info</h6>
+                  <p class="mb-1">
+                    Pay method: <%=orderDetails.paymentMethod%> <br />
+                    Total Amount: <%=orderDetails.total %>
+                    <br />
+                    Status: <%=orderDetails.orderStatus%>
+                  </p>
+                </div>
+              </article>
+            </div>
+            <!-- col// -->
+            <div class="col-md-4">
+              <article class="icontext align-items-start">
+                <span class="icon icon-sm rounded-circle bg-primary-light">
+                  <i class="text-primary material-icons md-place"></i>
+                </span>
+                <div class="text">
+                  <h6 class="mb-1">Deliver to</h6>
+                  <p class="mb-1">
+                    <b> <%=orderDetails.deliveryDetails.name%> </b>-
+                    <b> <%=orderDetails.deliveryDetails.phone%> </b>
+                    <br />
+                    <%=orderDetails.deliveryDetails.area%> -
+                    <%=orderDetails.deliveryDetails.locality%> <br />
+                    <%=orderDetails.deliveryDetails.pincode%> -
+                    <%=orderDetails.deliveryDetails.district%> <br />
+                  </p>
+                </div>
+              </article>
+            </div>
+            <!-- col// -->
 
+            <div class="col-md-2">
+              <article class="icontext align-items-start">
+                <span class="icon icon-sm rounded-circle bg-primary-light">
+                  <i class="text-primary material-icons md-place"></i>
+                </span>
+                <% if (orderDetails.orderStatus!=='Delivered' &&
+                orderDetails.orderStatus!=='Cancel' &&
+                orderDetails.orderStatus!=='paymentFailed' &&
+                orderDetails.orderStatus!=='cancelrequest' &&
+                orderDetails.orderStatus!=='returnrequest' &&
+                orderDetails.orderStatus!=='return' ) { %>
 
-                            <!-- <a href="/download-invoice/<%=orderDetails._id%>">Download Invoice</a> -->
-                            <button class="btn" style="background-color: white;color: black;" id="download">Download
-                                Invoice</button>
+                <div class="text">
+                  <p class="mt-4" style="color: blue">
+                    <a
+                      onclick="cancelRequest('<%=orderDetails._id%>','<%=orderDetails.paymentMethod%>','<%=orderDetails.total%>','<%=orderDetails.userId%>')"
+                    >
+                      Cancel</a
+                    >
+                  </p>
+                </div>
+                <% } %> <% if (orderDetails.orderStatus=='cancelrequest' ) { %>
+                <div class="text">
+                  <p class="mt-4" style="color: blue">Cancel request sended</p>
+                </div>
+                <% } %> <% if (orderDetails.orderStatus=='Delivered' ) { %>
+                <!-- <div class="text">
 
+                  <p class="mt-4" style="color: blue;" id="reason-button" >
+                    <a  onclick="returnRequestReason()">Return
+                      Product</a>
+                  </p>
 
+                  <div id="reason-div" class="mt-4" style="display: none;">
+                    <textarea name="" id="reason" cols="2" rows="2" placeholder="Reason for return " required></textarea>
+                  <p class="" style="color: blue;">
+                    <a href="" onclick="returnRequest('<%=orderDetails._id%>')">Return
+                      Product</a>
+                  </p>
+                  </div>               
+                </div> -->
+                <div class="text">
+                  <p class="mt-4" style="color: blue">
+                    <a
+                      onclick="returnRequest('<%=orderDetails._id%>','<%=orderDetails.paymentMethod%>','<%=orderDetails.total%>','<%=orderDetails.userId%>')"
+                      >Return Product</a
+                    >
+                  </p>
+                </div>
+
+                <% } %> <% if (orderDetails.orderStatus=='returnrequest' ) { %>
+                <div class="text">
+                  <p class="mt-4" style="color: blue">
+                    Return request pending...
+                  </p>
+                </div>
+                <% } %>
+              </article>
+            </div>
+            <!-- col// -->
+          </div>
+          <!-- row // -->
+        </div>
+      </div>
+      <br />
+
+      <div class="card">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th width="20%">Product</th>
+                    <th width="20%">Unit Price</th>
+                    <th width="20%">Quantity</th>
+                    <th width="20%">Total</th>
+                    <th width="20%">payment info</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (let i=0; i < orderDetails.productDetails.length; i++)
+                  { %>
+                  <tr>
+                    <td>
+                      <a class="itemside" href="#">
+                        <div>
+                          <img
+                            src="<%=orderDetails.productDetails[i].image[0] %>"
+                            width="40"
+                            height="40"
+                            class="img-xs"
+                            alt="Item"
+                          />
                         </div>
-                        <br>
-                        <% } %>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row mb-50 mt-20 order-info-wrap">
-                            <div class="col-md-3">
-                                <article class="icontext align-items-start">
-                                    <span class="icon icon-sm rounded-circle bg-primary-light">
-                                        <i class="text-primary material-icons md-person"></i>
-                                    </span>
-                                    <div class="text">
-                                        <h6 class="mb-1">Customer</h6>
-                                        <p class="mb-1">
-                                            <%=orderDetails.userDetails[0].name%>
-                                                <br>
-                                                <%=orderDetails.userDetails[0].phone%>
-                                        </p>
+                        <div class="info">
+                          <%=orderDetails.productDetails[i].pro_name %>
+                        </div>
+                      </a>
+                    </td>
+                    <td><%=orderDetails.productDetails[i].pro_price %></td>
+                    <td><%=orderDetails.products.products[i].quantity %></td>
+                    <td>
+                      <%=orderDetails.products.products[i].quantity *
+                      orderDetails.productDetails[i].pro_price %>
+                    </td>
+                    <!-- <td > <%=orderDetails.products.products[i].qunatity %> </td> -->
+                    <td><%=orderDetails.paymentMethod%></td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <!-- table-responsive// -->
+          </div>
+          <!-- col// -->
+        </div>
+      </div>
+      <br />
+    </section>
+  </main>
+</div>
+<span
+  id="popup"
+  style="
+    display: none;
+    position: fixed;
+    top: 90%;
+    border-radius: 10px;
+    left: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #1ddf1d74;
+    z-index: 9999;
+  "
+>
+  Order Status changed
+</span>
 
-                                    </div>
-                                </article>
-                            </div> <!-- col// -->
-                            <div class="col-md-3">
-                                <article class="icontext align-items-start">
-                                    <span class="icon icon-sm rounded-circle bg-primary-light">
-                                        <i class="text-primary material-icons md-local_shipping"></i>
-                                    </span>
-                                    <div class="text">
-                                        <h6 class="mb-1">Order info</h6>
-                                        <p class="mb-1">
-                                            Pay method: <%=orderDetails.paymentMethod%> <br>
-                                                Total Amount: <%=orderDetails.total %>
-                                                    <br> Status: <%=orderDetails.orderStatus%>
-                                        </p>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+  integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  async function cancelRequest(orderId, paymentMethod, total, userId) {
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "Message",
+      inputPlaceholder: "Type your cancel reason here...",
+      inputAttributes: {
+        "aria-label": "Type your cancel reason here",
+      },
+      showCancelButton: true,
+    });
 
+    if (text) {
+      $.ajax({
+        url: "/cancel-request",
+        method: "POST",
+        data: {
+          orderId,
+          paymentMethod,
+          total,
+          userId,
+        },
+        success: (response) => {
+          const popup = document.getElementById("popup");
+          popup.style.display = "block";
+          setTimeout(() => {
+            popup.style.display = "none";
+          }, 1000);
+        },
+      });
+      location.reload();
+    }
+  }
 
+  //   function returnRequestReason(){
+  //     document.getElementById("reason-button").style.display='none'
+  //     document.getElementById("reason-div").style.display='block'
+  //   }
 
-                                    </div>
-                                </article>
-                            </div> <!-- col// -->
-                            <div class="col-md-4">
-                                <article class="icontext align-items-start">
-                                    <span class="icon icon-sm rounded-circle bg-primary-light">
-                                        <i class="text-primary material-icons md-place"></i>
-                                    </span>
-                                    <div class="text">
-                                        <h6 class="mb-1">Deliver to</h6>
-                                        <p class="mb-1">
-                                            <b>
-                                                <%=orderDetails.deliveryDetails.name%>
-                                            </b>-
-                                            <b>
-                                                <%=orderDetails.deliveryDetails.phone%>
-                                            </b>
-                                            <br>
-                                            <%=orderDetails.deliveryDetails.area%> -
-                                                <%=orderDetails.deliveryDetails.locality%> <br>
-                                                    <%=orderDetails.deliveryDetails.pincode%> -
-                                                        <%=orderDetails.deliveryDetails.district%> <br>
+  async function returnRequest(orderId) {
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "Message",
+      inputPlaceholder: "Type your return reason here...",
+      inputAttributes: {
+        "aria-label": "Type your return reason here",
+      },
+      showCancelButton: true,
+    });
 
+    if (text) {
+      $.ajax({
+        url: "/return-request",
+        method: "POST",
+        data: {
+          orderId,
+          paymentMethod,
+          total,
+          userId,
+        },
+        success: (response) => {},
+      });
+      location.reload();
+    }
+  }
+</script>
 
-                                        </p>
-                                    </div>
-                                </article>
-                            </div> <!-- col// -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+<script>
+  window.onload = function () {
+    document.getElementById("download").addEventListener("click", () => {
+      let invoice = this.document.getElementById("container_content");
+      console.log(invoice);
+      console.log(window);
+      html2pdf().from(invoice).save();
+    });
+  };
+</script>
 
-
-                            <div class="col-md-2">
-                                <article class="icontext align-items-start">
-                                    <span class="icon icon-sm rounded-circle bg-primary-light">
-                                        <i class="text-primary material-icons md-place"></i>
-                                    </span>
-                                    <% if (orderDetails.orderStatus!=='Delivered' && orderDetails.orderStatus!=='Cancel'
-                                        && orderDetails.orderStatus!=='paymentFailed' &&
-                                        orderDetails.orderStatus!=='cancelrequest' &&
-                                        orderDetails.orderStatus!=='returnrequest' &&
-                                        orderDetails.orderStatus!=='return' ) { %>
-
-                                        <div class="text">
-
-                                            <p class="mt-4" style="color: blue;">
-                                                <a  onclick="cancelRequest('<%=orderDetails._id%>','<%=orderDetails.paymentMethod%>','<%=orderDetails.total%>','<%=orderDetails.userId%>')"> Cancel</a>
-                                                   
-                                            </p>
-                                        </div>
-                                        <% } %>
-
-                                            <% if (orderDetails.orderStatus=='cancelrequest' ) { %>
-                                                <div class="text">
-
-                                                    <p class="mt-4" style="color: blue;">
-                                                        Cancel request sended
-
-                                                    </p>
-                                                </div>
-                                                <% } %>
-                                                    <% if (orderDetails.orderStatus=='Delivered' ) { %>
-                                                        <div class="text">
-
-                                                            <p class="mt-4" style="color: blue;">
-                                                                <a href=""
-                                                                    onclick="returnRequest('<%=orderDetails._id%>')">Return
-                                                                    Product</button>
-
-
-                                                            </p>
-                                                        </div>
-                                                        <% } %>
-                                                            <% if (orderDetails.orderStatus=='returnrequest' ) { %>
-                                                                <div class="text">
-
-                                                                    <p class="mt-4" style="color: blue;">
-                                                                        Return request sended
-
-                                                                    </p>
-                                                                </div>
-                                                                <% } %>
-                                </article>
-                            </div> <!-- col// -->
-                        </div> <!-- row // -->
-                    </div>
-                </div>
-                <br>
-
-                <div class="card">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th width="20%">Product</th>
-                                            <th width="20%">Unit Price</th>
-                                            <th width="20%">Quantity</th>
-                                            <th width="20%">Total</th>
-                                            <th width="20%">payment info</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <% for (let i=0; i < orderDetails.productDetails.length; i++) { %>
-                                            <tr>
-                                                <td>
-                                                    <a class="itemside" href="#">
-                                                        <div>
-                                                            <img src="<%=orderDetails.productDetails[i].image[0] %>"
-                                                                width="40" height="40" class="img-xs" alt="Item">
-                                                        </div>
-                                                        <div class="info">
-                                                            <%=orderDetails.productDetails[i].pro_name %>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <%=orderDetails.productDetails[i].pro_price %>
-                                                </td>
-                                                <td>
-                                                    <%=orderDetails.products.products[i].quantity %>
-                                                </td>
-                                                <td>
-                                                    <%=orderDetails.products.products[i].quantity *
-                                                        orderDetails.productDetails[i].pro_price %>
-                                                </td>
-                                                <!-- <td > <%=orderDetails.products.products[i].qunatity %> </td> -->
-                                                <td>
-                                                    <%=orderDetails.paymentMethod%>
-                                                </td>
-
-                                            </tr>
-                                            <% } %>
-
-                                    </tbody>
-                                </table>
-
-
-                            </div> <!-- table-responsive// -->
-
-
-                        </div> <!-- col// -->
-                    </div>
-
-
-
-                </div>
-                <br>
-            </section>
-
-
-
-        </main>
-    </div>
-    <span id="popup"
-        style="display:none; position:fixed; top:90%;border-radius: 10px; left:50%;box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); transform:translate(-50%, -50%); padding:10px; border:1px solid #ccc; background-color:#1ddf1d74; z-index:9999;">
-        Order Status changed
-
-    </span>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
-        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-
-
-        async function cancelRequest(orderId, paymentMethod, total, userId) {
-            const { value: text } = await Swal.fire({
-                input: 'textarea',
-                inputLabel: 'Message',
-                inputPlaceholder: 'Type your cancel reason here...',
-                inputAttributes: {
-                    'aria-label': 'Type your cancel reason here'
-                },
-                showCancelButton: true
-            })
-
-            if (text) {
-                $.ajax({
-                url: "/cancel-request",
-                method: "POST",
-                data: { orderId, paymentMethod, total, userId },
-                success: (response) => {
-                    const popup = document.getElementById('popup');
-                    popup.style.display = 'block';
-                    setTimeout(() => {
-                        popup.style.display = 'none';
-                    }, 1000);
-
-                }
-            })
-            location.reload()
-            }
-
-            // console.log(orderId, paymentMethod, total, userId);
-            // $.ajax({
-            //     url: "/cancel-request",
-            //     method: "POST",
-            //     data: { orderId, paymentMethod, total, userId },
-            //     success: (response) => {
-
-            //         const popup = document.getElementById('popup');
-            //         popup.style.display = 'block';
-            //         setTimeout(() => {
-            //             popup.style.display = 'none';
-            //         }, 1000);
-
-            //     }
-            // })
-
-
-        }
-
-        function returnRequest(orderId) {
-            console.log(orderId);
-            $.ajax({
-                url: "/return-request",
-                method: "POST",
-                data: { orderId },
-                success: (response) => {
-                    // alert(response)
-                    const popup = document.getElementById('popup');
-                    popup.style.display = 'block';
-                    setTimeout(() => {
-                        popup.style.display = 'none';
-                    }, 1000);
-
-                }
-            })
-
-
-        }
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-    <script>
-        window.onload = function () {
-            document.getElementById('download').addEventListener("click", () => {
-                let invoice = this.document.getElementById('container_content')
-                console.log(invoice);
-                console.log(window);
-                html2pdf().from(invoice).save()
-            })
-        }
-    </script>
-
-
-    <%- include('../partials/UserFooter') %>
+<%- include('../partials/UserFooter') %>
