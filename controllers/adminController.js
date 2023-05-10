@@ -110,7 +110,7 @@ module.exports = {
 
   adminViewProductDetails: (req, res) => {
     const productActive = 'active'
-    adminHelper.getProductInfo().then((products) => {
+    adminHelper.getProductInfoAdmin().then((products) => {
       res.render("admin/productDetails", { products ,productActive});
     });
   },

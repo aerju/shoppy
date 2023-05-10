@@ -149,15 +149,15 @@ module.exports = {
     });
   },
 
-  getProductInfo: () => {
+  getProductInfoAdmin:() => {
     return new Promise(async (res, rej) => {
-      // let products = await db.get().collection(collection.PRODUCT_INFORMATION).find().toArray()
-      // res(products)
-
+     
       let products = await db
         .get()
         .collection(collection.PRODUCT_INFORMATION)
         .aggregate([
+
+        
           {
             $lookup: {
               from: collection.CATEGORIES,
@@ -167,6 +167,28 @@ module.exports = {
             },
           },
         ])
+        .toArray();
+      res(products);
+    });
+  },
+
+  getProductInfo: (skip,limit) => {
+    return new Promise(async (res, rej) => {
+    
+      let products = await db
+        .get()
+        .collection(collection.PRODUCT_INFORMATION)
+        .aggregate([
+          { $match: { stockStatus: { $eq: true } } },  
+          {
+            $lookup: {
+              from: collection.CATEGORIES,
+              localField: "pro_cat",
+              foreignField: "_id",
+              as: "categoryDetails",
+            },
+          },
+        ]).skip(skip).limit(limit)
         .toArray();
       res(products);
     });

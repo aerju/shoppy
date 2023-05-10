@@ -175,9 +175,11 @@
                                             aria-hidden="true"></i></a>
                                 </div>
                                 <div class="sinlge-bar shopping">
+                                    
                                     <a href="/profile" class="single-icon"><i class="fa fa-user-circle-o"
                                             aria-hidden="true"></i>
                                     </a>
+                                   
                                     <div class="shopping-item">
                                         <div class="shopping-list">
                                             <a href="/profile">
@@ -189,7 +191,9 @@
                                         </div>
 
                                     </div>
+
                                 </div>
+                               
 
                                 <!-- Content to render if condition is true -->
                                 <div class="sinlge-bar shopping">
@@ -204,17 +208,8 @@
                                                     0
                                                 </span>
                                                 <% } %>
-
-
-
                                     </a>
                                 </div>
-
-
-
-
-
-
                             </div>
                         </div>
                 </div>
@@ -224,7 +219,7 @@
                         <div class="right-bar">
                             <!-- Search Form -->
                             <div class="sinlge-bar ">
-                                <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                <a href="/login" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                             </div>
                             <div class="sinlge-bar shopping">
                                 <a href="/login" class="single-icon"><i class="fa fa-user-circle-o"
@@ -232,7 +227,7 @@
 
                             </div>
                             <div class="sinlge-bar shopping">
-                                <a href="#" class="single-icon"><i class="ti-bag"></i> </a>
+                                <a href="/login" class="single-icon"><i class="ti-bag"></i> </a>
                                 <!-- Shopping Item -->
 
                                 <!--/ End Shopping Item -->
@@ -258,8 +253,8 @@
                                     <div class="navbar-collapse">
                                         <div class="nav-inner">
                                             <ul class="nav main-menu menu navbar-nav">
-                                                <li class="active"><a href="/">Home</a></li>
-                                                <li><a href="#">Category<i class="ti-angle-down"></i></a>
+                                                <li class="<%=locals.userHomeActive%>"><a href="/">Home</a></li>
+                                                <li class="<%=locals.userCategoryActive%>"><a href="#">Category<i class="ti-angle-down"></i></a>
                                                     <ul class="dropdown">
                                                         <% for (var i=0; i < category.length; i++) { %>
                                                             <% if (category[i].productStatus) { %>
@@ -268,16 +263,13 @@
                                                                     </a></li>
                                                                 <% } %>
 
-
                                                                     <% } %>
-
-
                                                     </ul>
                                                 </li>
-                                                <li><a href="#">Hot items</a></li>
-                                                <li><a href="#">Help</a></li>
+                                                <!-- <li><a href="#">Hot items</a></li> -->
+                                                <!-- <li><a href="#">Help</a></li> -->
 
-                                                <li><a href="/contact">Contact Us</a></li>
+                                                <li  class="<%=locals.userContactActive%>"><a href="/contact">Contact Us</a></li>
                                             </ul>
                                         </div>
                                     </div>

@@ -1,39 +1,6 @@
 <%- include('../partials/UserHeader') %>
 
-  <!-- <section class="hero-slider">
-  <div
-    class="single-slider"
-    style="
-      background-image: url('https://img.freepik.com/premium-psd/black-friday-sale-laptops-with-dark-background-3d-render_444361-42.jpg');
-      height: 600px;
-    "
-  >
-    <div class="container">
-      <div class="row no-gutters">
-        <div class="col-lg-9 offset-lg-3 col-12">
-          <div class="text-inner">
-            <div class="row">
-              <div class="col-lg-7 col-12">
-                <div class="hero-text">
-                  <h1>
-                    <span style="color: white">UP TO 50% OFF </span>Shirt For
-                    Man
-                  </h1>
-                  <p style="color: white">
-                    Maboriosam in a nesciung eget magnae <br />
-                    dapibus disting tloctio in the find it pereri <br />
-                    odiy maboriosm.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
-
+<% if (banner.length) { %>
   <section>
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -42,23 +9,17 @@
         <li data-target="#myCarousel" data-slide-to="2"></li>
       </ol>
       <div class="carousel-inner">
-
-        <div class="carousel-item active">
-          <img
-            src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg"
-            class="d-block w-100" alt="Image 1">
-        </div>
-        <div class="carousel-item">
-          <img
-            src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg"
-            class="d-block w-100" alt="Image 2">
-        </div>
-        <div class="carousel-item">
-          <img
-            src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg"
-            class="d-block w-100" alt="Image 3">
-        </div>
+        <% for (let i = 0; i < banner.length; i++) { %>
+          <div class="carousel-item <% if (i === 0) { %>active<% } %>">
+            <img src="<%= banner[i].image[0] %>" alt="<%= banner[i].altText %>">
+            <div class="carousel-caption">
+              <h3><%= banner[i].banner_title %></h3>
+              <p><%= banner[i].banner_name %></p>
+            </div>
+          </div>
+        <% } %>
       </div>
+
       <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
@@ -69,9 +30,12 @@
       </a>
     </div>
   </section>
+ 
+  <%}%>
 
+ 
 
-
+  
   <!-- Start Product Area -->
   <div class="product-area section" style="margin-top: -50px;">
     <div class="container">
@@ -104,16 +68,11 @@
 
                                 <div class="button-head">
                                   <div class="product-action">
-                                    <% if (user) { %>
 
-                                      <a onclick="addToWishList( '<%=products[i]._id%>' )"><i class="fa fa-heart"
-                                          style="color: red"></i><span>Add to Wishlist</span></a>
+                                    <a onclick="addToWishList( '<%=products[i]._id%>' )"><i
+                                        class="ti-heart"></i><span>Add to Wishlist</span></a>
 
-                                      <% } else { %>
-                                        <a onclick="addToWishList( '<%=products[i]._id%>' )"><i
-                                            class="ti-heart"></i><span>Add to Wishlist</span></a>
-                                        <% } %>
-                                          <p title="Compare"></p>
+                                    <p title="Compare"></p>
                                   </div>
 
                                   <div class="product-action-2">
@@ -143,31 +102,42 @@
                                     <img class="default-img" src="<%=products[i].image[0]%>" alt="#"
                                       style="width: 550px; height: 750" />
                                   </a>
-                                  <div class="button-head">
-                                    <div class="product-action">
 
-                                      <% if (products[i].isWish) { %>
-                                        <a onclick="removeFromWishList('<%=products[i]._id%>')"><i class="fa fa-heart"
-                                            style="color: red" id="remove-wish"></i><span>Remove from
-                                            Wishlist</span></a>
+                                  <% if (user) { %>
 
-                                        <% } else { %>
+                                    <div class="button-head">
+                                      <div class="product-action">
+                                        <% if (products[i].isWish) { %>
+                                          <a onclick="removeFromWishList('<%=products[i]._id%>')"><i class="fa fa-heart"
+                                              style="color: red" id="remove-wish"></i><span>Remove from
+                                              Wishlist</span></a>
 
-                                          <a onclick="addToWishList( '<%=products[i]._id%>' )"><i id="add-wish2"
-                                              class="ti-heart"></i><span>Add to Wishlist</span></a>
-
-                                          <% } %>
-
-                                            <p title="Compare"></p>
+                                          <% } else { %>
+                                            <a onclick="addToWishList( '<%=products[i]._id%>' )"><i id="add-wish2"
+                                                class="ti-heart"></i><span>Add to Wishlist</span></a>
+                                            <% } %>
+                                              <p title="Compare"></p>
+                                      </div>
+                                      <div class="product-action-2">
+                                        <a onclick="addTOCart( '<%=products[i]._id%>' )">Add to cart</a>
+                                      </div>
                                     </div>
 
-                                    <div class="product-action-2">
-                                      <!-- <a title="Add to cart"
-																			href="/add-to-cart/<%=products[i]._id%>">Add to
-																			cart</a> -->
-                                      <a onclick="addTOCart( '<%=products[i]._id%>' )">Add to cart</a>
-                                    </div>
-                                  </div>
+                                    <% } else { %>
+
+                                      <div class="button-head">
+                                        <div class="product-action">
+                                         <a href="/login"><i id="add-wish2" class="ti-heart"></i><span>Add to
+                                              Wishlist</span></a>
+                                          <p title="Compare"></p>
+                                        </div>
+                                        <div class="product-action-2">
+                                          <a href="/login">Add to cart</a>
+                                        </div>
+                                      </div>
+
+                                      <% } %>
+
                                 </div>
                                 <div class="product-content">
                                   <h3>
@@ -195,6 +165,42 @@
     </div>
   </div>
 
+>
+
+  <% if (total >= 1) { %>
+    <div class="d-flex justify-content-center">
+      <% if (page > 1) { %>
+      <a
+        class="btn border "
+        style="background-color: white; color: black"
+        href="/?page=<%= page - 1 %>"
+        >Previous</a
+      >
+      <% } %> 
+
+      <% for (var i = 1; i <= totalPages; i++) { %>
+      <a
+        class="btn border page-item <%= page === i ? 'active' : '' %>"
+        style="background-color: white; color: black"
+        href="/?page=<%= i %>"
+      >
+        <p ><%=i%></p></a
+      >
+
+      <% } %> 
+
+     
+      <% if (page < total ) { %>
+      <a
+        class="btn border"
+        style="background-color: white; color: black"
+        href="/?page=<%= page + 1 %>"
+        >Next</a
+      >
+      <% } %>
+    </div>
+    <% } %>
+
   <!-- End Product Area -->
 
   <!-- Start Midium Banner  -->
@@ -205,10 +211,10 @@
       <% for(var i=0; i< 2; i++) { %>
       <div class="col-lg-6 col-md-6 col-12">
         <div class="single-banner">
-          <img src="<%= banner[i].image%>" alt="#" />
+          <img src="" alt="#" />
           <div class="content">
-            <p><%= banner[i].banner_title%></p>
-            <h3><%= banner[i].banner_name%></h3>
+            <p></p>
+            <h3></h3>
             <a href="/">Shop Now</a>
           </div>
         </div>
@@ -275,7 +281,7 @@
   </div>
 </div> -->
 
-  <!-- Start Cowndown Area -->
+<!-- <% if (banner.length) { %>
   <% for(var i=0; i< 1; i++) { %>
     <section class="cown-down">
       <div class="section-inner">
@@ -289,17 +295,14 @@
             <div class="col-lg-4 col-12 padding-left">
               <div class="content">
                 <div class="heading-block">
-                  <!-- <p class="small-title"><%= banner[i].banner_title%></p> -->
+                  
                   <h3 class="title">
                     <%= banner[i].banner_title%>
                   </h3>
                   <p class="text">
-                    <%= banner[i].banner_name%>.
+                    <%= banner[i].banner_name%>
                   </p>
-                  <!-- <h1 class="price">$1200 <s>$1890</s></h1>
-              <div class="coming-time">
-                <div class="clearfix" data-countdown="2021/02/30"></div>
-              </div> -->
+                
                 </div>
               </div>
             </div>
@@ -308,6 +311,11 @@
       </div>
     </section>
     <% } %>
+
+  <%}%> -->
+
+  
+  
       <span id="popup" style="
       display: none;
       position: fixed;
@@ -367,7 +375,7 @@
         }
 
         function addToWishList(proId) {
-         
+
           $.ajax({
             url: "/add-to-wishlist/" + proId,
             method: "get",
@@ -390,7 +398,7 @@
             url: '/remove-wishlist-product',
             data: {
               product: proId,
-            
+
             },
             method: 'POST',
             success: (response) => {

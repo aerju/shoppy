@@ -19,32 +19,40 @@ let userExistMsg, loginMsg;
 
 module.exports = {
   userHome: async (req, res, next) => {
+   
+    const page = parseInt(req.query.page || 1);
+    const pageSize = parseInt(req.query.pageSize || 5);
+    const skip = (page - 1) * pageSize;
+    const limit = pageSize;
+
+    let userHomeActive = "active";
     let user = req.session.user;
 
     let wishlistItems;
-    let products = await adminHelper.getProductInfo();
+    let products = await adminHelper.getProductInfo(skip, limit);
+
+    let total = Object.keys(products).length;
+    
+
+    const totalPages = Math.ceil(total / pageSize)+2
 
     if (req.session.user) {
       cartcount = await productHelper.getCartCount(user._id);
       req.session.user.cartCount = cartcount;
 
       wishlistItems = await productHelper.getWishlistProducts(user._id);
-      wishlistItems.forEach((wish)=>{
-        products.forEach((pro)=>{       
-          if(wish.item.toString()==pro._id.toString()){
-            pro.isWish=true
+      wishlistItems.forEach((wish) => {
+        products.forEach((pro) => {
+          if (wish.item.toString() == pro._id.toString()) {
+            pro.isWish = true;
           }
-        })
-      })       
+        });
+      });
     }
-
 
     let banner = await adminHelper.getBannerInfo();
 
-   
     adminHelper.viewAllCategories().then((category) => {
-      // console.log(wishlistItems,'wishlist',products,'products');
-
       if (req.session.userLoggedIn) {
         res.render("user/userLandingPage", {
           userHead: true,
@@ -54,6 +62,9 @@ module.exports = {
           cartcount,
           banner,
           wishlistItems,
+          userHomeActive,
+          totalPages,
+          page, total
         });
       } else {
         res.render("user/userLandingPage", {
@@ -64,6 +75,9 @@ module.exports = {
           cartcount,
           banner,
           wishlistItems,
+          userHomeActive,
+          totalPages,
+          page,total
         });
       }
     });
@@ -247,6 +261,7 @@ module.exports = {
   },
 
   userCategory: async (req, res) => {
+    let userCategoryActive = "active";
     let user = req.session.user;
     let categoryDetails = await productHelper.getCategory(req.params.id);
     adminHelper.viewAllCategories().then((category) => {
@@ -261,6 +276,7 @@ module.exports = {
             cartcount,
             category,
             categoryDetails,
+            userCategoryActive,
           });
         } else {
           res.render("user/category", {
@@ -270,6 +286,7 @@ module.exports = {
             cartcount,
             category,
             categoryDetails,
+            userCategoryActive,
           });
         }
       });
@@ -279,22 +296,17 @@ module.exports = {
     let user = req.session.user;
     cartcount = await productHelper.getCartCount(user._id);
     let cartItems = await productHelper.getCartProducts(user._id);
-    console.log(cartItems, "llllllllllllllllllllllllllll");
-
     let totalValue = 0;
     let cartStockOut = false;
     if (cartItems.length > 0) {
       let totalValueObj = await productHelper.getTotalAmount(user._id);
       totalValue = totalValueObj.total;
-
       cartItems.forEach(function (products) {
         products.product.proTotal =
           products.quantity * products.product.pro_price;
-        // if (products.product.pro_count) {
         if (products.product.pro_count == 0) {
           cartStockOut = true;
         }
-        // }
       });
     }
 
@@ -316,7 +328,6 @@ module.exports = {
   },
   changePoductQuantity: (req, res) => {
     productHelper.changeQunatity(req.body).then(async (response) => {
-      console.log(response, ";;;;;;;;;;;;;;;;;;;;;;;;");
       response.total = await productHelper.getTotalAmount(req.body.user);
 
       res.json(response);
@@ -334,7 +345,6 @@ module.exports = {
     let total = await productHelper.getTotalAmount(user._id);
     let addresdetails = await userHelper.getAddressInfo(user._id);
 
-    console.log(addresdetails, "fffffffffffffffff");
     let cartItems = await productHelper.getCartProducts(user._id);
     // let wallet = await userHelper.getWalletInfo(user._id);
     let wallet = await userHelper.getWalletInfo(user._id);
@@ -486,7 +496,7 @@ module.exports = {
     // console.log(user._id);
     // console.log(req.body);
 
-    productHelper.removeWishlistProduct(req.body,user._id).then((response) => {
+    productHelper.removeWishlistProduct(req.body, user._id).then((response) => {
       res.json(response);
     });
   },
@@ -550,8 +560,6 @@ module.exports = {
       res.json(response);
     });
   },
-
- 
 
   search: async (req, res) => {
     const searchValue = req.query.search;
@@ -667,38 +675,20 @@ module.exports = {
     res.render("user/wallet", { user, cartcount, wallet });
   },
 
-  getOpt: (req, res) => {
-    // const phoneNum = req.body.phone
-    // const auth = admin.auth();
-    // auth.languageCode = 'en';
-    // auth.sendSignInLinkToPhone(phoneNum)
-    //     .then((verificationId) => {
-    //         console.log('Verification ID:', verificationId);
-    //     })
-    //     .catch((error) => {
-    //         console.error('Error sending OTP:', error);
-    //     });
-    // const secret = speakeasy.generateSecret({ length: 20 });
-    // const otp = speakeasy.totp({
-    //     secret: secret.base32,
-    //     encoding: 'base32'
-    // });
-    // console.log('OTP:', otp);
-    // const verificationId = await phoneAuthProvider.verifyPhoneNumber({
-    //     phoneNumber: '+15555555555',
-    //     code: otp
-    // });
-    // user_phone_number = req.body.phone
-    // otp = auth.generate_phone_verification_code(user_phone_number)
-    // print("OTP:", otp)
-  },
+  getOpt: (req, res) => {},
   contact: async (req, res) => {
+    let userContactActive = "active";
     let user = req.session.user;
     if (req.session.user) {
       cartcount = await productHelper.getCartCount(user._id);
-      res.render("user/contact", { userHead: true, user, cartcount });
+      res.render("user/contact", {
+        userHead: true,
+        user,
+        cartcount,
+        userContactActive,
+      });
     } else {
-      res.render("user/contact", { userHead: false, user });
+      res.render("user/contact", { userHead: false, user, userContactActive });
     }
   },
 

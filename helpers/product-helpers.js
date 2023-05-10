@@ -267,7 +267,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
       // let status = order["payment-method"] === "COD"  ? "placed" : "paymentFailed";
       let status
-      if(order["payment-method"] === "COD" || ["payment-method"] === "wallet"){
+      console.log(order["payment-method"],'etttttttttttt');
+      if(order["payment-method"] === "COD" || order["payment-method"] === "wallet"){
         status="placed"
       }else{
         status="paymentFailed"
