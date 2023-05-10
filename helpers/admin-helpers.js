@@ -8,43 +8,36 @@ const { response } = require("express");
 module.exports = {
   adminDoLogin: (adminData) => {
     return new Promise(async (res, rej) => {
-      let loginStatus = false;
-      let response = {};
-      let admin = await db
-        .get()
-        .collection(collection.ADMIN_INFORMATION)
-        .findOne({ admin_email: adminData.email });
-      console.log(admin, "_________________________________________");
-      if (admin) {
-        if (
-          admin.admin_email === adminData.email &&
-          admin.admin_pass === adminData.password
-        ) {
-          console.log("success");
-          response.status = true;
-          res(response);
+      try {
+        let response = {};
+        let admin = await db
+          .get()
+          .collection(collection.ADMIN_INFORMATION)
+          .findOne({ admin_email: adminData.email });
+        if (admin) {
+          if (
+            admin.admin_email === adminData.email &&
+            admin.admin_pass === adminData.password
+          ) {
+            response.status = true;
+            res(response);
+          } else {
+            rej({ status: false });
+          }
         } else {
-          console.log("no user available");
-
-          res({ status: false });
+          rej({ status: false });
         }
-      } else {
-        console.log("no user available");
-        res({ status: false });
-      }
+      } catch (error) {}
     });
   },
 
   addCategory: (categoryData) => {
-    console.log(categoryData.category);
     categoryData.productStatus = true;
-
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.CATEGORIES)
         .findOne({ category: categoryData.category })
         .then((findCategory) => {
-          console.log(findCategory);
           if (findCategory) {
             resolve(true);
           } else {
@@ -55,8 +48,6 @@ module.exports = {
                 resolve(false);
               });
           }
-          //     db.get().collection(collection.CATEGORIES).insertOne(categoryData).then((response) => {
-          //         resolve(response)
         });
     });
   },
@@ -76,8 +67,6 @@ module.exports = {
         .get()
         .collection(collection.CATEGORIES)
         .findOne({ category: categoryData.category });
-
-      console.log(findCategory);
       if (findCategory) {
         resolve(true);
       } else {
@@ -95,8 +84,6 @@ module.exports = {
             resolve(false);
           });
       }
-      //     db.get().collection(collection.CATEGORIES).insertOne(categoryData).then((response) => {
-      //         resolve(response)
     });
   },
 
@@ -113,26 +100,22 @@ module.exports = {
 
   addProduct: (productData, callback) => {
     // return new Promise(async (res, rej) => {
-    // productData.pro_cat=objectId(pro_cat)
     productData.stockStatus = true;
     productData.pro_price = parseInt(productData.pro_price);
     productData.pro_count = parseInt(productData.pro_count);
-
     let catObj = productData.pro_cat;
     productData.pro_cat = objectId(catObj);
-
     db.get()
       .collection(collection.PRODUCT_INFORMATION)
       .insertOne(productData)
       .then((data) => {
-        console.log(data);
         callback(data.insertedId);
       });
     // })
   },
+
   addProductImages: (proId, imgUrl) => {
     return new Promise(async (resolve, reject) => {
-      console.log(imgUrl);
       db.get()
         .collection(collection.PRODUCT_INFORMATION)
         .updateOne(
@@ -149,15 +132,12 @@ module.exports = {
     });
   },
 
-  getProductInfoAdmin:() => {
+  getProductInfoAdmin: () => {
     return new Promise(async (res, rej) => {
-     
       let products = await db
         .get()
         .collection(collection.PRODUCT_INFORMATION)
         .aggregate([
-
-        
           {
             $lookup: {
               from: collection.CATEGORIES,
@@ -172,14 +152,13 @@ module.exports = {
     });
   },
 
-  getProductInfo: (skip,limit) => {
+  getProductInfo: (skip, limit) => {
     return new Promise(async (res, rej) => {
-    
       let products = await db
         .get()
         .collection(collection.PRODUCT_INFORMATION)
         .aggregate([
-          { $match: { stockStatus: { $eq: true } } },  
+          { $match: { stockStatus: { $eq: true } } },
           {
             $lookup: {
               from: collection.CATEGORIES,
@@ -188,7 +167,9 @@ module.exports = {
               as: "categoryDetails",
             },
           },
-        ]).skip(skip).limit(limit)
+        ])
+        .skip(skip)
+        .limit(limit)
         .toArray();
       res(products);
     });
@@ -212,10 +193,6 @@ module.exports = {
               pro_price: productdetails.pro_price,
               pro_cat: productdetails.pro_cat,
               pro_count: productdetails.pro_count,
-
-              // image: productdetails.image,
-
-              // password: productdetails.password
             },
           }
         )
@@ -225,13 +202,11 @@ module.exports = {
     });
   },
   getOneProduct: (proId) => {
-    console.log(proId);
     return new Promise((res) => {
       db.get()
         .collection(collection.PRODUCT_INFORMATION)
         .findOne({ _id: objectId(proId) })
         .then((product) => {
-          console.log(product);
           res(product);
         });
     });
@@ -261,10 +236,10 @@ module.exports = {
         .collection(collection.USER_INFORMATION)
         .find()
         .toArray();
-      console.log(users);
       res(users);
     });
   },
+
   blockUser: (objId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -338,14 +313,11 @@ module.exports = {
       .collection(collection.BANNERS)
       .insertOne(bannerData)
       .then((data) => {
-        console.log(data);
         callback(data.insertedId);
       });
-    // })
   },
   addBannerImages: (id, imgUrl) => {
     return new Promise(async (resolve, reject) => {
-      console.log(imgUrl);
       db.get()
         .collection(collection.BANNERS)
         .updateOne(
@@ -381,72 +353,7 @@ module.exports = {
         });
     });
   },
-
-  addUsers: (userData) => {
-    return new Promise(async (res, rej) => {
-      userData.password = await bcrypt.hash(userData.password, 10);
-      db.get()
-        .collection(collection.USER)
-        .insertOne(userData)
-        .then((data) => {
-          console.log(data);
-          res(data.insertedId);
-        });
-    });
-  },
-
-  getAllUsers: () => {
-    return new Promise(async (res, rej) => {
-      let users = await db.get().collection(collection.USER).find().toArray();
-      res(users);
-    });
-  },
-  deleteUser: (userID) => {
-    return new Promise((res, rej) => {
-      db.get()
-        .collection(collection.USER)
-        .deleteOne({ _id: ObjectID(userID) })
-        .then((response) => {
-          res(response);
-        });
-    });
-  },
-  getUser: (userID) => {
-    console.log(userID);
-    return new Promise((res) => {
-      db.get()
-        .collection(collection.USER)
-        .findOne({ _id: objectId(userID) })
-        .then((user) => {
-          res(user);
-        });
-    });
-  },
-  editUser: (userID, userDetails) => {
-    console.log(userDetails.name);
-
-    return new Promise((res, rej) => {
-      db.get()
-        .collection(collection.USER)
-        .updateOne(
-          { _id: objectId(userID) },
-          {
-            $set: {
-              name: userDetails.name,
-              email: userDetails.email,
-              // password: userDetails.password
-            },
-          }
-        )
-        .then((response) => {
-          res(response);
-        });
-    });
-  },
   getoderInfo: () => {
-    // const skip = (page - 1) * pageSize;
-    // const limit = pageSize;
-
     return new Promise(async (resolve, reject) => {
       let orders = await db
         .get()
@@ -468,13 +375,11 @@ module.exports = {
   addCoupones: (couponeDetails) => {
     couponeDetails.coupone_maxPrice = parseInt(couponeDetails.coupone_maxPrice);
     couponeDetails.coupone_discount = parseInt(couponeDetails.coupone_discount);
-
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.COUPONE_MANAGEMENT)
         .findOne({ coupone_code: couponeDetails.coupone_code })
         .then((findCategory) => {
-          console.log(findCategory);
           if (findCategory) {
             resolve(true);
           } else {
@@ -488,6 +393,7 @@ module.exports = {
         });
     });
   },
+
   getCoponesInfo: () => {
     return new Promise(async (resolve, reject) => {
       let coupones = await db
@@ -498,6 +404,7 @@ module.exports = {
       resolve(coupones);
     });
   },
+
   removeCoupons: (couponID) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -536,11 +443,10 @@ module.exports = {
           },
         ])
         .toArray();
-
       resolve(orderDetails[0]);
     });
   },
-  
+
   changeStatus: (orderStatus) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -579,12 +485,10 @@ module.exports = {
             $group: {
               _id: "$orderStatus",
               count: { $sum: 1 },
-              //   ids: { $push: "$orderStatus" }
             },
           },
         ])
         .toArray();
-      // console.log(ordrStatistics, 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
       resolve(ordrStatistics);
     });
   },
@@ -594,13 +498,6 @@ module.exports = {
         .get()
         .collection(collection.ORDER_INFORMATION)
         .aggregate([
-          // {
-          //     $match: {
-          //         $expr: {
-          //             $eq: [{ $year: "$date" }]
-          //         }
-          //     }
-          // },
           {
             $match: {
               orderStatus: "Delivered",
@@ -608,14 +505,13 @@ module.exports = {
           },
           {
             $group: {
-              _id: { $month: "$date" }, // Group by month of the "date" field
-              totalAmount: { $sum: "$total" }, // Calculate the sum of the "amount" field
+              _id: { $month: "$date" },
+              totalAmount: { $sum: "$total" },
             },
           },
           { $sort: { date: 1 } },
         ])
         .toArray();
-      // console.log(saleStatistics, 'saleStatisticsiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
       resolve(saleStatistics);
     });
   },
@@ -638,12 +534,10 @@ module.exports = {
             $group: {
               _id: "$categoryDetails.category",
               count: { $sum: 1 },
-              //   ids: { $push: "$orderStatus" }
             },
           },
         ])
         .toArray();
-      // console.log(categoryStatistics, 'cateiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
       resolve(categoryStatistics);
     });
   },
@@ -657,15 +551,14 @@ module.exports = {
             $group: {
               _id: null,
               count: { $sum: { $multiply: "$total" } },
-              //   ids: { $push: "$orderStatus" }
             },
           },
         ])
         .toArray();
-      // console.log(totalRevenue[0], ',,,,,,,,,,,,,,revenue');
       resolve(totalRevenue[0]);
     });
   },
+
   getTotalOrders: () => {
     return new Promise(async (resolve, reject) => {
       let totalOrders = await db
@@ -682,7 +575,6 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log(totalOrders[0], ",,,,,,,,,,,,,,toatl orders");
       resolve(totalOrders[0]);
     });
   },
@@ -693,13 +585,11 @@ module.exports = {
         .collection(collection.PRODUCT_INFORMATION)
         .find()
         .count();
-      // console.log(totalProducts, ',,,,,,,,,,,,,,revenue');
       resolve(totalProducts);
     });
   },
   getSaleStatisticsDate: (yeardata) => {
     let year = parseInt(yeardata);
-
     return new Promise(async (resolve, reject) => {
       let saleStatisticsDate = await db
         .get()
@@ -708,7 +598,7 @@ module.exports = {
           {
             $match: {
               $expr: {
-                $eq: [{ $year: "$date" }, year], // Replace 2023 with the desired year
+                $eq: [{ $year: "$date" }, year],
               },
             },
           },
@@ -719,20 +609,17 @@ module.exports = {
           },
           {
             $group: {
-              _id: { $month: "$date" }, // Group by month of the "date" field
-              totalAmount: { $sum: "$total" }, // Calculate the sum of the "amount" field
+              _id: { $month: "$date" },
+              totalAmount: { $sum: "$total" },
             },
           },
           { $sort: { date: 1 } },
         ])
         .toArray();
-      // console.log(saleStatisticsDate, 'filter::::::iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
       resolve(saleStatisticsDate);
     });
   },
   getSaleStatisticsCategory: (category) => {
-    console.log(category);
-
     return new Promise(async (resolve, reject) => {
       let ordrstaticsCategory = await db
         .get()
@@ -785,7 +672,6 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log(ordrstaticsCategory, "ordrstaticsCategory:;;;;;");
       resolve(ordrstaticsCategory);
     });
   },

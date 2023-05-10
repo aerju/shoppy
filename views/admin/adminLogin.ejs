@@ -26,8 +26,8 @@
                         <div class="card-body p-5 text-center">
     
                             <h3 class="mb-5">Admin Login</h3>
-                            <% if (loggedError) { %>
-                                <div id="errormessage" style="color: red;"><%=loggedError%></div>
+                            <% if (loginErrorMsg) { %>
+                                <div id="errormessage" style="color: red;"><%=loginErrorMsg%></div>
                                   <% }  %>
                             <form action="/admin/login" class="signin-form" method="post" >
                                 <div class="form-group">

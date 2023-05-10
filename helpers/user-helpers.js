@@ -1,13 +1,11 @@
 const db = require("../config/connection");
 var collection = require("../config/collection");
 const bcrypt = require("bcryptjs");
-// const Razorpay = require('razorpay');
-
+var objectId = require("mongodb").ObjectID;
 const Razorpay = require("razorpay");
 const { Collection, ObjectID } = require("mongodb");
-const { response } = require("../app");
-
-var objectId = require("mongodb").ObjectID;
+// const { response } = require("../app");
+// const Razorpay = require('razorpay');
 // const productHelper = require('/helpers/product-helpers');
 
 var instance = new Razorpay({
@@ -20,8 +18,8 @@ module.exports = {
     let response = {};
     return new Promise(async (res, rej) => {
       userData.phone = "+91" + userData.phone;
-      userData.address=[]
-      userData.walletAmount=0
+      userData.address = [];
+      userData.walletAmount = 0;
 
       let userExist = await db
         .get()
@@ -34,8 +32,6 @@ module.exports = {
           },
         ])
         .toArray();
-
-      console.log(userExist, "kkkkkkkk");
       if (userExist.length > 0) {
         res({ userExitsStatus: true });
       } else {
@@ -61,29 +57,23 @@ module.exports = {
         .get()
         .collection(collection.USER_INFORMATION)
         .findOne({ email: userData.email });
-      if(user){
+      if (user) {
         if (user.userstatus) {
           bcrypt.compare(userData.password, user.password).then((status) => {
             if (status) {
-              console.log("success");
               response.user = user;
               response.status = true;
               res(response);
             } else {
-              console.log("erorr login");
-              res({ status: false ,loggedError:'Invalid password'});
+              res({ status: false, loggedError: "Invalid password" });
             }
           });
         } else {
-          console.log("blocked user");
-          res({ status: false ,loggedError:"This user is blocked"});
+          res({ status: false, loggedError: "This user is blocked" });
         }
-        
-      }else{
-        console.log("no user available");
-          res({ status: false ,loggedError:'Invalid  user name'});
+      } else {
+        res({ status: false, loggedError: "Invalid  user name" });
       }
-      
     });
   },
   updateProfileInfo: (userDetails, userId) => {
@@ -112,7 +102,6 @@ module.exports = {
         .get()
         .collection(collection.USER_INFORMATION)
         .findOne({ _id: objectId(userId) });
-      console.log(user, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
       reslove(user);
     });
   },
@@ -123,7 +112,7 @@ module.exports = {
       let getNumber = await db
         .get()
         .collection(collection.USER_INFORMATION)
-        .findOne({ phone: number , userstatus:true});
+        .findOne({ phone: number, userstatus: true });
       if (getNumber) {
         response.status = true;
         resolve(getNumber);
@@ -153,7 +142,6 @@ module.exports = {
   },
 
   gererateRazopay: (orderId, total) => {
-    console.log("razorpay is running");
     return new Promise((resolve, reject) => {
       var options = {
         amount: total * 100,
@@ -164,7 +152,6 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          // console.log(order);
           resolve(order);
         }
       });
@@ -181,7 +168,6 @@ module.exports = {
           orderDeatails["payment[razorpay_payment_id]"]
       );
       hmac = hmac.digest("hex");
-      console.log(hmac, "======", orderDeatails["payment[razorpay_signature]"]);
       if (hmac === orderDeatails["payment[razorpay_signature]"]) {
         resolve();
       } else {
@@ -242,8 +228,6 @@ module.exports = {
         .get()
         .collection(collection.USER_INFORMATION)
         .findOne({ _id: objectId(userId) });
-      // add = addAddresdetails.addAddres
-      console.log(addAddresdetails,'+++');
       resolve(addAddresdetails);
     });
   },
@@ -266,23 +250,11 @@ module.exports = {
           .find({ _id: objectId(couponeId) })
           .toArray();
         let CurrentDate = new Date();
-        let couponeDate = new Date(couponeDetails[0].coupone_date)
-
-
-        console.log(CurrentDate,couponeDate);
-
+        let couponeDate = new Date(couponeDetails[0].coupone_date);
         if (couponeUsed) {
-          console.log("Already used..................");
-          // let cp = {
-          //   couponeStatus: false,
-          // };
-          resolve({couponeStatus:false,couponMsg:'Coupon already used'});
-        } else if (CurrentDate>couponeDate) {
-          console.log("expired.................");
-          // let cp = {
-          //   couponeStatus: false,
-          // };
-          resolve({couponeStatus:false,couponMsg:'Coupon expired'});
+          resolve({ couponeStatus: false, couponMsg: "Coupon already used" });
+        } else if (CurrentDate > couponeDate) {
+          resolve({ couponeStatus: false, couponMsg: "Coupon expired" });
         } else {
           db.get()
             .collection(collection.COUPONE_MANAGEMENT)
@@ -295,26 +267,16 @@ module.exports = {
               }
             );
           let total = coupone.total - checKCoupone.coupone_maxPrice;
-          // let cp = {
-          //   total,
-          //   couponeStatus: true,
-          // };
-          resolve({couponeStatus:true,couponMsg:'Coupon Applied ',total});
+          resolve({ couponeStatus: true, couponMsg: "Coupon Applied ", total });
         }
       } else {
-        console.log("Invalid coupone..................");
-        // let cp = {
-        //   couponeStatus: false,
-        // };
-
-        resolve({couponeStatus:false,couponMsg:"Invalid Coupon"});
+        resolve({ couponeStatus: false, couponMsg: "Invalid Coupon" });
       }
     });
   },
   getOrderAddress: (address, userID) => {
     let addressId = objectId(address.addressDetails);
     let userId = objectId(userID);
-
     return new Promise(async (resolve, reject) => {
       const address = await db
         .get()
@@ -415,7 +377,7 @@ module.exports = {
 
   cancelOrderRequest: (orderDetails) => {
     return new Promise(async (resolve, reject) => {
-        orderDetails.total=parseInt(orderDetails.total)
+      orderDetails.total = parseInt(orderDetails.total);
       db.get()
         .collection(collection.ORDER_INFORMATION)
         .updateOne(
@@ -426,15 +388,16 @@ module.exports = {
             },
           }
         );
-        if(orderDetails.paymentMethod=="razorpay"){
-        db.get().collection(collection.USER_INFORMATION).updateOne({_id:objectId(orderDetails.userId)},
-        {
-            $inc: { walletAmount: orderDetails.total },
-          }
-        )
-
-
-        }
+      if (orderDetails.paymentMethod == "razorpay") {
+        db.get()
+          .collection(collection.USER_INFORMATION)
+          .updateOne(
+            { _id: objectId(orderDetails.userId) },
+            {
+              $inc: { walletAmount: orderDetails.total },
+            }
+          );
+      }
     });
   },
   returnOrderRequest: (orderId) => {
@@ -456,12 +419,9 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       let wallet = await db
         .get()
-        .collection(collection.USER_INFORMATION).findOne({_id:objectId(userId)})
-
-      console.log(wallet, "rtt");
-      resolve(wallet)
-
-     
+        .collection(collection.USER_INFORMATION)
+        .findOne({ _id: objectId(userId) });
+      resolve(wallet);
     });
   },
   getInvoiceInfo: (orderId) => {

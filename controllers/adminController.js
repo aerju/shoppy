@@ -1,178 +1,186 @@
 var express = require("express");
 var router = express.Router();
 const adminHelper = require("../helpers/admin-helpers");
-const productHelper = require("../helpers/product-helpers");
-
 const cloudinary = require("../utils/cloudinary");
-const upload = require("../utils/multer");
-
-const userHelpers = require("../helpers/user-helpers");
+// const productHelper = require("../helpers/product-helpers");
+// const upload = require("../utils/multer");
+// const userHelpers = require("../helpers/user-helpers");
 
 let message;
 let couponMessage;
+let loginErrorMsg
 
 module.exports = {
   adminLogin: (req, res, next) => {
-    if (req.session.adminLoggedIn) {
-      res.redirect("/admin/home");
-    } else {
-      res.render("admin/adminLogin", { loggedError: req.session.loggedError });
-      req.session.loggedError = false;
-    }
+    try {
+      if (req.session.adminLoggedIn) {
+        res.redirect("/admin/home");
+      } else {
+        res.render("admin/adminLogin", {
+          loginErrorMsg
+        });
+        loginErrorMsg=''
+      }
+    } catch (error) {}
   },
 
   adminHome: async (req, res) => {
-
-    const dashActive = 'active'  
-    adminHelper.viewAllCategories().then((category) => {
-      res.render("admin/adminHome", { category ,dashActive});
-    });
+    try {
+      const dashActive = "active";
+      adminHelper.viewAllCategories().then((category) => {
+        res.render("admin/adminHome", { category, dashActive });
+      });
+    } catch (error) {}
   },
 
-
   adminLoginPost: (req, res) => {
-    adminHelper.adminDoLogin(req.body).then((response) => {
-      if (response.status) {
-        req.session.adminLoggedIn = true;
-        req.session.admin = response.admin;
-        res.redirect("/admin/home");
-      } else {
-        req.session.loggedError = "Invalid user name or password";
-        console.log(req.session.loggedError);
-        res.redirect("/admin");
-      }
-    });
+    try {
+      adminHelper.adminDoLogin(req.body).then((response) => {     
+          req.session.adminLoggedIn = true;
+          req.session.admin = response.admin;
+          res.redirect("/admin/home");    
+      }).catch((response)=>{
+          loginErrorMsg = "Invalid user name or password";
+          res.redirect("/admin");
+
+      })
+    } catch (error) {}
   },
 
   adminViewAllCategories: (req, res) => {
-    const categoryActive = 'active'
-    adminHelper.viewAllCategories().then((category) => {
-      res.render("admin/categoryManage", { category ,categoryActive});
-    });
+    try {
+      const categoryActive = "active";
+      adminHelper.viewAllCategories().then((category) => {
+        res.render("admin/categoryManage", { category, categoryActive });
+      });
+    } catch (error) {}
   },
   adminAddCategory: (req, res) => {
-    const categoryActive = 'active'
-    // adminHelper.addCategory().then((category)=>{
-    res.render("admin/addCategory", { category, message ,categoryActive});
-    message = "";
-
-    // })
-  },
-  adminAddCategoryPost: (req, res) => {
-    console.log(req.body);
-    adminHelper.addCategory(req.body).then((findCategory) => {
-      if (findCategory) {
-        message = "Category Already Exist";
-        res.redirect("/admin/add-category");
-      } else {
-        message = "Category Added Successfully";
-        res.redirect("/admin/add-category");
-      }
-      // res.redirect('/admin/add-category')
-    });
-  },
-  adminEditCategory: (req, res) => {
-    const categoryActive = 'active'
-    
-    adminHelper.editCategory(req.params.id).then((category) => {
-      res.render("admin/editCategory", { category, message ,categoryActive});
+    try {
+      const categoryActive = "active";
+      // adminHelper.addCategory().then((category)=>{
+      res.render("admin/addCategory", { category, message, categoryActive });
       message = "";
-    });
+      // })
+    } catch (error) {}
   },
-  adminEditCategoryPost: (req, res) => {
-    // console.log(req.body);
-    adminHelper
-      .editCategoryPost(req.params.id, req.body)
-      .then((findCategory) => {
+
+  adminAddCategoryPost: (req, res) => {
+    try {
+      adminHelper.addCategory(req.body).then((findCategory) => {
         if (findCategory) {
           message = "Category Already Exist";
-          res.redirect("/admin/edit-category/" + req.params.id);
+          res.redirect("/admin/add-category");
         } else {
           message = "Category Added Successfully";
-          res.redirect("/admin/view-categories");
+          res.redirect("/admin/add-category");
         }
-        // res.redirect('/admin/add-category')
       });
+    } catch (error) {}
+  },
+  adminEditCategory: (req, res) => {
+    try {
+      const categoryActive = "active";
+      adminHelper.editCategory(req.params.id).then((category) => {
+        res.render("admin/editCategory", { category, message, categoryActive });
+        message = "";
+      });
+    } catch (error) {}
+  },
+  adminEditCategoryPost: (req, res) => {
+    try {
+      adminHelper
+        .editCategoryPost(req.params.id, req.body)
+        .then((findCategory) => {
+          if (findCategory) {
+            message = "Category Already Exist";
+            res.redirect("/admin/edit-category/" + req.params.id);
+          } else {
+            message = "Category Added Successfully";
+            res.redirect("/admin/view-categories");
+          }
+        });
+    } catch (error) {}
   },
 
   listCategory: (req, res) => {
-    let id = req.params.id;
-    adminHelper.listCategory(id).then((response) => {
-      res.redirect("/admin/view-categories");
-    });
+    try {
+      let id = req.params.id;
+      adminHelper.listCategory(id).then((response) => {
+        res.redirect("/admin/view-categories");
+      });
+    } catch (error) {}
   },
   unListCategory: (req, res) => {
-    let id = req.params.id;
-    adminHelper.unListCategory(id).then((response) => {
-      res.redirect("/admin/view-categories");
-    });
+    try {
+      let id = req.params.id;
+      adminHelper.unListCategory(id).then((response) => {
+        res.redirect("/admin/view-categories");
+      });
+    } catch (error) {}
   },
 
   adminViewProductDetails: (req, res) => {
-    const productActive = 'active'
-    adminHelper.getProductInfoAdmin().then((products) => {
-      res.render("admin/productDetails", { products ,productActive});
-    });
+    try {
+      const productActive = "active";
+      adminHelper.getProductInfoAdmin().then((products) => {
+        res.render("admin/productDetails", { products, productActive });
+      });
+    } catch (error) {}
   },
 
   adminAddProduct: (req, res) => {
-    const productActive = 'active'
-
-    adminHelper.viewAllCategories().then((category) => {
-      console.log(category);
-      res.render("admin/addProduct", {
-        category,
-        submitStatus: req.session.submitStatus,productActive
+    try {
+      const productActive = "active";
+      adminHelper.viewAllCategories().then((category) => {
+        res.render("admin/addProduct", {
+          category,
+          submitStatus: req.session.submitStatus,
+          productActive,
+        });
+        req.session.submitStatus = false;
       });
-      req.session.submitStatus = false;
-    });
+    } catch (error) {}
   },
 
   adminAddProductPost: async (req, res) => {
-    // console.log(req.body);
-    // sharp(req.files[i].path)
-
-    // .extract({ left: 0, top: 0, width: 800, height: 800 })
-
-    // .toFile(result.url, (err, info) => {
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         console.log(info);
-    //     }
-    // });
-
     try {
-      console.log(
-        req.files,
-        "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
-      );
+      // console.log(req.body);
+      // sharp(req.files[i].path)
+
+      // .extract({ left: 0, top: 0, width: 800, height: 800 })
+
+      // .toFile(result.url, (err, info) => {
+      //     if (err) {
+      //         console.log(err);
+      //     } else {
+      //         console.log(info);
+      //     }
+      // });
+
       const imgUrl = [];
       for (let i = 0; i < req.files.length; i++) {
         const result = await cloudinary.uploader.upload(req.files[i].path);
-
         imgUrl.push(result.url);
-        console.log(result.url);
       }
       adminHelper.addProduct(req.body, async (id) => {
-        adminHelper.addProductImages(id, imgUrl).then((response) => {
-          console.log(response);
-        });
+        adminHelper.addProductImages(id, imgUrl).then((response) => {});
       });
     } catch (err) {
       console.log(err);
     } finally {
-      // req.session.submitStatus = "product Added"
       res.redirect("/admin/add-product");
     }
   },
 
   adminEditProduct: async (req, res) => {
-    const productActive = 'active'
-    let product = await adminHelper.getOneProduct(req.params.id);
-    adminHelper.viewAllCategories().then((category) => {
-      res.render("admin/editProduct", { product, category ,productActive});
-    });
+    try {
+      const productActive = "active";
+      let product = await adminHelper.getOneProduct(req.params.id);
+      adminHelper.viewAllCategories().then((category) => {
+        res.render("admin/editProduct", { product, category, productActive });
+      });
+    } catch (error) {}
   },
 
   adminEditProductPost: async (req, res) => {
@@ -181,7 +189,6 @@ module.exports = {
       for (let i = 0; i < req.files.length; i++) {
         const result = await cloudinary.uploader.upload(req.files[i].path);
         imgUrl.push(result.url);
-        console.log(result.url);
       }
 
       adminHelper.editProduct(req.params.id, req.body).then(() => {
@@ -189,7 +196,6 @@ module.exports = {
           adminHelper
             .addProductImages(req.params.id, imgUrl)
             .then((response) => {
-              console.log(response);
             });
         }
       });
@@ -201,55 +207,62 @@ module.exports = {
   },
 
   adminDeleteProduct: (req, res) => {
-    let pro_ID = req.params.id;
-    adminHelper.deleteProduct(pro_ID).then((response) => {
-      res.redirect("/admin/product-details");
-    });
+    try {
+      let pro_ID = req.params.id;
+      adminHelper.deleteProduct(pro_ID).then((response) => {
+        res.redirect("/admin/product-details");
+      });
+    } catch (error) {}
   },
 
   adminViewUserDetails: (req, res) => {
-    const userActive = 'active'
-    adminHelper.getUserInfo().then((users) => {
-      console.log(users.userstatus);
-      res.render("admin/userDetails", { users,userActive });
-    });
+    try {
+      const userActive = "active";
+      adminHelper.getUserInfo().then((users) => {
+        res.render("admin/userDetails", { users, userActive });
+      });
+    } catch (error) {}
   },
   adminBlockUser: (req, res) => {
-    let id = req.params.id;
-    adminHelper.blockUser(id).then((response) => {
-      res.redirect("/admin/user-details");
-    });
+    try {
+      let id = req.params.id;
+      adminHelper.blockUser(id).then((response) => {
+        res.redirect("/admin/user-details");
+      });
+    } catch (error) {}
   },
   adminUnblockUser: (req, res) => {
-    let id = req.params.id;
-    adminHelper.unblockUser(id).then((response) => {
-      res.redirect("/admin/user-details");
-    });
+    try {
+      let id = req.params.id;
+      adminHelper.unblockUser(id).then((response) => {
+        res.redirect("/admin/user-details");
+      });
+    } catch (error) {}
   },
 
   viewBanners: async (req, res) => {
-    const bannerActive = 'active'
-    let banner = await adminHelper.getBannerInfo();
-    res.render("admin/bannerManagement", { banner ,bannerActive});
+    try {
+      const bannerActive = "active";
+      let banner = await adminHelper.getBannerInfo();
+      res.render("admin/bannerManagement", { banner, bannerActive });
+    } catch (error) {}
   },
   addBanners: (req, res) => {
-    const bannerActive = 'active'
-    res.render("admin/addBanners",{bannerActive});
+    try {
+      const bannerActive = "active";
+      res.render("admin/addBanners", { bannerActive });
+    } catch (error) {}
   },
 
   addBannersPost: async (req, res) => {
     try {
-      console.log(req.files);
       const imgUrl = [];
       for (let i = 0; i < req.files.length; i++) {
         const result = await cloudinary.uploader.upload(req.files[i].path);
         imgUrl.push(result.url);
-        console.log(result.url);
       }
       adminHelper.addBanner(req.body, async (id) => {
-        adminHelper.addBannerImages(id, imgUrl).then((response) => {
-          console.log(response);
-        });
+        adminHelper.addBannerImages(id, imgUrl).then((response) => {});
       });
     } catch (err) {
       console.log(err);
@@ -257,202 +270,201 @@ module.exports = {
       res.redirect("/admin/add-banners");
     }
   },
+
   deleteBanner: (req, res) => {
-    console.log(req.params.id, "ppp");
-    adminHelper.removeBanner(req.params.id).then(() => {
-      res.redirect("/admin/view-banners");
-    });
+    try {
+      adminHelper.removeBanner(req.params.id).then(() => {
+        res.redirect("/admin/view-banners");
+      });
+    } catch (error) {}
   },
 
   orgerManagement: async (req, res) => {
-    const orderActive = 'active'
-    
-    let orders = await adminHelper.getoderInfo();
-   
-    const months = [
-      "JAN",
-      "FEB",
-      "MARCH",
-      "APRIL",
-      "MAY",
-      "JUNE",
-      "JULY",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC",
-    ];
-    for (let i = 0; i < orders.length; i++) {
-      orders[i].date =
-        orders[i].date.getDate() +
-        "-" +
-        months[orders[i].date.getMonth()] +
-        "-" +
-        orders[i].date.getFullYear();
-    }
-
-    res.render("admin/orderManagement", { orders,orderActive});
+    try {
+      const orderActive = "active";
+      let orders = await adminHelper.getoderInfo();
+      const months = [
+        "JAN",
+        "FEB",
+        "MARCH",
+        "APRIL",
+        "MAY",
+        "JUNE",
+        "JULY",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC",
+      ];
+      for (let i = 0; i < orders.length; i++) {
+        orders[i].date =
+          orders[i].date.getDate() +
+          "-" +
+          months[orders[i].date.getMonth()] +
+          "-" +
+          orders[i].date.getFullYear();
+      }
+      res.render("admin/orderManagement", { orders, orderActive });
+    } catch (error) {}
   },
   singleOrder: async (req, res) => {
-    const orderActive = 'active'
-    let orderId = req.params.id;
-    let orderDetails = await adminHelper.viewSingleOrder(orderId);
-
-    const months = [
-      "JAN",
-      "FEB",
-      "MARCH",
-      "APRIL",
-      "MAY",
-      "JUNE",
-      "JULY",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC",
-    ];
-
-    orderDetails.date =
-      orderDetails.date.getDate() +
-      "-" +
-      months[orderDetails.date.getMonth()] +
-      "-" +
-      orderDetails.date.getFullYear();
-      console.log(orderDetails);
-
-    res.render("admin/viewSingleOrder", { orderDetails,orderActive });
+    try {
+      const orderActive = "active";
+      let orderId = req.params.id;
+      let orderDetails = await adminHelper.viewSingleOrder(orderId);
+      const months = [
+        "JAN",
+        "FEB",
+        "MARCH",
+        "APRIL",
+        "MAY",
+        "JUNE",
+        "JULY",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC",
+      ];
+      orderDetails.date =
+        orderDetails.date.getDate() +
+        "-" +
+        months[orderDetails.date.getMonth()] +
+        "-" +
+        orderDetails.date.getFullYear();
+      res.render("admin/viewSingleOrder", { orderDetails, orderActive });
+    } catch (error) {}
   },
+
   changeStatus: (req, res) => {
-    console.log(req.body);
-    adminHelper.changeStatus(req.body).then((response) => {
-      res.json(response);
-    });
+    try {
+      adminHelper.changeStatus(req.body).then((response) => {
+        res.json(response);
+      });
+    } catch (error) {}
   },
   viewCoupones: async (req, res) => {
-    const couponActive = 'active'
-    let coupones = await adminHelper.getCoponesInfo();
-    res.render("admin/couponeManagement", { coupones ,couponActive});
+    try {
+      const couponActive = "active";
+      let coupones = await adminHelper.getCoponesInfo();
+      res.render("admin/couponeManagement", { coupones, couponActive });
+    } catch (error) {}
   },
   addCoupones: (req, res) => {
-    const couponActive = 'active'
-    res.render("admin/addCoupones", { couponMessage ,couponActive});
-    couponMessage = "";
+    try {
+      const couponActive = "active";
+      res.render("admin/addCoupones", { couponMessage, couponActive });
+      couponMessage = "";
+    } catch (error) {}
   },
   addCouponesPost: (req, res) => {
-    adminHelper.addCoupones(req.body).then((findCoupon) => {
-      if (findCoupon) {
-        couponMessage = 'Coupon Already Exist"';
-        res.redirect("/admin/add-coupones");
-      } else {
-        couponMessage = "Coupon Added succesfully";
-        res.redirect("/admin/add-coupones");
-      }
-    });
+    try {
+      adminHelper.addCoupones(req.body).then((findCoupon) => {
+        if (findCoupon) {
+          couponMessage = 'Coupon Already Exist"';
+          res.redirect("/admin/add-coupones");
+        } else {
+          couponMessage = "Coupon Added succesfully";
+          res.redirect("/admin/add-coupones");
+        }
+      });
+    } catch (error) {}
   },
   deleteCoupons: (req, res) => {
-    console.log(req.params.id, "ppp");
-    adminHelper.removeCoupons(req.params.id).then(() => {
-      res.redirect("/admin/coupones-management");
-    });
+    try {
+      adminHelper.removeCoupons(req.params.id).then(() => {
+        res.redirect("/admin/coupones-management");
+      });
+    } catch (error) {}
   },
 
   salesReport: async (req, res) => {
-  
-    const { start,end } = req.query;
-    const query = {};
-
-    query.orderStatus= 'Delivered'
-    if (start || end) { 
-        
+    try {
+      const dashActive = "active";
+      const { start, end } = req.query;
+      const query = {};
+      query.orderStatus = "Delivered";
+      if (start || end) {
         query.date = {};
 
         if (start) {
-          query.date.$gte = new Date(start)
+          query.date.$gte = new Date(start);
         }
         if (end) {
-          query.date.$lte = new Date(end)
+          query.date.$lte = new Date(end);
         }
       }
-
-      console.log(query,'hhhhhhhhhhhhhhhhhh');
-
-    let salesReport = await adminHelper.getSalesReport(query);
-
-    const months = [
-      "JAN",
-      "FEB",
-      "MARCH",
-      "APRIL",
-      "MAY",
-      "JUNE",
-      "JULY",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC",
-    ];
-    for (let i = 0; i < salesReport.length; i++) {
-      salesReport[i].date =
-        salesReport[i].date.getDate() +
-        "-" +
-        months[salesReport[i].date.getMonth()] +
-        "-" +
-        salesReport[i].date.getFullYear();
-    }
-    res.render("admin/salesReport", { salesReport });
+      let salesReport = await adminHelper.getSalesReport(query);
+      const months = [
+        "JAN",
+        "FEB",
+        "MARCH",
+        "APRIL",
+        "MAY",
+        "JUNE",
+        "JULY",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC",
+      ];
+      for (let i = 0; i < salesReport.length; i++) {
+        salesReport[i].date =
+          salesReport[i].date.getDate() +
+          "-" +
+          months[salesReport[i].date.getMonth()] +
+          "-" +
+          salesReport[i].date.getFullYear();
+      }
+      res.render("admin/salesReport", { salesReport ,dashActive});
+    } catch (error) {}
   },
-
 
   graphStatics: async (req, res) => {
-
-
-    let OrderStatistics = await adminHelper.getOrdrStatistics();
-    let saleStatistics = await adminHelper.getSaleStatistics();
-    let categortStatics = await adminHelper.getcategortStatics();
-    let totalRevenue = await adminHelper.getTotalRevenue();
-    let totalOrders = await adminHelper.getTotalOrders()
-    let totalProducts = await adminHelper.getTotalproducts();
-
-    // const totalorder = Object.keys(totalOrders).length;
-
-  
-    res.json({
-      OrderStatistics,
-      saleStatistics,
-      categortStatics,
-      totalProducts,
-      totalRevenue,
-      totalOrders
-    });
+    try {
+      let OrderStatistics = await adminHelper.getOrdrStatistics();
+      let saleStatistics = await adminHelper.getSaleStatistics();
+      let categortStatics = await adminHelper.getcategortStatics();
+      let totalRevenue = await adminHelper.getTotalRevenue();
+      let totalOrders = await adminHelper.getTotalOrders();
+      let totalProducts = await adminHelper.getTotalproducts();
+      // const totalorder = Object.keys(totalOrders).length;
+      res.json({
+        OrderStatistics,
+        saleStatistics,
+        categortStatics,
+        totalProducts,
+        totalRevenue,
+        totalOrders,
+      });
+    } catch (error) {}
   },
 
-  
   graphStaticsDate: async (req, res) => {
-    let year = req.query.year;
-
-
-    // console.log(year, ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
-
-    let saleStatisticsDate = await adminHelper.getSaleStatisticsDate(year);
-
-    res.json({ saleStatisticsDate });
+    try {
+      let year = req.query.year;
+      let saleStatisticsDate = await adminHelper.getSaleStatisticsDate(year);
+      res.json({ saleStatisticsDate });
+    } catch (error) {}
   },
-  
+
   graphStaticsCategory: async (req, res) => {
-    let category = req.query.FilterCategory;
+    try {
+      let category = req.query.FilterCategory;
 
-    // console.log(year, ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
-
-    let OrderStatisticsCategory = await adminHelper.getSaleStatisticsCategory(category);
-
-    res.json({ OrderStatisticsCategory });
+      let OrderStatisticsCategory = await adminHelper.getSaleStatisticsCategory(
+        category
+      );
+      res.json({ OrderStatisticsCategory });
+    } catch (error) {}
   },
 
   adminLogOut: (req, res) => {
-    req.session.adminLoggedIn = false;
-    res.redirect("/admin");
+    try {
+      req.session.adminLoggedIn = false;
+      res.redirect("/admin");
+    } catch (error) {}
   },
 };
