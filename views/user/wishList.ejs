@@ -12,7 +12,7 @@
                                 <div class="col-lg-3 col-md-6 col-12">
                                     <div class="single-product">
                                         <div class="product-img">
-                                            <a href="product-details.html">
+                                            <a href="/view-product/<%=wishlistItems[i].product._id%>">
                                                 <img class="default-img" src="<%=wishlistItems[i].product.image[0]%>"
                                                     alt="#">
                                                 <!-- <img class="hover-img" src="<%=wishlistItems[i].product.image[0]%>"  alt="#"> -->
@@ -27,12 +27,12 @@
                                                 </div>
 
                                                 <div class="product-action-2">
-                                                    <a title="Add to cart" href="#">Add to cart</a>
+                                                    <a onclick="addTOCart( '<%=wishlistItems[i].product._id%>' )">Add to cart</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="product-content">
-                                            <h3><a href="product-details.html">
+                                            <h3><a href="/view-product/<%=wishlistItems[i].product._id%>">
                                                     <%=wishlistItems[i].product.pro_name%>
                                                 </a></h3>
                                             <div class="product-price">
@@ -75,8 +75,49 @@
         </div>
     </section>
 
-
+    <span
+    id="popup"
+    style="
+      display: none;
+      position: fixed;
+      top: 90%;
+      /* border-radius: 10px; */
+      left: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%);
+      padding: 10px;
+      border: 1px solid #ccc;
+      /* background-color: #3b28c874; */
+      background-color: white;
+      z-index: 9999;
+    "
+  >
+  </span>
     <script>
+         function addTOCart(proId) {
+    $.ajax({
+      url: "/add-to-cart/" + proId,
+      method: "get",
+      success: (response) => {
+        if (response.status) {
+          console.log(response.status);         
+          const popup = document.getElementById("popup");
+          popup.innerHTML = "Product added to cart!";
+          popup.style.display = "block";
+          setTimeout(() => {
+            popup.style.display = "none";
+          }, 1000);
+          
+          let count = $("#cart-count").html();
+          count = parseInt(count) + 1;
+          console.log(count);
+          $("#cart-count").html(count);
+        }
+        // alert(response)
+      },
+    });
+  }
+
         function removeProduct(proId) {
             console.log(proId);
 

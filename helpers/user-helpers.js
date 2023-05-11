@@ -388,7 +388,38 @@ module.exports = {
             },
           }
         );
-      if (orderDetails.paymentMethod == "razorpay" || orderDetails.paymentMethod == "wallet") {
+      let productInfo = await db
+        .get()
+        .collection(collection.ORDER_INFORMATION)
+        .aggregate([
+          {
+            $match: { _id: objectId(orderDetails.orderId) },
+          },
+          {
+            $lookup: {
+              from: collection.PRODUCT_INFORMATION,
+              localField: "products.products.item",
+              foreignField: "_id",
+              as: "productDetails",
+            },
+          },
+        ])
+        .toArray();
+      productInfo[0].products.products.forEach((items) => {
+        db.get()
+          .collection(collection.PRODUCT_INFORMATION)
+          .updateOne(
+            { _id: objectId(items.item) },
+            {
+              $inc: { pro_count: items.quantity },
+            }
+          );
+      });
+
+      if (
+        orderDetails.paymentMethod == "razorpay" ||
+        orderDetails.paymentMethod == "wallet"
+      ) {
         db.get()
           .collection(collection.USER_INFORMATION)
           .updateOne(
@@ -400,8 +431,10 @@ module.exports = {
       }
     });
   },
+
   returnOrderRequest: (orderDetails) => {
-    return new Promise((resolve, reject) => {
+    orderDetails.total = parseInt(orderDetails.total);
+    return new Promise(async (resolve, reject) => {
       db.get()
         .collection(collection.ORDER_INFORMATION)
         .updateOne(
@@ -412,14 +445,41 @@ module.exports = {
             },
           }
         );
+      let productInfo = await db
+        .get()
+        .collection(collection.ORDER_INFORMATION)
+        .aggregate([
+          {
+            $match: { _id: objectId(orderDetails.orderId) },
+          },
+          {
+            $lookup: {
+              from: collection.PRODUCT_INFORMATION,
+              localField: "products.products.item",
+              foreignField: "_id",
+              as: "productDetails",
+            },
+          },
+        ])
+        .toArray();
+      productInfo[0].products.products.forEach((items) => {
         db.get()
-          .collection(collection.USER_INFORMATION)
+          .collection(collection.PRODUCT_INFORMATION)
           .updateOne(
-            { _id: objectId(orderDetails.userId) },
+            { _id: objectId(items.item) },
             {
-              $inc: { walletAmount: orderDetails.total },
+              $inc: { pro_count: items.quantity },
             }
           );
+      });
+      db.get()
+        .collection(collection.USER_INFORMATION)
+        .updateOne(
+          { _id: objectId(orderDetails.userId) },
+          {
+            $inc: { walletAmount: orderDetails.total },
+          }
+        );
     });
   },
 

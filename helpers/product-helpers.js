@@ -251,8 +251,8 @@ module.exports = {
   },
 
   checkOut: (userId, order, product, total, address) => {
-    let proId = product.products[0].item;
-    let proCount = product.products[0].quantity;
+    // let proId = product.products[0].item;
+    // let proCount = product.products[0].quantity;
     return new Promise((resolve, reject) => {
       let status;
       if (
@@ -279,7 +279,6 @@ module.exports = {
         total: total,
         date: new Date(),
       };
-
       db.get()
         .collection(collection.ORDER_INFORMATION)
         .insertOne(orderObj)
@@ -288,15 +287,19 @@ module.exports = {
             db.get()
               .collection(collection.CART_MANAGEMENT)
               .deleteOne({ user: objectId(userId) });
-            db.get()
+            product.products.forEach(items => {
+              db.get()
               .collection(collection.PRODUCT_INFORMATION)
               .updateOne(
-                { _id: proId },
+                { _id: objectId(items.item) },
                 {
-                  $inc: { pro_count: -proCount },
+                  $inc: { pro_count: -items.quantity },
                 }
-              );
+              );         
+            });
           }
+
+
           if (order["payment-method"] == "wallet") {
             db.get()
               .collection(collection.USER_INFORMATION)

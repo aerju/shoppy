@@ -1,73 +1,67 @@
 <%- include('../partials/UserHeader') %>
 
+<!-- Start Product Area -->
+<div class="product-area section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="product-info">
+          <div class="tab-content" id="myTabContent">
+            <!-- Start Single Tab -->
+            <div class="tab-pane fade show active" id="man" role="tabpanel">
+              <div class="tab-single">
+                <div class="row">
+                  <% for (var i=0; i < categoryDetails.length; i++) { %> <% if
+                  (categoryDetails[i].stockStatus) { %>
+                  <!-- <div class="col-xl-3 col-lg-4 col-md-4 col-12" style="border: 1px solid rgb(127, 124, 124); box-shadow: 0 2px 4px rgba(0,0,0,0.1);border-radius: 10px; padding: 10px;margin-right: 2em;"> -->
+                  <div class="col-xl-3 col-lg-4 col-md-4 col-6">
+                    <div class="single-product">
+                      <div class="product-img">
+                        <a href="/view-product/<%=categoryDetails[i]._id%>">
+                          <img
+                            class="default-img"
+                            src="<%=categoryDetails[i].image[0]%>"
+                            alt="#"
+                          />
+                        </a>
 
+                        <div class="button-head">
+                          <div class="product-action">
+                            <a title="Wishlist" href="#"
+                              ><i class="ti-heart"></i
+                              ><span>Add to Wishlist</span></a
+                            >
+                          </div>
+                          <div class="product-action-2">
+                            <a title="Add to cart" href="#">Add to cart</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="product-content">
+                        <h3>
+                          <a href="product-details.html">
+                            <%=categoryDetails[i].pro_name%>
+                          </a>
+                        </h3>
+                        <div class="product-price" style="color: green">
+                          <span>₹<%=categoryDetails[i].pro_price%></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% } %> <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Product Area -->
 
+<!-- /End Cowndown Area -->
+<br /><br />
 
-	<!-- Start Product Area -->
-	<div class="product-area section">
-		<div class="container">
-
-			<div class="row">
-				<div class="col-12">
-					<div class="product-info">
-
-						<div class="tab-content" id="myTabContent">
-							<!-- Start Single Tab -->
-							<div class="tab-pane fade show active" id="man" role="tabpanel">
-								<div class="tab-single">
-									<div class="row">
-										<% for (var i=0; i < categoryDetails.length; i++) { %>
-											<% if (categoryDetails[i].stockStatus) { %>
-					
-											<!-- <div class="col-xl-3 col-lg-4 col-md-4 col-12" style="border: 1px solid rgb(127, 124, 124); box-shadow: 0 2px 4px rgba(0,0,0,0.1);border-radius: 10px; padding: 10px;margin-right: 2em;"> -->
-											<div class="col-xl-3 col-lg-4 col-md-4 col-6" style="margin-top: -80px;">
-												<div class="single-product">
-
-													<div class="product-img">
-														<a href="/view-product/<%=categoryDetails[i]._id%>">
-															<img class="default-img" src="<%=categoryDetails[i].image[0]%>"
-																alt="#" >
-														</a>
-
-														<div class="button-head">
-															<div class="product-action">
-
-																<a title="Wishlist" href="#"><i
-																		class=" ti-heart "></i><span>Add to
-																		Wishlist</span></a>
-															</div>
-															<div class="product-action-2">
-																<a title="Add to cart" href="#">Add to cart</a>
-															</div>
-														</div>
-													</div>
-													<div class="product-content">
-														<h3><a href="product-details.html">
-																<%=categoryDetails[i].pro_name%>
-															</a></h3>
-														<div class="product-price" style="color: green;">
-															<span>₹<%=categoryDetails[i].pro_price%></span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<% }  %>
-											<% } %>
-
-									</div>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Product Area -->
-
-	
-	<!-- /End Cowndown Area -->
-	<br><br>
-
-	<%- include('../partials/UserFooter') %>
+<%- include('../partials/UserFooter') %>

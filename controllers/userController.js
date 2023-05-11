@@ -276,10 +276,9 @@ module.exports = {
       let userCategoryActive = "active";
       let user = req.session.user;
       let categoryDetails = await productHelper.getCategory(req.params.id);
-      adminHelper.viewAllCategories().then((category) => {
-        adminHelper.getProductInfoAdmin().then(async (products) => {
+      let category= await adminHelper.viewAllCategories()
+      let products=await adminHelper.getProductInfoAdmin()
           if (req.session.userLoggedIn) {
-            // cartcount = await productHelper.getCartCount(user._id)
             res.render("user/category", {
               userHead: true,
               user,
@@ -300,8 +299,7 @@ module.exports = {
               userCategoryActive,
             });
           }
-        });
-      });
+  
     } catch (error) {}
   },
 

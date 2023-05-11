@@ -11,8 +11,8 @@
       <div class="carousel-item <% if (i === 0) { %>active<% } %>">
         <img src="<%= banner[i].image[0] %>" alt="<%= banner[i].altText %>" />
         <div class="carousel-caption">
-          <h3><%= banner[i].banner_title %></h3>
-          <p><%= banner[i].banner_name %></p>
+          <!-- <h3><%= banner[i].banner_title %></h3>
+          <p><%= banner[i].banner_name %></p> -->
         </div>
       </div>
       <% } %>
@@ -130,7 +130,6 @@
                                   </div>
 
                                   <% } else { %>
-
                                     <div class="button-head">
                                       <div class="product-action">
                                         <a href="/login"><i id="add-wish2" class="ti-heart"></i><span>Add to
@@ -141,15 +140,17 @@
                                         <a href="/login">Add to cart</a>
                                       </div>
                                     </div>
-
                                     <% } %>
-
                               </div>
                               <div class="product-content">
                                 <h3>
                                   <a href="/view-product/<%=products[i]._id%>">
                                     <%=products[i].pro_name%>
                                   </a>
+                                  <%if(products[i].pro_count<=6){%>
+                                    <span style="font-size: 10px;color: red;" class="ml-4" >Only <%=products[i].pro_count%> items left!</span>
+                                    <%}%>
+                                  
                                 </h3>
                                 <div class="product-price" style="color: green">
                                   <span>₹<%=products[i].pro_price%></span>

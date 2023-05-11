@@ -548,11 +548,16 @@ module.exports = {
         .collection(collection.ORDER_INFORMATION)
         .aggregate([
           {
+            $match:{
+              orderStatus:"Delivered"
+            }         
+          },
+          {
             $group: {
               _id: null,
               count: { $sum: { $multiply: "$total" } },
             },
-          },
+          }
         ])
         .toArray();
       resolve(totalRevenue[0]);
@@ -583,11 +588,11 @@ module.exports = {
       let totalProducts = await db
         .get()
         .collection(collection.PRODUCT_INFORMATION)
-        .find()
-        .count();
+        .find().toArray()
       resolve(totalProducts);
     });
   },
+
   getSaleStatisticsDate: (yeardata) => {
     let year = parseInt(yeardata);
     return new Promise(async (resolve, reject) => {

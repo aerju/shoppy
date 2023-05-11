@@ -107,7 +107,7 @@ module.exports = {
     try {
       let id = req.params.id;
       adminHelper.listCategory(id).then((response) => {
-        res.redirect("/admin/view-categories");
+        res.json({response})
       });
     } catch (error) {}
   },
@@ -115,7 +115,7 @@ module.exports = {
     try {
       let id = req.params.id;
       adminHelper.unListCategory(id).then((response) => {
-        res.redirect("/admin/view-categories");
+        res.json({response})
       });
     } catch (error) {}
   },
@@ -210,7 +210,7 @@ module.exports = {
     try {
       let pro_ID = req.params.id;
       adminHelper.deleteProduct(pro_ID).then((response) => {
-        res.redirect("/admin/product-details");
+        res.json({response});
       });
     } catch (error) {}
   },
@@ -227,7 +227,7 @@ module.exports = {
     try {
       let id = req.params.id;
       adminHelper.blockUser(id).then((response) => {
-        res.redirect("/admin/user-details");
+        res.json({response})
       });
     } catch (error) {}
   },
@@ -235,7 +235,7 @@ module.exports = {
     try {
       let id = req.params.id;
       adminHelper.unblockUser(id).then((response) => {
-        res.redirect("/admin/user-details");
+        res.json({response})
       });
     } catch (error) {}
   },
@@ -273,8 +273,8 @@ module.exports = {
 
   deleteBanner: (req, res) => {
     try {
-      adminHelper.removeBanner(req.params.id).then(() => {
-        res.redirect("/admin/view-banners");
+      adminHelper.removeBanner(req.params.id).then((response) => {
+        res.json(response)
       });
     } catch (error) {}
   },
@@ -373,8 +373,8 @@ module.exports = {
   },
   deleteCoupons: (req, res) => {
     try {
-      adminHelper.removeCoupons(req.params.id).then(() => {
-        res.redirect("/admin/coupones-management");
+      adminHelper.removeCoupons(req.params.id).then((response) => {
+        res.json({response})
       });
     } catch (error) {}
   },
@@ -424,18 +424,18 @@ module.exports = {
 
   graphStatics: async (req, res) => {
     try {
-      let OrderStatistics = await adminHelper.getOrdrStatistics();
+      let OrderStatistics = await adminHelper.getOrdrStatistics() 
       let saleStatistics = await adminHelper.getSaleStatistics();
       let categortStatics = await adminHelper.getcategortStatics();
-      let totalRevenue = await adminHelper.getTotalRevenue();
+      let totalRevenue = await adminHelper.getTotalRevenue() 
       let totalOrders = await adminHelper.getTotalOrders();
       let totalProducts = await adminHelper.getTotalproducts();
-      // const totalorder = Object.keys(totalOrders).length;
+      let totalProductsResult= totalProducts.length  
       res.json({
         OrderStatistics,
         saleStatistics,
         categortStatics,
-        totalProducts,
+        totalProductsResult,
         totalRevenue,
         totalOrders,
       });

@@ -101,7 +101,7 @@
                 </div>
                 <% } %> <% if (orderDetails.orderStatus=='cancelrequest' ) { %>
                 <div class="text">
-                  <p class="mt-4" style="color: blue">Cancel request sended</p>
+                  <p class="mt-4" style="color: blue">Cancel request pending...</p>
                 </div>
                 <% } %> <% if (orderDetails.orderStatus=='Delivered' ) { %>
                 <!-- <div class="text">
@@ -265,7 +265,7 @@
   //     document.getElementById("reason-div").style.display='block'
   //   }
 
-  async function returnRequest(orderId) {
+  async function returnRequest(orderId, paymentMethod, total, userId) {
     const { value: text } = await Swal.fire({
       input: "textarea",
       inputLabel: "Message",
