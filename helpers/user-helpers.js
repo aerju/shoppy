@@ -266,7 +266,13 @@ module.exports = {
                 },
               }
             );
-          let total = coupone.total - checKCoupone.coupone_maxPrice;
+          let total
+          let discountedPrice=checKCoupone.coupone_discount/100 * coupone.total 
+          if(checKCoupone.coupone_maxPrice>=coupone.total){
+            total = coupone.total - discountedPrice
+          }else{
+            total = coupone.total - checKCoupone.coupone_maxPrice;
+          }        
           resolve({ couponeStatus: true, couponMsg: "Coupon Applied ", total });
         }
       } else {

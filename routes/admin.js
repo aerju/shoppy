@@ -48,11 +48,13 @@ router.get(
 router.get(
   "/add-product",
   middleware.checkAdminLoggedIn,
+  middleware.checkAdminLoggedIn,
   adminController.adminAddProduct
 );
 
 router.post(
   "/add-product",
+  middleware.checkAdminLoggedIn,
   upload.array("image"),
   adminController.adminAddProductPost
 );
@@ -65,11 +67,12 @@ router.get(
 
 router.post(
   "/edit-product/:id",
-  upload.array("image"),
+  middleware.checkAdminLoggedIn,
+  upload.array("image"), 
   adminController.adminEditProductPost
 );
 
-router.get("/delete-product/:id", adminController.adminDeleteProduct);
+router.get("/delete-product/:id",  middleware.checkAdminLoggedIn,adminController.adminDeleteProduct);
 
 router.get(
   "/user-details",
@@ -77,40 +80,40 @@ router.get(
   adminController.adminViewUserDetails
 );
 
-router.get("/block/:id", adminController.adminBlockUser);
+router.get("/block/:id",  middleware.checkAdminLoggedIn,adminController.adminBlockUser);
 
-router.get("/unblock/:id", adminController.adminUnblockUser);
+router.get("/unblock/:id",  middleware.checkAdminLoggedIn,adminController.adminUnblockUser);
 
-router.get("/list/:id", adminController.listCategory);
+router.get("/list/:id", middleware.checkAdminLoggedIn, adminController.listCategory);
 
-router.get("/unlist/:id", adminController.unListCategory);
+router.get("/unlist/:id", middleware.checkAdminLoggedIn, adminController.unListCategory);
 
-router.get("/view-banners", adminController.viewBanners);
+router.get("/view-banners",  middleware.checkAdminLoggedIn,adminController.viewBanners);
 
-router.get("/add-banners", adminController.addBanners);
+router.get("/add-banners",  middleware.checkAdminLoggedIn,adminController.addBanners);
 
 router.post(
   "/add-banners",
-  upload.array("image"),
+  upload.array("image"), middleware.checkAdminLoggedIn,
   adminController.addBannersPost
 );
 
-router.get("/delete-banner/:id", adminController.deleteBanner);
+router.get("/delete-banner/:id",  middleware.checkAdminLoggedIn,adminController.deleteBanner);
 
-router.get("/coupones-management", adminController.viewCoupones);
-router.get("/add-coupones", adminController.addCoupones);
-router.post("/add-coupones", adminController.addCouponesPost);
+router.get("/coupones-management",  middleware.checkAdminLoggedIn, adminController.viewCoupones);
+router.get("/add-coupones", middleware.checkAdminLoggedIn, adminController.addCoupones);
+router.post("/add-coupones",  middleware.checkAdminLoggedIn,adminController.addCouponesPost);
 
-router.get("/delete-coupons/:id", adminController.deleteCoupons);
+router.get("/delete-coupons/:id", middleware.checkAdminLoggedIn, adminController.deleteCoupons);
 
-router.get("/order-management", adminController.orgerManagement);
-router.get("/single-order/:id", adminController.singleOrder);
-router.post("/change-order-status/", adminController.changeStatus);
-router.get("/sales-report/", adminController.salesReport);
-router.get("/graph-statics", adminController.graphStatics);
-router.get("/graph-statics-date", adminController.graphStaticsDate);
-router.get("/graph-statics-category", adminController.graphStaticsCategory);
+router.get("/order-management",  middleware.checkAdminLoggedIn,adminController.orgerManagement);
+router.get("/single-order/:id",  middleware.checkAdminLoggedIn,adminController.singleOrder);
+router.post("/change-order-status/",  middleware.checkAdminLoggedIn,adminController.changeStatus);
+router.get("/sales-report/", middleware.checkAdminLoggedIn, adminController.salesReport);
+router.get("/graph-statics",  middleware.checkAdminLoggedIn,adminController.graphStatics);
+router.get("/graph-statics-date", middleware.checkAdminLoggedIn, adminController.graphStaticsDate);
+router.get("/graph-statics-category",  middleware.checkAdminLoggedIn,adminController.graphStaticsCategory);
 
-router.get("/logout", adminController.adminLogOut);
+router.get("/logout", middleware.checkAdminLoggedIn, adminController.adminLogOut);
 
 module.exports = router;

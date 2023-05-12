@@ -477,6 +477,20 @@ module.exports = {
     });
   },
 
+  getCoupons: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      let coupons = await db
+        .get()
+        .collection(collection.COUPONE_MANAGEMENT)
+        .find(           
+            // { usedUsers: { $elemMatch: {$ne: { user: objectId(userId) } } } },  
+                            
+        )
+        .toArray();
+      resolve(coupons);
+    });
+  },
+
   search: (query, sortObj, skip, limit) => {
     return new Promise(async (resolve, reject) => {
       let products = await db

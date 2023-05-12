@@ -1,0 +1,50 @@
+<%- include('../partials/UserHeader') %>
+<div class="breadcrumbs">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="bread-inner">
+            <ul class="bread-list">
+              <li>
+                <a href="/check-out">Checkout<i class="ti-arrow-right"></i></a>
+              </li>
+              <li class="active"><a href="view-coupons">coupons</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<section class="product-area shop-sidebar shop section">
+  <div class="container">
+    <div class="row">
+      <% if (coupons) { %> <% for (var i = 0; i < coupons.length; i++) { %>      
+      <div class="col-lg-3 col-md-8 col-12">
+        <div class="container mt-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><%=coupons[i].coupone_title%></h5>
+              <!-- <h6 class="card-subtitle mb-2 text-muted">Festival coupon</h6> -->
+              <p class="text-muted">code</p>
+              <h3 class="card-text"><%=coupons[i].coupone_code%></h3>
+              <br />
+              <h6 class="card-subtitle mb-2 text-muted">
+                <%=coupons[i].coupone_discount%>%Discount
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>    
+      <% } %>     
+      <% } %>
+      <%if(!coupons){%>
+      <p>No coupons available</p>
+      <%}%>
+      
+    </div>
+    
+  </div>
+</section>
+
+<%- include('../partials/UserFooter') %>

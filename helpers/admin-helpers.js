@@ -372,6 +372,7 @@ module.exports = {
       resolve(count);
     });
   },
+
   addCoupones: (couponeDetails) => {
     couponeDetails.coupone_maxPrice = parseInt(couponeDetails.coupone_maxPrice);
     couponeDetails.coupone_discount = parseInt(couponeDetails.coupone_discount);
@@ -379,8 +380,8 @@ module.exports = {
       db.get()
         .collection(collection.COUPONE_MANAGEMENT)
         .findOne({ coupone_code: couponeDetails.coupone_code })
-        .then((findCategory) => {
-          if (findCategory) {
+        .then((findCoupon) => {
+          if (findCoupon) {
             resolve(true);
           } else {
             db.get()
@@ -548,16 +549,16 @@ module.exports = {
         .collection(collection.ORDER_INFORMATION)
         .aggregate([
           {
-            $match:{
-              orderStatus:"Delivered"
-            }         
+            $match: {
+              orderStatus: "Delivered",
+            },
           },
           {
             $group: {
               _id: null,
               count: { $sum: { $multiply: "$total" } },
             },
-          }
+          },
         ])
         .toArray();
       resolve(totalRevenue[0]);
@@ -588,7 +589,8 @@ module.exports = {
       let totalProducts = await db
         .get()
         .collection(collection.PRODUCT_INFORMATION)
-        .find().toArray()
+        .find()
+        .toArray();
       resolve(totalProducts);
     });
   },

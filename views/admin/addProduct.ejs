@@ -1,86 +1,78 @@
 <%- include('../partials/adminSideBar') %>
-    <main class="main-wrap">
-        <section class="vh-100" style="background-color: #f8f9fa;;">
-            <div class="container h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-lg-12 col-xl-11">
-                        <div class="card text-black" style="border-radius: 25px;">
-                            <div class="card-body p-md-5">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+<main class="main-wrap">
+  <section class="vh-100" style="background-color: #f8f9fa;;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-12 col-xl-11">
+          <div class="card text-black" style="border-radius: 25px;">
+            <div class="card-body p-md-5">
+              <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Add Product</p>
-                                        <!-- <% if (submitStatus) { %>
-                                            <div id="errormessage" style="color: rgb(39, 83, 22);"><%=submitStatus%></div>
-                                              <% }  %> -->
+                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Add Product</p>
 
-                                        <form class="mx-1 mx-md-4" action="/admin/add-product" method="post"
-                                            enctype="multipart/form-data">
 
-                                            <div id="errormessage" style="color: red;"></div>
+                  <form class="mx-1 mx-md-4" action="/admin/add-product" method="post" enctype="multipart/form-data">
 
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product Name</label>
+                    <div id="errormessage" style="color: red;"></div>
 
-                                                    <input type="text" id="form3Example1c" class="form-control"
-                                                        name="pro_name" required />
-                                                </div>
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Product Name</label>
 
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product
-                                                        Description</label>
+                        <input type="text" id="nameID" class="form-control" name="pro_name" required  onkeyup="validateProductName()"/>
+                        <span id="name-error" class="validation" style="color: red"></span>
+                    </div>
 
-                                                    <!-- <input type="text" id="form3Example1c" class="form-control"
-                                                        name="pro_desc" required /> -->
-                                                    <textarea name="pro_desc" cols="30" rows="6"></textarea>
+                    </div>
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Product
+                          Description</label>
+                        <textarea name="pro_desc" cols="30" rows="6"></textarea>
 
-                                                </div>
+                      </div>
 
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product Price</label>
+                    </div>
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Product Price</label>
 
-                                                    <input type="number" id="form3Example1c" class="form-control"
-                                                        name="pro_price" required />
-                                                </div>
+                        <input type="number" id="priceID" class="form-control" name="pro_price" required onkeyup="validatePrice()" />
+                        <span id="price-error" class="validation" style="color: red"></span>
+                      </div>
 
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Categories</label>
 
-                                                    <select id="form3Example1c" class="form-select"
-                                                        aria-label="Default select example" name="pro_cat">
-                                                        <% for (var i=0; i < category.length; i++) { %>
-                                                            <option value="<%=category[i]._id%>">
-                                                                <%=category[i].category%>
-                                                            </option>
-                                                            <% } %>
+                    </div>
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Categories</label>
 
-                                                                <!-- <option value="Earphone">Earphone</option> -->
-                                                    </select>
-                                                </div>
+                        <select id="form3Example1c" class="form-select" aria-label="Default select example" name="pro_cat">
+                          <% for (var i=0; i < category.length; i++) { %>
+                          <option value="<%=category[i]._id%>">
+                            <%=category[i].category%>
+                          </option>
+                          <% } %>
+                        </select>
+                      </div>
 
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product count</label>
+                    </div>
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Product count</label>
 
-                                                    <input type="number" id="form3Example1" class="form-control"
-                                                        name="pro_count" required />
-                                                </div>
+                        <input type="number" id="countID" class="form-control" name="pro_count" required onkeyup="validateCount()" />
+                        <span id="count-error" class="validation" style="color: red"></span>
+                      </div>
 
-                                            </div>
-                                            <!-- <div class="d-flex flex-row align-items-center mb-4">
+                    </div>
+                    <!-- <div class="d-flex flex-row align-items-center mb-4">
                                                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                                 <div class="form-outline flex-fill mb-0">
                                                     <label class="form-label" for="form3Example1c">Ram</label> <br>
@@ -90,45 +82,95 @@
                                                 </div>
 
                                             </div> -->
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product
-                                                        Images</label>
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Product
+                          Images</label>
 
-                                                    <input type="file" class="form-control-file" id="image1"
-                                                        name="image" multiple required>
-                                                    <!-- <label class="form-label" for="form3Example1c">Product
-                                                            Images</label>
-                                                    <input type="file" class="form-control-file" id="image2" name="image"
-                                                        multiple required>
-                                                        <label class="form-label" for="form3Example1c">Product
-                                                            Images</label>
-                                                    <input type="file" class="form-control-file" id="image3" name="image"
-                                                        multiple required> -->
-                                                    <!-- exampleFormControlFile1 -->
-                                                </div>
+                        <input type="file" class="form-control-file" id="image1" name="image" multiple required>
+                      </div>
 
-                                            </div>
-                                            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-
-                                                <input type="submit" value="Add Product" class="btn btn-primary btn-lg">
-
-                                            </div>
-                                        </form>
-
-                                    </div>
-
-
-
-
-                                </div>
-
-                            </div>
-                        </div>
                     </div>
+                    <span id="submit-error" class="validation" style="color: red"></span>
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+
+                      <input type="submit" value="Add Product" class="btn btn-primary btn-lg" onclick="return validateForm()">
+
+                    </div>
+                  </form>
+
                 </div>
+
+              </div>
+
             </div>
-            </div>
-        </section>
-    </main>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+</main>
+
+
+<script>
+  var priceError = document.getElementById("price-error");
+  var countError = document.getElementById("count-error");
+  var nameError = document.getElementById("name-error");
+  var submitError = document.getElementById("submit-error");
+
+
+  function validatePrice() {
+    var price = parseInt(document.getElementById("priceID").value)
+    if (price > 0) {
+      priceError.innerHTML = ''
+      return true;
+    } else {
+      priceError.innerHTML = "Enter  a valid price";
+      return false;
+    }
+  }
+
+  function validateCount() {
+    var count = parseInt(document.getElementById("countID").value)
+    if (count > 0) {
+      countError.innerHTML = ''
+      return true;
+    } else {
+      countError.innerHTML = "Enter  a valid count";
+      return false;
+    }
+  }
+
+
+  function validateProductName() {
+    var namePattern = /^[a-zA-Z0-9\s\-.,()']+$/;
+    var productName = document.getElementById("nameID").value;
+    if (namePattern.test(productName)) {
+      nameError.innerHTML = "";
+      return true;
+    } else {
+      nameError.innerHTML = "Enter a valid product name";
+      return false;
+    }
+  }
+
+  function validateForm() {
+    if (
+      !validatePrice() ||
+      !validateCount() ||
+      !validateProductName()
+
+    ) {
+      submitError.style.display = "flex";
+      submitError.style.justifyContent = "center";
+      submitError.innerHTML = "All fields are required";
+      setTimeout(() => {
+        submitError.style.display = "none";
+      }, 3000);
+      return false;
+    }
+  }
+</script>

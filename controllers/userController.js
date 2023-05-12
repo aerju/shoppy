@@ -276,30 +276,29 @@ module.exports = {
       let userCategoryActive = "active";
       let user = req.session.user;
       let categoryDetails = await productHelper.getCategory(req.params.id);
-      let category= await adminHelper.viewAllCategories()
-      let products=await adminHelper.getProductInfoAdmin()
-          if (req.session.userLoggedIn) {
-            res.render("user/category", {
-              userHead: true,
-              user,
-              products,
-              cartcount,
-              category,
-              categoryDetails,
-              userCategoryActive,
-            });
-          } else {
-            res.render("user/category", {
-              userHead: false,
-              user,
-              products,
-              cartcount,
-              category,
-              categoryDetails,
-              userCategoryActive,
-            });
-          }
-  
+      let category = await adminHelper.viewAllCategories();
+      let products = await adminHelper.getProductInfoAdmin();
+      if (req.session.userLoggedIn) {
+        res.render("user/category", {
+          userHead: true,
+          user,
+          products,
+          cartcount,
+          category,
+          categoryDetails,
+          userCategoryActive,
+        });
+      } else {
+        res.render("user/category", {
+          userHead: false,
+          user,
+          products,
+          cartcount,
+          category,
+          categoryDetails,
+          userCategoryActive,
+        });
+      }
     } catch (error) {}
   },
 
@@ -334,23 +333,19 @@ module.exports = {
     } catch (error) {}
   },
 
-  getCartCound:async (req,res)=>{
+  getCartCound: async (req, res) => {
     try {
-      let user=req.session.uder
+      let user = req.session.uder;
       cartcount = await productHelper.getCartCount(user._id);
-      res.json(cartcount)
-      
-    } catch (error) {
-      
-    }
-
+      res.json(cartcount);
+    } catch (error) {}
   },
 
   addToCart: (req, res) => {
     try {
       productHelper.addTOCart(req.params.id, req.session.user._id).then(() => {
         res.json({
-          status: true
+          status: true,
         });
       });
     } catch (error) {}
@@ -548,6 +543,17 @@ module.exports = {
         .then((response) => {
           res.json(response);
         });
+    } catch (error) {}
+  },
+
+  viewCoupons: async (req, res) => {
+    try {
+      let category = await adminHelper.viewAllCategories();
+      let user = req.session.user;
+      cartcount = await productHelper.getCartCount(user._id);
+      let coupons=await productHelper.getCoupons(user._id)
+      console.log(coupons);
+      res.render("user/viewCoupons", { user, cartcount, category ,coupons});
     } catch (error) {}
   },
 

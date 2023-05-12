@@ -126,6 +126,14 @@ router.post(
   middleware.checkUserLoggedIn,
   userController.addAddress
 );
+
+
+router.get(
+  "/view-coupons",
+  middleware.checkUserLoggedIn,
+  userController.viewCoupons
+);
+
 router.post(
   "/apply-coupone",
   middleware.checkUserLoggedIn,

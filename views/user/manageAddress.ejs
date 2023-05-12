@@ -1,255 +1,393 @@
 <%- include('../partials/UserHeader') %>
-    <section id="contact-us" class="contact-us section">
-        <div class="container">
-            <div class="contact-head">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-12">
-                        <div class="shop-sidebar">
-                            <h3 class="title">Manage Address</h3>
+<section id="contact-us" class="contact-us section">
+  <div class="container">
+    <div class="contact-head">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-12">
+          <div class="shop-sidebar">
+            <h3 class="title">Manage Address</h3>
 
+            <% for(var i=0; i< addresdetails.address.length; i++) { %>
+            <div
+              class="single-widget recent-post"
+              style="width: 20rem; height: 15rem"
+            >
+              <a
+                href=""
+                onclick="deleteAddress('<%=addresdetails.address[i]._id%>')"
+                class="float-right btn border-0"
+                style="color: red; background-color: #f8f9facc"
+                >Delete</a
+              >
 
-                            <% for(var i=0; i< addresdetails.address.length; i++) { %>
-                                <div class="single-widget recent-post" style="width:20rem;height:15rem">
-                                    <a href="" onclick="deleteAddress('<%=addresdetails.address[i]._id%>')"
-                                        class="float-right btn border-0"
-                                        style="color: red;background-color: #f8f9facc;">Delete</a>
-
-
-                                    <div class="single-post first">
-
-                                        <p>
-                                            <%=addresdetails.address[i].name%>
-                                        </p>
-                                        <p>
-                                            <%=addresdetails.address[i].phone%>
-                                        </p>
-                                        <p>
-                                            <%=addresdetails.address[i].area%>
-                                        </p>
-                                        <p>
-                                            <%=addresdetails.address[i].locality%>
-                                        </p>
-                                        <p>
-                                            <%=addresdetails.address[i].picode%>
-                                        </p>
-                                        <p>
-                                            <%=addresdetails.address[i].district%>
-                                        </p>
-                                        <button onclick="editAddress('<%=addresdetails.address[i]._id%>'),enableBtn2()"
-                                            class="float-right btn border-0 "
-                                            style="color: blue;background-color: #f8f9facc;">Edit </button>
-
-
-                                    </div>
-                                </div>
-                                <% } %>
-
-
-
-
-
-
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="col-lg-8 col-12">
-                        <div class="form-main">
-                            <div class="title">
-                                <h4>Personal Information</h4>
-                                <!-- <h3>Write us a message</h3> -->
-                            </div>
-                            <form class="form" method="post" action="/add-address">
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-                                            <label>Your Name<span>*</span></label>
-                                            <input name="name" type="text" id="nameID" placeholder="" value="" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-
-
-                                            <!-- <label>Your Subjects<span>*</span></label>
-                                            <input name="subject" type="text" placeholder=""> -->
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-                                            <label>Your phone<span>*</span></label>
-                                            <input name="phone" type="text" id="phoneID" placeholder="" value=""
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-                                            <label>Pin code<span>*</span></label>
-                                            <input name="pincode" type="text" placeholder="" value="" id="pinID"
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-                                            <label>Locality<span>*</span></label>
-                                            <input name="locality" type="text" value="" id="localityID" placeholder="">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-                                            <label>Address(Area,Street)<span>*</span></label>
-                                            <input name="area" type="text" placeholder="" value="" id="areaID">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-
-
-                                            <label>District<span>*</span></label>
-                                            <input name="district" type="text" placeholder="" id="districtID" value="">
-                                        </div>
-                                    </div>
-                                    <input type="text" id="addressid" value=" " hidden>
-                                    <div class="col-6">
-                                        <div class="form-group button">
-                                            <button type="submit" class="btn " id="btn1">Add Address</button>
-
-                                            <button type="button" onclick="updateAddress()" class="btn " id="btn2" style="display: none;">upadte
-                                                Address</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </form>
-
-
-                        </div>
-                    </div>
-
-
-
-                </div>
+              <div class="single-post first">
+                <p><%=addresdetails.address[i].name%></p>
+                <p><%=addresdetails.address[i].phone%></p>
+                <p><%=addresdetails.address[i].area%></p>
+                <p><%=addresdetails.address[i].locality%></p>
+                <p><%=addresdetails.address[i].picode%></p>
+                <p><%=addresdetails.address[i].district%></p>
+                <button
+                  onclick="editAddress('<%=addresdetails.address[i]._id%>'),enableBtn2()"
+                  class="float-right btn border-0"
+                  style="color: blue; background-color: #f8f9facc"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
+            <% } %>
+          </div>
         </div>
 
-    </section>
+        <div class="col-lg-8 col-12">
+          <div class="form-main">
+            <div class="title">
+              <h4>Personal Information</h4>
+              <!-- <h3>Write us a message</h3> -->
+            </div>
+            <form class="form" method="post" action="/add-address">
+              <div class="row">
+                <div class="col-lg-6 col-12">
+                  <div class="form-group">
+                    <label>Your Name<span>*</span></label>
+                    <input
+                      name="name"
+                      type="text"
+                      id="nameID"
+                      placeholder=""
+                      value=""
+                      required
+                      onkeyup="validateName()"
+                    />
+                  </div>
+                  <span
+                    id="name-error"
+                    class="validation"
+                    style="color: red"
+                  ></span>
+                </div>
+                <div class="col-lg-6 col-12">
+                  <div class="form-group"></div>
+                </div>
+                <div class="col-lg-6 col-12">
+                  <div class="form-group">
+                    <label>Your phone<span>*</span></label>
+                    <input
+                      name="phone"
+                      type="text"
+                      id="phoneID"
+                      placeholder=""
+                      value=""
+                      required
+                      onkeyup="validatePhoneNumber()"
+                    />
+                  </div>
+                  <span
+                    id="phone-error"
+                    class="validation"
+                    style="color: red"
+                  ></span>
+                </div>
+                <div class="col-lg-6 col-12">
+                  <div class="form-group"></div>
+                </div>
+                <div class="col-lg-6 col-12">
+                  <div class="form-group">
+                    <label>Pin code<span>*</span></label>
+                    <input
+                      name="pincode"
+                      type="text"
+                      placeholder=""
+                      value=""
+                      id="pinID"
+                      required
+                      onkeyup="validatePinCode()"
+                    />
+                  </div>
+                  <span
+                    id="pin-error"
+                    class="validation"
+                    style="color: red"
+                  ></span>
+                </div>
+                <div class="col-lg-6 col-12">
+                  <div class="form-group">
+                    <label>Locality<span>*</span></label>
+                    <input
+                      name="locality"
+                      type="text"
+                      value=""
+                      id="localityID"
+                      placeholder=""
+                      required
+                      onkeyup="validateLocality()"
+                    />
+                  </div>
+                  <span
+                    id="locality-error"
+                    class="validation"
+                    style="color: red"
+                  ></span>
+                </div>
+                <div class="col-lg-6 col-12">
+                  <div class="form-group">
+                    <label>Address(Area,Street)<span>*</span></label>
+                    <input
+                      name="area"
+                      type="text"
+                      placeholder=""
+                      value=""
+                      id="areaID"
+                      required
+                      onkeyup="validateAddress()"
+                    />
+                  </div>
+                  <span
+                    id="address-error"
+                    class="validation"
+                    style="color: red"
+                  ></span>
+                </div>
+                <div class="col-lg-6 col-12">
+                  <div class="form-group">
+                    <label>District<span>*</span></label>
+                    <input
+                      name="district"
+                      type="text"
+                      placeholder=""
+                      id="districtID"
+                      value=""
+                      required
+                      onkeyup="validateDistrict()"
+                    />
+                  </div>
+                  <span
+                    id="district-error"
+                    class="validation"
+                    style="color: red"
+                  ></span>
+                </div>
+                <input type="text" id="addressid" value=" " hidden />
+                <div class="col-6">
+                  <div class="form-group button">
+                    <button type="submit" class="btn" id="btn1" onclick="return validateForm()">
+                      Add Address
+                    </button>
 
+                    <button
+                      type="button"
+                      onclick="updateAddress()"
+                      class="btn"
+                      id="btn2"
+                      style="display: none"
+                    >
+                      upadte Address
+                    </button>
+                  </div>
+                  <span
+                    id="submit-error"
+                    class="validation"
+                    style="color: red"
+                  ></span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+  integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
 
+<script>
+  var nameError = document.getElementById("name-error");
+  var PhoneError = document.getElementById("phone-error");
+  var submitError = document.getElementById("submit-error");
+  var pinError = document.getElementById("pin-error");
+  var localityError = document.getElementById("locality-error");
+  var addressError = document.getElementById("address-error");
+  var districtError = document.getElementById("district-error");
 
+  function validateName() {
+    var name = document.getElementById("nameID").value;
+    if (name.length == 0) {
+      nameError.innerHTML = "Name is required";
+      return false;
+    }
+    if (!name.match(/^[A-Za-z]/)) {
+      nameError.innerHTML = "Invalid name";
+      return false;
+    }
+    nameError.innerHTML = "";
+    return true;
+  }
 
+  function validatePhoneNumber() {
+    var phoneNumberPattern = /^[0-9]{10}$/;
+    var phoneNumber = document.getElementById("phoneID").value;
+    if (phoneNumberPattern.test(phoneNumber)) {
+      PhoneError.innerHTML = "";
+      return true;
+    } else {
+      PhoneError.innerHTML = "Enter a valid number";
+      return false;
+    }
+  }
 
+  function validatePinCode() {
+    var pincodePattern = /^[1-9][0-9]{5}$/;
+    var pincode = document.getElementById("pinID").value;
+    if (pincodePattern.test(pincode)) {
+      pinError.innerHTML = "";
+      return true;
+    } else {
+      pinError.innerHTML = "Enter a valid pin code";
+      return false;
+    }
+  }
 
+  function validateLocality() {
+    var localityPattern = /^[a-zA-Z\s'\-]+$/;
+    var locality = document.getElementById("localityID").value;
 
+    if (localityPattern.test(locality)) {
+      localityError.innerHTML = "";
+      return true;
+    } else {
+      localityError.innerHTML = "Enter a valid locality";
+      return false;
+    }
+  }
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  function validateAddress() {
+    var houseNamePattern = /^[a-zA-Z\s.-]+$/;
+    var houseName = document.getElementById("areaID").value;
+    if (houseNamePattern.test(houseName)) {
+      addressError.innerHTML = "";
+      return true;
+    } else {
+      addressError.innerHTML = "Enter a valid address";
+      return false;
+    }
+  }
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
-        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  function validateDistrict() {
+    var districtNamePattern = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+    var districtName = document.getElementById("districtID").value;
+    if (districtNamePattern.test(districtName)) {
+      districtError.innerHTML = "";
+      return true;
+    } else {
+      districtError.innerHTML = "Enter a valid district";
+      return false;
+    }
+  }
 
-    <script>
+  function validateForm() {
+    if (
+      !validateName() ||
+      !validatePhoneNumber() ||
+      !validateAddress() ||
+      !validateDistrict() ||
+      !validateLocality() ||
+      !validatePinCode()
+    ) {
+      submitError.style.display = "flex";
+      submitError.style.justifyContent = "center";
+      submitError.innerHTML = "All fields are required";
+      setTimeout(() => {
+        submitError.style.display = "none";
+      }, 3000);
+      return false;
+    }
+  }
+</script>
 
-
-
-        function deleteAddress(addressId) {
-
-            $.ajax({
-                url: '/delete-address',
-                data: {
-                    address: addressId
-                },
-                method: 'POST',
-                success: (response) => {
-                    if (response.status) {
-                        const popup = document.getElementById('popup');
-                        popup.style.display = 'block';
-                        setTimeout(() => {
-                            popup.style.display = 'none';
-                        }, 1000);
-
-                    }
-
-                }
-            })
-
+<script>
+  function deleteAddress(addressId) {
+    $.ajax({
+      url: "/delete-address",
+      data: {
+        address: addressId,
+      },
+      method: "POST",
+      success: (response) => {
+        if (response.status) {
+          const popup = document.getElementById("popup");
+          popup.style.display = "block";
+          setTimeout(() => {
+            popup.style.display = "none";
+          }, 1000);
         }
-        function editAddress(addressId) {
-            $.ajax({
-                url: '/edit-address',
-                data: {
-                    address: addressId
-                },
-                method: 'POST',
-                success: (response) => {
-                    console.log(response);
-                    document.getElementById('nameID').value = response.address[0].name
-                    document.getElementById('phoneID').value = response.address[0].phone
-                    document.getElementById('pinID').value = response.address[0].pincode
-                    document.getElementById('localityID').value = response.address[0].locality
-                    document.getElementById('areaID').value = response.address[0].area
-                    document.getElementById('districtID').value = response.address[0].district
-                    document.getElementById('addressid').value = response.address[0]._id
+      },
+    });
+  }
+  function editAddress(addressId) {
+    $.ajax({
+      url: "/edit-address",
+      data: {
+        address: addressId,
+      },
+      method: "POST",
+      success: (response) => {
+        console.log(response);
+        document.getElementById("nameID").value = response.address[0].name;
+        document.getElementById("phoneID").value = response.address[0].phone;
+        document.getElementById("pinID").value = response.address[0].pincode;
+        document.getElementById("localityID").value =
+          response.address[0].locality;
+        document.getElementById("areaID").value = response.address[0].area;
+        document.getElementById("districtID").value =
+          response.address[0].district;
+        document.getElementById("addressid").value = response.address[0]._id;
+      },
+    });
+  }
 
+  function updateAddress() {
+    let name = document.getElementById("nameID").value;
+    let phone = document.getElementById("phoneID").value;
+    let pin = document.getElementById("pinID").value;
+    let locality = document.getElementById("localityID").value;
+    let area = document.getElementById("areaID").value;
+    let district = document.getElementById("districtID").value;
+    let addressId = document.getElementById("addressid").value;
 
+    $.ajax({
+      url: "/update-address",
+      data: {
+        name,
+        phone,
+        pin,
+        locality,
+        area,
+        district,
+        addressId,
+      },
+      method: "POST",
+      success: (response) => {
+        console.log(response);
+        location.reload();
+      },
+    });
+  }
 
-                    // if (response.status) {
-                    //     const popup = document.getElementById('popup');
-                    //     popup.style.display = 'block';
-                    //     setTimeout(() => {
-                    //         popup.style.display = 'none';
-                    //     }, 1000);
+  function enableBtn2() {
+    var btn2 = document.getElementById("btn2");
+    var btn1 = document.getElementById("btn1");
+    btn1.style.display = "none";
+    btn2.style.display = "block";
+  }
+</script>
 
-                    // } 
-
-                }
-            })
-
-        }
-
-        function updateAddress() {
-            let name=document.getElementById('nameID').value 
-            let phone = document.getElementById('phoneID').value
-            let pin = document.getElementById('pinID').value
-            let locality = document.getElementById('localityID').value
-            let area = document.getElementById('areaID').value
-            let district = document.getElementById('districtID').value
-            let addressId = document.getElementById('addressid').value
-
-            $.ajax({
-                url: '/update-address',
-                data: {
-                   name, phone,pin,locality,area,district,addressId
-                },
-                method: 'POST',
-                success: (response) => {
-                    console.log(response);
-                    location.reload()
-
-
-
-                }
-            })
-
-        }
-
-        function enableBtn2() {
-
-            var btn2 = document.getElementById("btn2");
-            var btn1 = document.getElementById("btn1");
-            btn1.style.display = 'none';
-            btn2.style.display = 'block';
-        }
-
-    </script>
-
-    <%- include('../partials/UserFooter') %>
+<%- include('../partials/UserFooter') %>
