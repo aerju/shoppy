@@ -102,7 +102,7 @@ module.exports = {
   addProduct: (productData, callback) => {
     // return new Promise(async (res, rej) => {
     let slugifiedTitle = slug(productData.pro_name);
-    // productData.slugName=slugifiedTitle
+    productData.slugName=slugifiedTitle
     productData.stockStatus = true;
     productData.pro_price = parseInt(productData.pro_price);
     productData.pro_count = parseInt(productData.pro_count);
@@ -208,7 +208,7 @@ module.exports = {
     return new Promise((res) => {
       db.get()
         .collection(collection.PRODUCT_INFORMATION)
-        .findOne({ _id: objectId(proId) })
+        .findOne({ slugName:proId })
         .then((product) => {
           res(product);
         });

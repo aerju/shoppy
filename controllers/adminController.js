@@ -279,7 +279,7 @@ module.exports = {
     } catch (error) {res.render('error',error)}
   },
 
-  orgerManagement: async (req, res) => {
+  orderManagement: async (req, res) => {
     try {
       const orderActive = "active";
       let orders = await adminHelper.getoderInfo();

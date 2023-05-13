@@ -81,7 +81,7 @@
                         style="pointer-events: none; opacity: 0.6"
                       >
                         <div class="product-img">
-                          <a href="/view-product/<%=categoryDetails[i]._id%>">
+                          <a href="/view-product/<%=categoryDetails[i].slugName%>">
                             <img
                               class="default-img"
                               src="<%=categoryDetails[i].image[0]%>"
@@ -130,7 +130,7 @@
                     <div class="col-xl-3 col-lg-4 col-md-4 col-6">
                       <div class="single-product">
                         <div class="product-img">
-                          <a href="/view-product/<%=categoryDetails[i]._id%>">
+                          <a href="/view-product/<%=categoryDetails[i].slugName%>">
                             <img
                               class="default-img"
                               src="<%=categoryDetails[i].image[0]%>"
@@ -183,7 +183,7 @@
                         </div>
                         <div class="product-content">
                           <h3>
-                            <a href="/view-product/<%=categoryDetails[i]._id%>">
+                            <a href="/view-product/<%=categoryDetails[i].slugName%>">
                               <%=categoryDetails[i].pro_name%>
                             </a>
                             <%if(categoryDetails[i].pro_count<=6&&categoryDetails[i].pro_count>0){%>

@@ -106,7 +106,7 @@ router.post("/add-coupones",  middleware.checkAdminLoggedIn,adminController.addC
 
 router.get("/delete-coupons/:id", middleware.checkAdminLoggedIn, adminController.deleteCoupons);
 
-router.get("/order-management",  middleware.checkAdminLoggedIn,adminController.orgerManagement);
+router.get("/order-management",  middleware.checkAdminLoggedIn,adminController.orderManagement);
 router.get("/single-order/:id",  middleware.checkAdminLoggedIn,adminController.singleOrder);
 router.post("/change-order-status/",  middleware.checkAdminLoggedIn,adminController.changeStatus);
 router.get("/sales-report/", middleware.checkAdminLoggedIn, adminController.salesReport);
