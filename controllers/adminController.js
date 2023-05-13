@@ -244,7 +244,7 @@ module.exports = {
     try {
       const bannerActive = "active";
       let banner = await adminHelper.getBannerInfo();
-      res.render("admin/bannerManagement", { banner, bannerActive });
+      res.render("admin/bannerManagemen", { banner, bannerActive });
     } catch (error) {res.render('error',error)}
   },
   addBanners: (req, res) => {
