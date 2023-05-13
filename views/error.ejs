@@ -1,6 +1,26 @@
-<h1><%= message %></h1>
+<!-- <h1><%= message %></h1>
 <h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<pre><%= error.stack %></pre> -->
 
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
 
-<!-- <h1>Arjun</h1> -->
+  .container {
+    margin: 50px auto;
+    margin-top: 180px;
+    max-width: 600px;
+    padding: 50px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+</style>
+<div class="container">
+  <img src="https://img.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-5529.jpg?w=2000" alt="Error Image" style="width: 100px; height: 100px;" />
+  <h1><%= message %></h1>
+  <h2><%= error.status %></h2>
+  <p>We're sorry, but the page you were looking for could not be found.</p>
+</div>

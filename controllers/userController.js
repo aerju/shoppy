@@ -51,6 +51,7 @@ module.exports = {
             totalPages,
             page,
             total,
+            pageSize
           });
         } else {
           res.render("user/userLandingPage", {
@@ -65,6 +66,7 @@ module.exports = {
             totalPages,
             page,
             total,
+            pageSize
           });
         }
       });
@@ -103,7 +105,7 @@ module.exports = {
           res.redirect("/login");
         }
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   updateProfile: (req, res) => {
@@ -112,7 +114,7 @@ module.exports = {
       userHelper.updateProfileInfo(req.body, userId).then((response) => {
         res.redirect("/profile");
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   userLOginWithOtp: async (req, res) => {
@@ -126,7 +128,7 @@ module.exports = {
         category,
       });
       message = "";
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   userLOginWithOtpPost: (req, res) => {
@@ -144,7 +146,7 @@ module.exports = {
           });
         }
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   verifyOpt: (req, res) => {
@@ -155,7 +157,7 @@ module.exports = {
         req.session.user = response;
         res.json(response);
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   forgortPassword: async (req, res) => {
@@ -169,7 +171,7 @@ module.exports = {
         category,
       });
       message = "";
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   forgortPasswordPOst: (req, res) => {
@@ -191,7 +193,7 @@ module.exports = {
           });
         }
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   updatePassword: async (req, res) => {
@@ -204,7 +206,7 @@ module.exports = {
           req.session.user = users;
           res.json(response);
         });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   userSignUp: async (req, res, next) => {
@@ -218,7 +220,7 @@ module.exports = {
         category,
       });
       userExistMsg = "";
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   userSignUpPost: (req, res) => {
@@ -233,7 +235,7 @@ module.exports = {
           res.redirect("/");
         }
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   userLogOut: (req, res) => {
@@ -242,7 +244,7 @@ module.exports = {
       // req.session.userLoggedIn=false
       req.session.destroy();
       res.redirect("/");
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   userViewSingleProduct: async (req, res) => {
@@ -268,17 +270,37 @@ module.exports = {
           category,
         });
       }
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   userCategory: async (req, res) => {
     try {
       let userCategoryActive = "active";
       let user = req.session.user;
-      let categoryDetails = await productHelper.getCategory(req.params.id);
+      let catID = req.params.id;
+      const page = parseInt(req.query.page || 1);
+      const pageSize = parseInt(req.query.pageSize || 12);
+      const skip = (page - 1) * pageSize;
+      const limit = pageSize;
+      let categoryDetails = await productHelper.getCategory(
+        req.params.id,
+        skip,
+        limit
+      );
+      let total = Object.keys(categoryDetails).length;
+      const totalPages = Math.ceil(total / pageSize) ;
       let category = await adminHelper.viewAllCategories();
       let products = await adminHelper.getProductInfoAdmin();
       if (req.session.userLoggedIn) {
+        wishlistItems = await productHelper.getWishlistProducts(user._id);
+        wishlistItems.forEach((wish) => {
+          categoryDetails.forEach((pro) => {
+            if (wish.item.toString() == pro._id.toString()) {
+              pro.isWish = true;
+            }
+          });
+        });
+
         res.render("user/category", {
           userHead: true,
           user,
@@ -287,6 +309,11 @@ module.exports = {
           category,
           categoryDetails,
           userCategoryActive,
+          page,
+          pageSize,
+          total,
+          totalPages,
+          catID,
         });
       } else {
         res.render("user/category", {
@@ -297,9 +324,16 @@ module.exports = {
           category,
           categoryDetails,
           userCategoryActive,
+          page,
+          pageSize,
+          total,
+          totalPages,
+          catID,
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      res.render('error',error)
+    }
   },
 
   viewCart: async (req, res) => {
@@ -330,7 +364,7 @@ module.exports = {
         cartStockOut,
         category,
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   getCartCound: async (req, res) => {
@@ -338,7 +372,7 @@ module.exports = {
       let user = req.session.uder;
       cartcount = await productHelper.getCartCount(user._id);
       res.json(cartcount);
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   addToCart: (req, res) => {
@@ -348,7 +382,7 @@ module.exports = {
           status: true,
         });
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   changePoductQuantity: (req, res) => {
@@ -357,7 +391,7 @@ module.exports = {
         response.total = await productHelper.getTotalAmount(req.body.user);
         res.json(response);
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   removeCartProducts: (req, res) => {
@@ -365,7 +399,7 @@ module.exports = {
       productHelper.removeCartproduct(req.body).then((response) => {
         res.json({ productRemoved: true });
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   userCheckOut: async (req, res) => {
@@ -385,7 +419,7 @@ module.exports = {
         wallet,
         category,
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   userCheckOutPost: async (req, res) => {
@@ -410,7 +444,7 @@ module.exports = {
             });
           }
         });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   orderSuccess: async (req, res) => {
@@ -424,7 +458,7 @@ module.exports = {
         userHead: true,
         cartcount,
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   viewOrders: async (req, res) => {
@@ -461,7 +495,7 @@ module.exports = {
         orderDetails,
         category,
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   viewOrderProducts: async (req, res) => {
@@ -496,7 +530,7 @@ module.exports = {
         orderDetails,
         category,
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   verifyPaymentPost: (req, res) => {
     try {
@@ -513,7 +547,7 @@ module.exports = {
         .catch((err) => {
           res.json({ status: false });
         });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   viewWishlist: async (req, res) => {
     try {
@@ -522,7 +556,7 @@ module.exports = {
       cartcount = await productHelper.getCartCount(user._id);
       let wishlistItems = await productHelper.getWishlistProducts(user._id);
       res.render("user/wishList", { user, cartcount, wishlistItems, category });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   addtowishlist: (req, res) => {
     try {
@@ -533,7 +567,7 @@ module.exports = {
             status: true,
           });
         });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   removeWishlistProducts: (req, res) => {
     try {
@@ -543,7 +577,7 @@ module.exports = {
         .then((response) => {
           res.json(response);
         });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   viewCoupons: async (req, res) => {
@@ -551,10 +585,10 @@ module.exports = {
       let category = await adminHelper.viewAllCategories();
       let user = req.session.user;
       cartcount = await productHelper.getCartCount(user._id);
-      let coupons=await productHelper.getCoupons(user._id)
+      let coupons = await productHelper.getCoupons(user._id);
       console.log(coupons);
-      res.render("user/viewCoupons", { user, cartcount, category ,coupons});
-    } catch (error) {}
+      res.render("user/viewCoupons", { user, cartcount, category, coupons });
+    } catch (error) {res.render('error',error)}
   },
 
   userViewProfile: async (req, res) => {
@@ -564,7 +598,7 @@ module.exports = {
       let userData = await userHelper.getUserDta(user._id);
       cartcount = req.session.user.cartCount;
       res.render("user/userProfile", { user, userData, cartcount, category });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   manageAddress: async (req, res) => {
     try {
@@ -578,7 +612,7 @@ module.exports = {
         addresdetails,
         category,
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   addAddress: (req, res) => {
     try {
@@ -586,7 +620,7 @@ module.exports = {
       userHelper.addAddres(req.body, user._id).then(() => {
         res.redirect("/manage-address");
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   applycoupone: async (req, res) => {
     try {
@@ -597,7 +631,7 @@ module.exports = {
       } else {
         res.json({ status: false, coupone });
       }
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   deleteAddress: (req, res) => {
     try {
@@ -605,7 +639,7 @@ module.exports = {
       userHelper.deleteUserAddress(req.body, user._id).then((response) => {
         res.json({ status: true });
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   editAddress: (req, res) => {
     try {
@@ -613,7 +647,7 @@ module.exports = {
       userHelper.editUserAddress(req.body, user._id).then((response) => {
         res.json(response);
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   updateAddress: (req, res) => {
     try {
@@ -621,27 +655,27 @@ module.exports = {
       userHelper.updateAddressInfo(req.body, user._id).then((response) => {
         res.json(response);
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   search: async (req, res) => {
     try {
       const searchValue = req.query.search;
       const { search, sort, minPrice, maxPrice } = req.query;
-      const page = parseInt(req.query.page || 1, 10);
-      const pageSize = parseInt(req.query.pageSize || 10, 10);
+      // const page = parseInt(req.query.page || 1, 10);
+      // const pageSize = parseInt(req.query.pageSize || 10, 10);
+      // const skip = (page - 1) * pageSize;
+      // const limit = pageSize;
+      const page = parseInt(req.query.page || 1);
+      const pageSize = parseInt(req.query.pageSize || 9);
       const skip = (page - 1) * pageSize;
       const limit = pageSize;
       const query = {};
+      query.stockStatus = { $eq: true };
       if (search) {
         query.pro_name = { $regex: search, $options: "i" };
       }
       if (minPrice || maxPrice) {
-        // const [field, value] = filter.split(":");
-        // query[field] = value;
-        // query.pro_price=filter
-        // const filterObj = JSON.parse(filter);
-        // Object.assign(query, filterObj);
         query.pro_price = {};
         if (minPrice) {
           query.pro_price.$gte = parseFloat(minPrice);
@@ -659,9 +693,19 @@ module.exports = {
       let user = req.session.user;
       let category = await adminHelper.viewAllCategories();
       let products = await productHelper.search(query, sortObj, skip, limit);
-      let totalPages = Object.keys(products).length;
+      let total = Object.keys(products).length;
+      const totalPages = Math.ceil(total / pageSize) + 1;
+      console.log(total, totalPages);
       if (req.session.user) {
         cartcount = await productHelper.getCartCount(user._id);
+        wishlistItems = await productHelper.getWishlistProducts(user._id);
+        wishlistItems.forEach((wish) => {
+          products.forEach((pro) => {
+            if (wish.item.toString() == pro._id.toString()) {
+              pro.isWish = true;
+            }
+          });
+        });
         res.render("user/searchProducts", {
           userHead: true,
           user,
@@ -676,6 +720,7 @@ module.exports = {
           sort,
           minPrice,
           maxPrice,
+          total,
         });
       } else {
         res.render("user/searchProducts", {
@@ -692,9 +737,12 @@ module.exports = {
           sort,
           minPrice,
           maxPrice,
+          total,
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      res.render('error',error)
+    }
   },
 
   cancelRequest: (req, res) => {
@@ -702,7 +750,7 @@ module.exports = {
       userHelper.cancelOrderRequest(req.body).then(() => {
         res.json(true);
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   returnRequest: (req, res) => {
@@ -710,7 +758,7 @@ module.exports = {
       userHelper.returnOrderRequest(req.body).then(() => {
         res.json(true);
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   wallet: async (req, res) => {
@@ -720,7 +768,7 @@ module.exports = {
       let category = await adminHelper.viewAllCategories();
       let wallet = await userHelper.getWalletInfo(user._id);
       res.render("user/wallet", { user, cartcount, wallet, category });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   contact: async (req, res) => {
@@ -745,7 +793,7 @@ module.exports = {
           category,
         });
       }
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   downloadInvoice: async (req, res) => {

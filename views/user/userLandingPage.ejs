@@ -222,7 +222,7 @@
     <p><%=i%></p>
   </a>
 
-  <% } %> <% if (page < total ) { %>
+  <% } %> <% if (pageSize <=total ) { %>
   <a
     class="btn border"
     style="background-color: white; color: black"
@@ -253,7 +253,7 @@
 >
 </span>
 <br /><br />
-
+<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
 <script>
   function addTOCart(proId) {
     $.ajax({
@@ -274,7 +274,7 @@
           console.log(count);
           $("#cart-count").html(count);
         }
-        // alert(response)
+        
       },
     });
   }

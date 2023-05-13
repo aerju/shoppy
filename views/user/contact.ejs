@@ -7,12 +7,13 @@
                 <div class="bread-inner">
                     <ul class="bread-list">
                         <li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
-                        <li class="active"><a href="/">Contact</a></li>
+                        <li class="active"><a href="/contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
 <!-- End Breadcrumbs -->
 
@@ -27,36 +28,36 @@
                                 <h4>Get in touch</h4>
                                 <h3>Write us a message</h3>
                             </div>
-                            <form class="form" method="post" action="mail/mail.php">
+                            <form class="form" method="post" id="submit-form">
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
                                         <div class="form-group">
                                             <label>Your Name<span>*</span></label>
-                                            <input name="name" type="text" placeholder="">
+                                            <input name="name" type="text" placeholder="" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-12">
                                         <div class="form-group">
                                             <label>Your Subjects<span>*</span></label>
-                                            <input name="subject" type="text" placeholder="">
+                                            <input name="subject" type="text" placeholder="" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-12">
                                         <div class="form-group">
                                             <label>Your Email<span>*</span></label>
-                                            <input name="email" type="email" placeholder="">
+                                            <input name="email" type="email" placeholder="" required>
                                         </div>	
                                     </div>
                                     <div class="col-lg-6 col-12">
                                         <div class="form-group">
                                             <label>Your Phone<span>*</span></label>
-                                            <input name="company_name" type="text" placeholder="">
+                                            <input name="Phone" type="text" placeholder="" required>
                                         </div>	
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group message">
                                             <label>your message<span>*</span></label>
-                                            <textarea name="message" placeholder=""></textarea>
+                                            <textarea name="message" placeholder="" required></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -74,23 +75,23 @@
                                 <i class="fa fa-phone"></i>
                                 <h4 class="title">Call us Now:</h4>
                                 <ul>
-                                    <li>+123 456-789-1120</li>
-                                    <li>+522 672-452-1120</li>
+                                    <li>+91 5467256468</li>
+                                    <!-- <li>+522 672-452-1120</li> -->
                                 </ul>
                             </div>
                             <div class="single-info">
                                 <i class="fa fa-envelope-open"></i>
                                 <h4 class="title">Email:</h4>
                                 <ul>
-                                    <li><a href="mailto:info@yourwebsite.com">info@yourwebsite.com</a></li>
-                                    <li><a href="mailto:info@yourwebsite.com">support@yourwebsite.com</a></li>
+                                    <li><a href="">shoppyy@gmail.com</a></li>
+                                    <li><a href="">shoppyy-support@gmail.com</a></li>
                                 </ul>
                             </div>
                             <div class="single-info">
                                 <i class="fa fa-location-arrow"></i>
                                 <h4 class="title">Our Address:</h4>
                                 <ul>
-                                    <li>KA-62/1, Travel Agency, 45 Grand Central Terminal, New York.</li>
+                                    <li>KA-62/1, Shoppy, 45 Grand Central Terminal, Kochi.</li>
                                 </ul>
                             </div>
                         </div>
@@ -106,6 +107,28 @@
     <div id="myMap"></div>
 </div> -->
 <!--/ End Map Section -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+
+    $("#submit-form").submit((e) => {
+      e.preventDefault()
+      $.ajax({
+        url: "https://script.google.com/macros/s/AKfycbxUlJ-sR1lB7OVsgQI6Mfh4wYIhaqMn27Wm5eZMQatsqehLHk89S6DyDgtzIlNBjYrerw/exec",
+        data: $("#submit-form").serialize(),
+        method: "post",
+        success: function (response) {
+          // alert("Form submitted successfully")
+          window.location.reload()
+
+        },
+        error: function (err) {
+          // alert("Something Error")
+
+        }
+      })
+    })
+  </script>
 
 
 

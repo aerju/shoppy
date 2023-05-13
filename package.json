@@ -29,6 +29,7 @@
     "nocache": "^3.0.4",
     "nodemon": "^2.0.21",
     "razorpay": "^2.8.6",
+    "slug": "^8.2.2",
     "speakeasy": "^2.0.0",
     "uuid": "^9.0.0"
   }

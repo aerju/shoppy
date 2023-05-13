@@ -98,14 +98,14 @@ module.exports = {
       resolve(cartItems);
     });
   },
-  getCategory: (catId) => {
+  getCategory: (catId,skip,limit) => {
     return new Promise(async (resolve, reject) => {
       let categoryDetails = await db
         .get()
         .collection(collection.PRODUCT_INFORMATION)
         .aggregate([
           {
-            $match: { pro_cat: objectId(catId) },
+            $match: { pro_cat: objectId(catId) ,stockStatus: { $eq: true } },
           },
           {
             $lookup: {
@@ -115,7 +115,7 @@ module.exports = {
               as: "categoryDetails",
             },
           },
-        ])
+        ]).skip(skip).limit(limit)
         .toArray();
       resolve(categoryDetails);
     });
@@ -483,8 +483,7 @@ module.exports = {
         .get()
         .collection(collection.COUPONE_MANAGEMENT)
         .find(           
-            // { usedUsers: { $elemMatch: {$ne: { user: objectId(userId) } } } },  
-                            
+            // { usedUsers: { $elemMatch: {$ne: { user: objectId(userId) } } } },                             
         )
         .toArray();
       resolve(coupons);

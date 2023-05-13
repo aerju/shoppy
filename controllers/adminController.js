@@ -21,7 +21,7 @@ module.exports = {
         });
         loginErrorMsg=''
       }
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminHome: async (req, res) => {
@@ -30,7 +30,7 @@ module.exports = {
       adminHelper.viewAllCategories().then((category) => {
         res.render("admin/adminHome", { category, dashActive });
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminLoginPost: (req, res) => {
@@ -44,7 +44,7 @@ module.exports = {
           res.redirect("/admin");
 
       })
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminViewAllCategories: (req, res) => {
@@ -53,7 +53,7 @@ module.exports = {
       adminHelper.viewAllCategories().then((category) => {
         res.render("admin/categoryManage", { category, categoryActive });
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   adminAddCategory: (req, res) => {
     try {
@@ -62,7 +62,7 @@ module.exports = {
       res.render("admin/addCategory", { category, message, categoryActive });
       message = "";
       // })
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminAddCategoryPost: (req, res) => {
@@ -76,7 +76,7 @@ module.exports = {
           res.redirect("/admin/add-category");
         }
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   adminEditCategory: (req, res) => {
     try {
@@ -85,7 +85,7 @@ module.exports = {
         res.render("admin/editCategory", { category, message, categoryActive });
         message = "";
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   adminEditCategoryPost: (req, res) => {
     try {
@@ -100,7 +100,7 @@ module.exports = {
             res.redirect("/admin/view-categories");
           }
         });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   listCategory: (req, res) => {
@@ -109,7 +109,7 @@ module.exports = {
       adminHelper.listCategory(id).then((response) => {
         res.json({response})
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   unListCategory: (req, res) => {
     try {
@@ -117,7 +117,7 @@ module.exports = {
       adminHelper.unListCategory(id).then((response) => {
         res.json({response})
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminViewProductDetails: (req, res) => {
@@ -126,7 +126,7 @@ module.exports = {
       adminHelper.getProductInfoAdmin().then((products) => {
         res.render("admin/productDetails", { products, productActive });
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminAddProduct: (req, res) => {
@@ -140,7 +140,7 @@ module.exports = {
         });
         req.session.submitStatus = false;
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminAddProductPost: async (req, res) => {
@@ -180,7 +180,7 @@ module.exports = {
       adminHelper.viewAllCategories().then((category) => {
         res.render("admin/editProduct", { product, category, productActive });
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminEditProductPost: async (req, res) => {
@@ -212,7 +212,7 @@ module.exports = {
       adminHelper.deleteProduct(pro_ID).then((response) => {
         res.json({response});
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminViewUserDetails: (req, res) => {
@@ -221,7 +221,7 @@ module.exports = {
       adminHelper.getUserInfo().then((users) => {
         res.render("admin/userDetails", { users, userActive });
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   adminBlockUser: (req, res) => {
     try {
@@ -229,7 +229,7 @@ module.exports = {
       adminHelper.blockUser(id).then((response) => {
         res.json({response})
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   adminUnblockUser: (req, res) => {
     try {
@@ -237,7 +237,7 @@ module.exports = {
       adminHelper.unblockUser(id).then((response) => {
         res.json({response})
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   viewBanners: async (req, res) => {
@@ -245,13 +245,13 @@ module.exports = {
       const bannerActive = "active";
       let banner = await adminHelper.getBannerInfo();
       res.render("admin/bannerManagement", { banner, bannerActive });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   addBanners: (req, res) => {
     try {
       const bannerActive = "active";
       res.render("admin/addBanners", { bannerActive });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   addBannersPost: async (req, res) => {
@@ -276,7 +276,7 @@ module.exports = {
       adminHelper.removeBanner(req.params.id).then((response) => {
         res.json(response)
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   orgerManagement: async (req, res) => {
@@ -306,7 +306,7 @@ module.exports = {
           orders[i].date.getFullYear();
       }
       res.render("admin/orderManagement", { orders, orderActive });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   singleOrder: async (req, res) => {
     try {
@@ -334,7 +334,7 @@ module.exports = {
         "-" +
         orderDetails.date.getFullYear();
       res.render("admin/viewSingleOrder", { orderDetails, orderActive });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   changeStatus: (req, res) => {
@@ -342,21 +342,21 @@ module.exports = {
       adminHelper.changeStatus(req.body).then((response) => {
         res.json(response);
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   viewCoupones: async (req, res) => {
     try {
       const couponActive = "active";
       let coupones = await adminHelper.getCoponesInfo();
       res.render("admin/couponeManagement", { coupones, couponActive });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   addCoupones: (req, res) => {
     try {
       const couponActive = "active";
       res.render("admin/addCoupones", { couponMessage, couponActive });
       couponMessage = "";
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   addCouponesPost: (req, res) => {
     try {
@@ -369,14 +369,14 @@ module.exports = {
           res.redirect("/admin/add-coupones");
         }
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
   deleteCoupons: (req, res) => {
     try {
       adminHelper.removeCoupons(req.params.id).then((response) => {
         res.json({response})
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   salesReport: async (req, res) => {
@@ -419,7 +419,7 @@ module.exports = {
           salesReport[i].date.getFullYear();
       }
       res.render("admin/salesReport", { salesReport ,dashActive});
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   graphStatics: async (req, res) => {
@@ -439,7 +439,7 @@ module.exports = {
         totalRevenue,
         totalOrders,
       });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   graphStaticsDate: async (req, res) => {
@@ -447,7 +447,7 @@ module.exports = {
       let year = req.query.year;
       let saleStatisticsDate = await adminHelper.getSaleStatisticsDate(year);
       res.json({ saleStatisticsDate });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   graphStaticsCategory: async (req, res) => {
@@ -458,13 +458,13 @@ module.exports = {
         category
       );
       res.json({ OrderStatisticsCategory });
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 
   adminLogOut: (req, res) => {
     try {
       req.session.adminLoggedIn = false;
       res.redirect("/admin");
-    } catch (error) {}
+    } catch (error) {res.render('error',error)}
   },
 };

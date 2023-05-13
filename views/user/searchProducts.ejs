@@ -59,9 +59,15 @@
                                         <% } %>
 
                                             <% } %> -->
-              <a href="/search?search=<%=searchValue%>&sort=pro_price:inc&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>">Price(low-high)</a>
+              <a
+                href="/search?search=<%=searchValue%>&sort=pro_price:inc&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+                >Price(low-high)</a
+              >
               <br />
-              <a href="/search?search=<%=searchValue%>&sort=pro_price:desc&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>&">Price(high-low)</a>
+              <a
+                href="/search?search=<%=searchValue%>&sort=pro_price:desc&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>&"
+                >Price(high-low)</a
+              >
               <br />
               <!-- <a href="/search?search=<%=searchValue%>&sort=pro_name:inc&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
                 >Product Name</a
@@ -74,42 +80,60 @@
           <div class="single-widget range">
             <h3 class="title">Shop by Price</h3>
 
-
             <div class="price-filter">
               <div class="price-range mb-3">
                 <span class="price-label">Price:</span>
                 <% if (minPrice && maxPrice) { %>
-                <span class="price-values"> ₹<%=minPrice%>- ₹<%=maxPrice%></span>
+                <span class="price-values">
+                  ₹<%=minPrice%>- ₹<%=maxPrice%></span
+                >
                 <% } else { %>
                 <span class="price-values"> ₹50000- ₹55000</span>
                 <% } %>
 
-                <input type="range" class="min-price" min="0" max="99999" step="1000" value="<%=minPrice%>" />
-                <input type="range" class="max-price" min="10000" max="100000" step="1000" value="<%=maxPrice%>" />
+                <input
+                  type="range"
+                  class="min-price"
+                  min="0"
+                  max="99999"
+                  step="1000"
+                  value="<%=minPrice%>"
+                />
+                <input
+                  type="range"
+                  class="max-price"
+                  min="10000"
+                  max="100000"
+                  step="1000"
+                  value="<%=maxPrice%>"
+                />
               </div>
-              <button id="apply-button" class="apply-btn" style="background-color: #fff; color: black">
+              <button
+                id="apply-button"
+                class="apply-btn"
+                style="background-color: #fff; color: black"
+              >
                 Apply
               </button>
-              <button id="clear-button" class="apply-btn ml-4" style="background-color: #fff; color: black">
+              <button
+                id="clear-button"
+                class="apply-btn ml-4"
+                style="background-color: #fff; color: black"
+              >
                 Clear
               </button>
             </div>
-
-
           </div>
         </div>
       </div>
 
       <div class="col-lg-9 col-md-8 col-12">
         <div class="row">
-          <div class="col-12">
-
-          </div>
+          <div class="col-12"></div>
         </div>
 
         <% if (products.length!=0) { %>
-
-        <div class="row">
+        <!-- <div class="row">
           <% for (var i=0; i < products.length; i++) { %> <% if
           (products[i].stockStatus) { %>
 
@@ -140,23 +164,204 @@
             </div>
           </div>
           <% } %> <% } %>
+        </div> -->
+        <div class="row">
+          <% for (var i=0; i < products.length; i++) { %> <% if
+          (products[i].stockStatus) { %> <% if (products[i].pro_count===0) { %>
+          <div class="col-lg-4 col-md-6 col-12">
+            <div
+              class="single-product"
+              style="pointer-events: none; opacity: 0.6"
+            >
+              <div class="product-img">
+                <a href="/view-product/<%=products[i]._id%>">
+                  <img
+                    class="default-img"
+                    src="<%=products[i].image[0]%>"
+                    alt="#"
+                    style="width: 550px; height: 750"
+                  /><span
+                    style="
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      color: red;
+                      font-size: large;
+                      font-weight: bold;
+                    "
+                    >Out Of Stock</span
+                  >
+                </a>
+
+                <div class="button-head">
+                  <div class="product-action">
+                    <a onclick="addToWishList( '<%=products[i]._id%>' )"
+                      ><i class="ti-heart"></i><span>Add to Wishlist</span></a
+                    >
+                    <p title="Compare"></p>
+                  </div>
+
+                  <div class="product-action-2">
+                    <a onclick="addTOCart( '<%=products[i]._id%>' )"
+                      >Add to cart</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="product-content">
+                <h3>
+                  <a href="product-details.html"> <%=products[i].pro_name%> </a>
+                </h3>
+                <div class="product-price" style="color: green">
+                  <span>₹<%=products[i].pro_price%></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } else { %>
+          <div class="col-lg-4 col-md-6 col-12">
+            <div class="single-product">
+              <div class="product-img">
+                <a href="/view-product/<%=products[i]._id%>">
+                  <img
+                    class="default-img"
+                    src="<%=products[i].image[0]%>"
+                    alt="#"
+                    style="width: 550px; height: 750"
+                  />
+                </a>
+                <% if (user) { %>
+                <div class="button-head">
+                  <div class="product-action">
+                    <% if (products[i].isWish) { %>
+                    <a onclick="removeFromWishList('<%=products[i]._id%>')"
+                      ><i
+                        class="fa fa-heart"
+                        style="color: red"
+                        id="remove-wish"
+                      ></i
+                      ><span>Remove from Wishlist</span></a
+                    >
+
+                    <% } else { %>
+                    <a onclick="addToWishList( '<%=products[i]._id%>' )"
+                      ><i id="add-wish2" class="ti-heart"></i
+                      ><span>Add to Wishlist</span></a
+                    >
+                    <% } %>
+                    <p title="Compare"></p>
+                  </div>
+                  <div class="product-action-2">
+                    <a onclick="addTOCart( '<%=products[i]._id%>' )"
+                      >Add to cart</a
+                    >
+                  </div>
+                </div>
+
+                <% } else { %>
+                <div class="button-head">
+                  <div class="product-action">
+                    <a href="/login"
+                      ><i id="add-wish2" class="ti-heart"></i
+                      ><span>Add to Wishlist</span></a
+                    >
+                    <p title="Compare"></p>
+                  </div>
+                  <div class="product-action-2">
+                    <a href="/login">Add to cart</a>
+                  </div>
+                </div>
+                <% } %>
+              </div>
+              <div class="product-content">
+                <h3>
+                  <a href="/view-product/<%=products[i]._id%>">
+                    <%=products[i].pro_name%>
+                  </a>
+                  <%if(products[i].pro_count<=6&&products[i].pro_count>0){%>
+                  <span style="font-size: 10px; color: red" class="ml-4"
+                    >Only <%=products[i].pro_count%> items left!</span
+                  >
+                  <%}%> <%if(products[i].pro_count==0){%>
+                  <span style="font-size: 10px; color: red" class="ml-4"
+                    >Out of stock!</span
+                  >
+                  <%}%>
+                </h3>
+                <div class="product-price" style="color: green">
+                  <span>₹<%=products[i].pro_price%></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %> <% } %> <% } %>
         </div>
         <br />
+        <br />
 
-        <% if (totalPages >= 1) { %>
+        <!-- <% if (totalPages >= 1) { %>
         <div class="d-flex justify-content-center">
           <% if (page > 1) { %>
-          <a class="btn border" style="background-color: white; color: black" href="/search?search=<%=searchValue%>&page=<%= page - 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>">Previous</a>
+          <a
+            class="btn border"
+            style="background-color: white; color: black"
+            href="/search?search=<%=searchValue%>&page=<%= page - 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+            >Previous</a
+          >
           <% } %> <% for (var i = 1; i <= (totalPages/10)+1; i++) { %>
-          <a class="btn border" style="background-color: white; color: black" href="/search?search=<%=searchValue%>&page=<%=i%>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>">
+          <a
+            class="btn border"
+            style="background-color: white; color: black"
+            href="/search?search=<%=searchValue%>&page=<%=i%>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+          >
             <p><%=i%></p>
           </a>
 
           <% } %> <% if (page < totalPages) { %>
-          <a class="btn border" style="background-color: white; color: black" href="/search?search=<%=searchValue%>&page=<%= page + 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>">Next</a>
+          <a
+            class="btn border"
+            style="background-color: white; color: black"
+            href="/search?search=<%=searchValue%>&page=<%= page + 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+            >Next</a
+          >
           <% } %>
         </div>
-        <% } %> <% } else { %>
+        <% } %> -->
+        
+  
+          <% if (total>= 1) { %>
+        <div class="d-flex justify-content-center">
+          <% if (page> 1) { %>
+          <a
+            class="btn border"
+            style="background-color: white; color: black"
+            href="/search?search=<%=searchValue%>&page=<%= page - 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+            >Previous</a
+          >
+          <% } %> <% for (var i=1; i <=totalPages; i++) { %>
+          <a
+            class="btn border page-item <%= page === i ? 'border-success' : '' %>"
+            style="background-color: white; color: black"
+            href="/search?search=<%=searchValue%>&page=<%=i%>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+          >
+            <p><%=i%></p>
+          </a>
+        
+          <% } %> <% if (page < total ) { %>
+          <a
+            class="btn border"
+            style="background-color: white; color: black"
+            href="/search?search=<%=searchValue%>&page=<%= page + 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
+            >Next</a
+          >
+          <% } %>
+        </div>
+         <% }%>
+        
+        
+        
+        <% } else { %>
 
         <div class="container">
           <div class="row justify-content-center">
@@ -186,9 +391,8 @@
   const maxPriceInput = document.querySelector(".max-price");
   const priceValues = document.querySelector(".price-values");
   // const applyBtn = document.querySelector(".apply-btn");
-  const applyBtn = document.getElementById('apply-button')
-  const clearBtn = document.getElementById('clear-button')
-
+  const applyBtn = document.getElementById("apply-button");
+  const clearBtn = document.getElementById("clear-button");
 
   // Update the price values display when the range inputs change
   function updatePriceValues() {
@@ -209,9 +413,7 @@
   });
 
   clearBtn.addEventListener("click", () => {
-
     window.location.href = `/search?search=<%=searchValue%>`;
-
   });
 </script>
 
@@ -227,26 +429,52 @@
 </script>
 
 <script>
-  document.getElementById("mySelect").addEventListener("change", function() {
+  document.getElementById("mySelect").addEventListener("change", function () {
     var selectedValue = this.value;
     if (selectedValue !== "") {
       window.location.href = selectedValue;
     }
   });
 
+</script>
+<span
+  id="popup"
+  style="
+    display: none;
+    position: fixed;
+    top: 90%;
+    /* border-radius: 10px; */
+    left: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    border: 1px solid #ccc;
+    /* background-color: #3b28c874; */
+    background-color: white;
+    z-index: 9999;
+  "
+>
+</span>
+<br /><br />
+
+<script>
   function addTOCart(proId) {
     $.ajax({
       url: "/add-to-cart/" + proId,
       method: "get",
       success: (response) => {
         if (response.status) {
+          console.log(response.status);
           const popup = document.getElementById("popup");
+          popup.innerHTML = "Product added to cart!";
           popup.style.display = "block";
           setTimeout(() => {
             popup.style.display = "none";
           }, 1000);
+
           let count = $("#cart-count").html();
           count = parseInt(count) + 1;
+          console.log(count);
           $("#cart-count").html(count);
         }
         // alert(response)
@@ -260,16 +488,28 @@
       method: "get",
       success: (response) => {
         if (response.status) {
+          location.reload();
           const popup = document.getElementById("popup");
+          popup.innerHTML = "Product added to wishlist!";
           popup.style.display = "block";
           setTimeout(() => {
             popup.style.display = "none";
           }, 2000);
-          let count = $("#cart-count").html();
-          count = parseInt(count) + 1;
-          $("#cart-count").html(count);
         }
         // alert(response)
+      },
+    });
+  }
+
+  function removeFromWishList(proId) {
+    $.ajax({
+      url: "/remove-wishlist-product",
+      data: {
+        product: proId,
+      },
+      method: "POST",
+      success: (response) => {
+        location.reload();
       },
     });
   }

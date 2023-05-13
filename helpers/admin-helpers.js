@@ -4,6 +4,7 @@ const { Collection, ObjectID } = require("mongodb");
 var objectId = require("mongodb").ObjectID;
 const bcrypt = require("bcryptjs");
 const { response } = require("express");
+const slug = require('slug');
 
 module.exports = {
   adminDoLogin: (adminData) => {
@@ -100,6 +101,8 @@ module.exports = {
 
   addProduct: (productData, callback) => {
     // return new Promise(async (res, rej) => {
+    let slugifiedTitle = slug(productData.pro_name);
+    // productData.slugName=slugifiedTitle
     productData.stockStatus = true;
     productData.pro_price = parseInt(productData.pro_price);
     productData.pro_count = parseInt(productData.pro_count);
