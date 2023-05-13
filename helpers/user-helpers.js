@@ -391,6 +391,7 @@ module.exports = {
           {
             $set: {
               orderStatus: "cancelrequest",
+              cancelReason:orderDetails.text
             },
           }
         );
@@ -448,6 +449,7 @@ module.exports = {
           {
             $set: {
               orderStatus: "returnrequest",
+              returnReason:orderDetails.text
             },
           }
         );

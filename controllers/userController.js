@@ -240,9 +240,8 @@ module.exports = {
 
   userLogOut: (req, res) => {
     try {
-      // req.session.use=null
-      // req.session.userLoggedIn=false
-      req.session.destroy();
+      req.session.user=null
+      req.session.userLoggedIn=false
       res.redirect("/");
     } catch (error) {res.render('error',error)}
   },

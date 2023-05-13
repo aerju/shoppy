@@ -148,19 +148,22 @@
                                     Phone: <%=orderDetails.userDetails[0].phone%>
                                 </p>
                             </div>
-                           
-                            <!-- <div class="h-25 pt-4">
-                                <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" id="status">
-                                    
-                                    <option value="shipped">Shipped</option>
-                                    <option value="delivered">Delivered</option>
-                                    <option value="cancel" style="color:red">Cancel</option>
+                            <%if(orderDetails.orderStatus=="Cancel" || orderDetails.orderStatus=="cancelrequest"){%>
+                                <div class="h-25 pt-4">
+                                    <%if(orderDetails.cancelReason){%>
+                                       Reasson for Cancellation: <%=orderDetails.cancelReason%>
+                                        <%}%>
+                                </div>             
+                                <%}%>
 
-                                </select>
-                                <button class="btn btn-primary"
-                                    onclick="changeStatus('<%=orderDetails._id%>')">Save</button>
-
-                            </div> -->
+                                <%if(orderDetails.orderStatus=="return" || orderDetails.orderStatus=="returnrequest"){%>
+                                    <div class="h-25 pt-4">
+                                        <%if(orderDetails.returnReason){%>
+                                         Reason of Returing:   <%=orderDetails.returnReason%>
+                                            <%}%>
+                                    </div>             
+                                    <%}%>
+                            
                         </div>
                     </div>
                 </div>

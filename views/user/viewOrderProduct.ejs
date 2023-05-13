@@ -104,30 +104,21 @@
                   <p class="mt-4" style="color: blue">Cancel request pending...</p>
                 </div>
                 <% } %> <% if (orderDetails.orderStatus=='Delivered' ) { %>
-                <!-- <div class="text">
-
-                  <p class="mt-4" style="color: blue;" id="reason-button" >
-                    <a  onclick="returnRequestReason()">Return
-                      Product</a>
-                  </p>
-
-                  <div id="reason-div" class="mt-4" style="display: none;">
-                    <textarea name="" id="reason" cols="2" rows="2" placeholder="Reason for return " required></textarea>
-                  <p class="" style="color: blue;">
-                    <a href="" onclick="returnRequest('<%=orderDetails._id%>')">Return
-                      Product</a>
-                  </p>
-                  </div>               
-                </div> -->
-                <div class="text">
-                  <p class="mt-4" style="color: blue">
-                    <a
-                      onclick="returnRequest('<%=orderDetails._id%>','<%=orderDetails.paymentMethod%>','<%=orderDetails.total%>','<%=orderDetails.userId%>')"
-                      >Return Product</a
-                    >
-                  </p>
-                </div>
-
+                
+                <%let orderDate=new Date(orderDetails.date)%>
+                <%let expireDate=new Date(orderDetails.date)%>
+                <% expireDate.setDate(expireDate.getDate() + 7)%>
+                <%if(orderDate<=expireDate){%>
+                  <div class="text">
+                    <p class="mt-4" style="color: blue">
+                      <a
+                        onclick="returnRequest('<%=orderDetails._id%>','<%=orderDetails.paymentMethod%>','<%=orderDetails.total%>','<%=orderDetails.userId%>')"
+                        >Return Product</a
+                      >
+                    </p>
+                  </div>            
+                  <%}%>
+                
                 <% } %> <% if (orderDetails.orderStatus=='returnrequest' ) { %>
                 <div class="text">
                   <p class="mt-4" style="color: blue">
@@ -247,6 +238,7 @@
           paymentMethod,
           total,
           userId,
+          text
         },
         success: (response) => {
           const popup = document.getElementById("popup");
@@ -285,8 +277,15 @@
           paymentMethod,
           total,
           userId,
+          text
         },
-        success: (response) => {},
+        success: (response) => {
+          const popup = document.getElementById("popup");
+          popup.style.display = "block";
+          setTimeout(() => {
+            popup.style.display = "none";
+          }, 1000);
+        },
       });
       location.reload();
     }
