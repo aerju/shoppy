@@ -1,90 +1,117 @@
 <%- include('../partials/UserHeader') %>
 
 <div class="breadcrumbs">
-	<div class="container">
-	  <div class="row">
-		<div class="col-12">
-		  <div class="bread-inner">
-			<ul class="bread-list">
-			  <li>
-				<a href="/">Home<i class="ti-arrow-right"></i></a>
-			  </li>
-			
-			  <li class="active"><a href="/login">Login</a></li>
-			</ul>
-		  </div>
-		</div>
-	  </div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="bread-inner">
+          <ul class="bread-list">
+            <li>
+              <a href="/">Home<i class="ti-arrow-right"></i></a>
+            </li>
+
+            <li class="active"><a href="/login">Login</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
 <section id="contact-us" class="contact-us section">
-    <div class="container">
-        <div class="contact-head">
-            <div class="row  d-flex justify-content-center">
-                <div class="col-lg-6 col-12 ">
-                    <div class="form-main">
-
-                        <div class="title">
-                            <h4>LOGIN</h4>                          
-                        </div>
-                        <% if (loginMsg) { %>
-                                                                
-                            <div class="alert alert-danger text-center" role="alert">
-                                <%=loginMsg%>
-                              </div>
-                              <% }  %>
-                      
-                        <form class="form" method="post" action="/login">
-                            <div class="row">
-       
-                                <div class="col-lg-12 col-12">
-                                    <div class="form-group">
-                                        <label>Your Email<span>*</span></label>
-                                        <input type="text" name="email" id="your_name" placeholder="Your Name"   required/>
-                                    </div>
-                                </div>
-                          
-                                <div class="col-lg-12 col-12">
-                                    <div class="form-group">
-                                        <label>Password<span>*</span></label>
-                                        <input type="password" name="password" id="your_pass" placeholder="Password"  required/>
-                                        <p></p>
-                                        <a href="/forgot-password" class="text-primary">forgot password?</a>
-                                    </div>
-                                    
-
-                                </div>
-                                <div class="col-lg-12 col-12">
-                                    <div class="form-group">
-                                        <input type="submit" value="Login" class="btn">
-                                    </div>
-                                </div>
-
-                              
-
-                                <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
-                                
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                        <input  type="button" value="Login with oTP" class="btn" onclick="window.location='/login-otp'">
-                                        <!-- <a href="" class="btn">Login with opt</a> -->
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                        <input type="button" value="create an account" class="btn" onclick="window.location='/signup'">
-                                    </div>
-                                </div>
-                               
-                            </div>
-                        </form>
-                    </div>
-                </div>
+  <div class="container">
+    <div class="contact-head">
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-6 col-12">
+          <div class="form-main">
+            <div class="title">
+              <h4>LOGIN</h4>
             </div>
-        </div>
-    </div>
+            <% if (loginMsg&&loginMsg!='This user is blocked') { %>
+            <div class="alert alert-danger text-center" role="alert">
+              <%=loginMsg%>
+            </div>
 
+            <% } %> <% if (loginMsg=='This user is blocked') { %>
+            <div class="alert alert-danger text-center" role="alert">
+              <%=loginMsg%> <span class="ml-2"><a href="mailto:example@example.com?subject=Recover%20account" style="color: blue;">help</a></span>
+            </div> 
+            <% } %>
+
+            <form class="form" method="post" action="/login">
+              <div class="row">
+                <div class="col-lg-12 col-12">
+                  <div class="form-group">
+                    <label>Your Email<span>*</span></label>
+                    <input
+                      type="text"
+                      name="email"
+                      id="your_name"
+                      placeholder="Your Name"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-12 col-12">
+                  <div class="form-group">
+                    <label>Password<span>*</span></label>
+                    <input
+                      type="password"
+                      name="password"
+                      id="your_pass"
+                      placeholder="Password"
+                      required
+                    />
+                    <p></p>
+                    <a href="/forgot-password" class="text-primary"
+                      >forgot password?</a
+                    >
+                  </div>
+                </div>
+                <div class="col-lg-12 col-12">
+                  <div class="form-group">
+                    <input type="submit" value="Login" class="btn" />
+                  </div>
+                </div>
+
+                <hr
+                  style="
+                    width: 100%;
+                    color: black;
+                    height: 1px;
+                    background-color: black;
+                  "
+                />
+
+                <div class="col-lg-6 col-12">
+                  <div class="form-group">
+                    <input
+                      type="button"
+                      value="Login with oTP"
+                      class="btn"
+                      onclick="window.location='/login-otp'"
+                    />
+                    <!-- <a href="" class="btn">Login with opt</a> -->
+                  </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                  <div class="form-group">
+                    <input
+                      type="button"
+                      value="create an account"
+                      class="btn"
+                      onclick="window.location='/signup'"
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <%- include('../partials/UserFooter') %>
