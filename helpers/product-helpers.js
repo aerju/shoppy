@@ -98,26 +98,32 @@ module.exports = {
       resolve(cartItems);
     });
   },
-  getCategory: (catId,skip,limit) => {
+  getCategory: (catId, skip, limit) => {
     return new Promise(async (resolve, reject) => {
-      let categoryDetails = await db
-        .get()
-        .collection(collection.PRODUCT_INFORMATION)
-        .aggregate([
-          {
-            $match: { pro_cat: objectId(catId) ,stockStatus: { $eq: true } },
-          },
-          {
-            $lookup: {
-              from: collection.CATEGORIES,
-              localField: "pro_cat",
-              foreignField: "_id",
-              as: "categoryDetails",
+      try {
+        let categoryDetails = await db
+          .get()
+          .collection(collection.PRODUCT_INFORMATION)
+          .aggregate([
+            {
+              $match: { pro_cat: objectId(catId), stockStatus: { $eq: true } },
             },
-          },
-        ]).skip(skip).limit(limit)
-        .toArray();
-      resolve(categoryDetails);
+            {
+              $lookup: {
+                from: collection.CATEGORIES,
+                localField: "pro_cat",
+                foreignField: "_id",
+                as: "categoryDetails",
+              },
+            },
+          ])
+          .skip(skip)
+          .limit(limit)
+          .toArray();
+        resolve(categoryDetails);
+      } catch (error) {
+        throw error;
+      }
     });
   },
 
@@ -287,18 +293,17 @@ module.exports = {
             db.get()
               .collection(collection.CART_MANAGEMENT)
               .deleteOne({ user: objectId(userId) });
-            product.products.forEach(items => {
+            product.products.forEach((items) => {
               db.get()
-              .collection(collection.PRODUCT_INFORMATION)
-              .updateOne(
-                { _id: objectId(items.item) },
-                {
-                  $inc: { pro_count: -items.quantity },
-                }
-              );         
+                .collection(collection.PRODUCT_INFORMATION)
+                .updateOne(
+                  { _id: objectId(items.item) },
+                  {
+                    $inc: { pro_count: -items.quantity },
+                  }
+                );
             });
           }
-
 
           if (order["payment-method"] == "wallet") {
             db.get()
@@ -482,9 +487,9 @@ module.exports = {
       let coupons = await db
         .get()
         .collection(collection.COUPONE_MANAGEMENT)
-        .find(           
-            // { usedUsers: { $elemMatch: {$ne: { user: objectId(userId) } } } },                             
-        )
+        .find
+        // { usedUsers: { $elemMatch: {$ne: { user: objectId(userId) } } } },
+        ()
         .toArray();
       resolve(coupons);
     });
@@ -492,15 +497,19 @@ module.exports = {
 
   search: (query, sortObj, skip, limit) => {
     return new Promise(async (resolve, reject) => {
-      let products = await db
-        .get()
-        .collection(collection.PRODUCT_INFORMATION)
-        .find(query)
-        .sort(sortObj)
-        .skip(skip)
-        .limit(limit)
-        .toArray();
-      resolve(products);
+      try {
+        let products = await db
+          .get()
+          .collection(collection.PRODUCT_INFORMATION)
+          .find(query)
+          .sort(sortObj)
+          .skip(skip)
+          .limit(limit)
+          .toArray();
+        resolve(products);
+      } catch (error) {
+        throw error;
+      }
     });
   },
 

@@ -76,7 +76,7 @@ module.exports = {
     }
   },
 
-  userLogin: async (req, res) => {
+  userLogin: async (req, res) => {  //render login page for user
     try {
       let user = null;
       let category = await adminHelper.viewAllCategories();
@@ -93,7 +93,7 @@ module.exports = {
     }
   },
 
-  userLoginPost: (req, res) => {
+  userLoginPost: (req, res) => { 
     try {
       userHelper.doLogin(req.body).then((response) => {
         if (response.status) {
@@ -285,7 +285,7 @@ module.exports = {
         req.params.id,
         skip,
         limit
-      );
+      )
       let total = Object.keys(categoryDetails).length;
       const totalPages = Math.ceil(total / pageSize) ;
       let category = await adminHelper.viewAllCategories();
@@ -659,6 +659,7 @@ module.exports = {
 
   search: async (req, res) => {
     try {
+      console.log(req.params.id,req.query); 
       const searchValue = req.query.search;
       const { search, sort, minPrice, maxPrice } = req.query;
       // const page = parseInt(req.query.page || 1, 10);
