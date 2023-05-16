@@ -85,20 +85,21 @@
                 <span class="price-label">Price:</span>
                 <% if (minPrice && maxPrice) { %>
                 <span class="price-values">
-                  ₹<%=minPrice%>- ₹<%=maxPrice%></span
+                 Min: ₹<%=minPrice%>- Max: ₹<%=maxPrice%></span
                 >
                 <% } else { %>
-                <span class="price-values"> ₹50000- ₹55000</span>
+                <span class="price-values"> Min: ₹50000- Max: ₹55000</span>
                 <% } %>
-
-                <input
+                <span class="d-flex">Min: <input
                   type="range"
                   class="min-price"
                   min="0"
                   max="99999"
                   step="1000"
                   value="<%=minPrice%>"
-                />
+                /></span>
+
+                <span class="d-flex">Max:
                 <input
                   type="range"
                   class="max-price"
@@ -107,6 +108,7 @@
                   step="1000"
                   value="<%=maxPrice%>"
                 />
+                </span>
               </div>
               <button
                 id="apply-button"
@@ -133,38 +135,6 @@
         </div>
 
         <% if (products.length!=0) { %>
-        <!-- <div class="row">
-          <% for (var i=0; i < products.length; i++) { %> <% if
-          (products[i].stockStatus) { %>
-
-          <div class="col-lg-4 col-md-6 col-12">
-            <div class="single-product">
-              <div class="product-img">
-                <a href="/view-product/<%=products[i]._id%>">
-                  <img class="default-img" src="<%=products[i].image[0]%>" alt="#" style="width: 550px; height: 750" />
-                </a>
-                <div class="button-head">
-                  <div class="product-action">
-                    <a onclick="addToWishList( '<%=products[i]._id%>' )"><i class="ti-heart"></i><span>Add to Wishlist</span></a>
-                    <p title="Compare"></p>
-                  </div>
-                  <div class="product-action-2">
-                    <a onclick="addTOCart( '<%=products[i]._id%>' )">Add to cart</a>
-                  </div>
-                </div>
-              </div>
-              <div class="product-content">
-                <h3>
-                  <a href="/view-product/<%=products[i]._id%>"> <%=products[i].pro_name%> </a>
-                </h3>
-                <div class="product-price" style="color: green">
-                  <span>₹<%=products[i].pro_price%></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <% } %> <% } %>
-        </div> -->
         <div class="row">
           <% for (var i=0; i < products.length; i++) { %> <% if
           (products[i].stockStatus) { %> <% if (products[i].pro_count===0) { %>
@@ -300,36 +270,7 @@
         <br />
         <br />
 
-        <!-- <% if (totalPages >= 1) { %>
-        <div class="d-flex justify-content-center">
-          <% if (page > 1) { %>
-          <a
-            class="btn border"
-            style="background-color: white; color: black"
-            href="/search?search=<%=searchValue%>&page=<%= page - 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
-            >Previous</a
-          >
-          <% } %> <% for (var i = 1; i <= (totalPages/10)+1; i++) { %>
-          <a
-            class="btn border"
-            style="background-color: white; color: black"
-            href="/search?search=<%=searchValue%>&page=<%=i%>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
-          >
-            <p><%=i%></p>
-          </a>
-
-          <% } %> <% if (page < totalPages) { %>
-          <a
-            class="btn border"
-            style="background-color: white; color: black"
-            href="/search?search=<%=searchValue%>&page=<%= page + 1 %>&sort=<%=sort%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>"
-            >Next</a
-          >
-          <% } %>
-        </div>
-        <% } %> -->
-        
-  
+      
           <% if (total>= 1) { %>
         <div class="d-flex justify-content-center">
           <% if (page> 1) { %>
@@ -396,7 +337,7 @@
   function updatePriceValues() {
     const minPriceVal = parseInt(minPriceInput.value);
     const maxPriceVal = parseInt(maxPriceInput.value);
-    priceValues.textContent = `₹${minPriceVal} - ₹${maxPriceVal}`;
+    priceValues.textContent = `Min: ₹${minPriceVal} - Max: ₹${maxPriceVal}`;
   }
 
   minPriceInput.addEventListener("input", updatePriceValues);

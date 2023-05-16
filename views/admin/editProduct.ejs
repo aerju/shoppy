@@ -11,114 +11,7 @@
 
                                         <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Edit Product</p>
 
-                                        <!-- <form class="mx-1 mx-md-4" action="/admin/edit-product/<%=product._id%>"
-                                            method="post" enctype="multipart/form-data">
-
-                                            <div id="errormessage" style="color: red;"></div>
-
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product Name</label>
-
-                                                    <input type="text" id="form3Example1c" class="form-control"
-                                                        name="pro_name" value="<%=product.pro_name%>" required />
-                                                </div>
-
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product
-                                                        Description</label>
-
-                                                    
-                                                    <textarea name="pro_desc"  cols="30" rows="6" ><%=product.pro_desc%></textarea>
-                                                </div>
-
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product Price</label>
-
-                                                    <input type="number" id="form3Example1c" class="form-control"
-                                                        name="pro_price" value="<%=product.pro_price%>" required />
-                                                </div>
-
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Categories</label>
-
-                                                    <select id="form3Example1c" class="form-select"
-                                                        aria-label="Default select example" name="pro_cat">
-                                                        <% for (var i=0; i < category.length; i++) { %>
-                                                        <option value="<%=category[i]._id%>"><%=category[i].category%></option>
-                                                        <% } %>
-                                                      
-                                                        
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product count</label>
-
-                                                    <input type="number" id="form3Example1" class="form-control"
-                                                        name="pro_count" value="<%=product.pro_count%>" required />
-                                                </div>
-
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <label class="form-label" for="form3Example1c">Product
-                                                        Images</label>
-                                                    <span>
-                                                        <input type="file" class="form-control-file" id="image"
-                                                            name="image" multiple >
-                                                    
-                                                        <img  src="<%= product.image[0] %>"
-                                                            style="width: 60px;height: 60px;" 
-                                                            onchange="change(EventCounts)" >
-                                                    </span>
-
-                             
-
-                                                    <span>
-                                                        
-
-
-                                                        <img src="<%= product.image[1] %>"
-                                                            style="width: 60px;height: 60px;" 
-                                                            onchange="change(EventCounts)">
-                                                    </span>
-                                                  
-                                                    <span>
-                                                        
-
-
-                                                        <img src="<%= product.image[2] %>"
-                                                            style="width: 60px;height: 60px;" 
-                                                            onchange="change(EventCounts)">
-                                                    </span>
-
-
-                                                </div>
-
-                                            </div>
-                                            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-
-                                                <input type="submit" value="Update Product" class="btn btn-primary btn-lg">
-
-                                            </div>
-                                        </form> -->
-
-
+                                  
                                         <form class="mx-1 mx-md-4" action="/admin/edit-product/<%=product._id%>" method="post" enctype="multipart/form-data">
 
                                             <div id="errormessage" style="color: red;"></div>
@@ -138,7 +31,7 @@
                                               <div class="form-outline flex-fill mb-0">
                                                 <label class="form-label" for="form3Example1c">Product
                                                   Description</label>
-                                                <textarea name="pro_desc" cols="30" rows="6"><%=product.pro_desc%></textarea>
+                                                <textarea name="pro_desc" cols="30" rows="6" class="form-control"><%=product.pro_desc%></textarea>
                         
                                               </div>
                         
@@ -160,8 +53,9 @@
                                                 <label class="form-label" for="form3Example1c">Categories</label>
                         
                                                 <select id="form3Example1c" class="form-select" aria-label="Default select example" name="pro_cat">
-                                                    <% for (var i=0; i < category.length; i++) { %>
-                                                        <option value="<%=category[i]._id%>"><%=category[i].category%></option>
+                                                 
+                                                    <% for (var i=0; i < category.length; i++) { %>                                                     
+                                                        <option value="<%=category[i]._id%>" <% if (product.pro_cat.equals(category[i]._id)) { %>selected<% } %>><%= category[i].category %></option>                                                        
                                                         <% } %>
                                                 </select>
                                               </div>

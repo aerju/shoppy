@@ -10,6 +10,7 @@ let message;
 let couponMessage;
 let loginErrorMsg
 
+
 module.exports = {
   adminLogin: (req, res, next) => {
     try {
@@ -137,6 +138,7 @@ module.exports = {
           category,
           submitStatus: req.session.submitStatus,
           productActive,
+          
         });
         req.session.submitStatus = false;
       });
@@ -177,7 +179,9 @@ module.exports = {
     try {
       const productActive = "active";
       let product = await adminHelper.getOneProduct(req.params.id);
+      console.log(product);
       adminHelper.viewAllCategories().then((category) => {
+        console.log(category[0]);
         res.render("admin/editProduct", { product, category, productActive });
       });
     } catch (error) {res.render('error',error)}
